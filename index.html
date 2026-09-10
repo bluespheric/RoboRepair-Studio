@@ -610,7 +610,7 @@
             </div>
             <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, generate AI missions with Gemini, and view student analytics.</p>
 
-            <!-- 🤖 AI MISSION GENERATOR (Multimodal & Detailed Text/File Support) -->
+            <!-- 🤖 AI MISSION GENERATOR -->
             <div class="ai-generator-panel">
                 <div class="ai-panel-title">🤖 AI MISSION GENERATOR (Syllabus & Document Analyzer)</div>
                 <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:10px;">Paste curriculum objectives, target vocabulary lists, or upload book pages/documents for AI processing.</div>
@@ -757,7 +757,7 @@
             } else if(verify !== null) { alert("❌ Incorrect current password!"); }
         }
 
-        // 🤖 MULTIMODAL GEMINI MISSION GENERATOR (Updated to gemini-3.6-flash)
+        // 🤖 ROBUST MULTIMODAL GEMINI MISSION GENERATOR
         async function generateMissionWithGemini() {
             const apiKeyInput = document.getElementById('geminiApiKey').value.trim();
             const storedKey = localStorage.getItem('bathysphere_gemini_key') || "";
@@ -843,6 +843,10 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
 
                 const data = await response.json();
                 if(data.error) throw new Error(data.error.message);
+
+                if(!data.candidates || !data.candidates[0].content || !data.candidates[0].content.parts) {
+                    throw new Error("API returned an empty or incomplete response structure.");
+                }
 
                 let rawText = data.candidates[0].content.parts[0].text.trim();
                 if(rawText.startsWith("```json")) rawText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
