@@ -505,7 +505,7 @@
                 <div id="game16" style="display:none;"><div class="uv-chamber" id="uvChamber" onmousemove="moveUV(event)" onmouseleave="hideUV()"><div class="uv-secret-text" id="uvText">-</div><div class="uv-torch-overlay" id="uvOverlay"></div></div><div id="g16Options"></div></div>
                 <div id="game17" style="display:none;"><div style="background:#111a28; border-left:4px solid var(--gold-glow); padding:12px; text-align:left; margin-bottom:12px;" id="g17Log">-</div><div id="g17Options"></div></div>
                 <div id="game18" style="display:none;"><div style="background:#071326; padding:12px; border-left:4px solid var(--gold-glow); margin-bottom:12px;" id="g18Desc">-</div><div id="g18Options"></div></div>
-                <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border:1px solid var(--cyan-glow); margin-bottom:12px; text-align:left;" id="g19Text">-</div><div id="g19Options"></div></div>
+                <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border-left:4px solid var(--cyan-glow); margin-bottom:12px; text-align:left;" id="g19Text">-</div><div id="g19Options"></div></div>
                 <div id="game20" style="display:none;"><div style="background:#050d1a; padding:12px; margin-bottom:12px;" id="g20Table">-</div><div id="g20Options"></div></div>
 
                 <div id="game21" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g21Hint">-</div><div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;" id="g21Display">-</div><input type="text" class="hud-text-input" id="inputGame21" placeholder="TYPE HERE..."><button class="action-btn" onclick="checkWriting(21)">Confirm</button></div></div>
@@ -590,7 +590,7 @@
         <!-- 4. TEACHER DESK (CMS & ANALYTICS) -->
         <div class="teacher-desk" id="teacherDesk">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h3 style="color:var(--gold-glow);">TEACHER DESK // H5P CMS & STUDENT ANALYTICS</h3>
+                <h3 style="color:var(--gold-glow);">TEACHER DESK</h3>
                 <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Close</button>
             </div>
             <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, export/import packages, and view student performance analytics.</p>
@@ -1318,7 +1318,7 @@
             a.remove();
         }
 
-        // ÖĞRETMEN MASASI AÇILIR MENÜSÜ (TÜRKÇE İFADELER KALDIRILDI)
+        // DROPDOWN POPULATION (CLEAN FORMAT)
         function populateStationDropdown() {
             const sel = document.getElementById('admStationSelect');
             sel.innerHTML = "";
