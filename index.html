@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Research Lab // Bathysphere 1.0 (Analytics Edition)</title>
+    <title>Deep Sea Lab // Bathysphere 1.0 (Clean English & Smart Analytics)</title>
     <style>
         :root {
             --bg-abyss: #030813;
@@ -396,86 +396,81 @@
 <body>
 
     <header>
-        <h2>BATHYSPHERE LABS // MISSION CONTROL</h2>
+        <h2>DEEP SEA LAB // MISSION CONTROL</h2>
         <div class="hud-actions">
-            <button class="hud-btn" onclick="document.body.classList.toggle('inclusive-font')">Inclusive Mode</button>
-            <button class="hud-btn btn-teacher" onclick="toggleTeacherDesk()">Öğretmen Masası (CMS) ⚙️</button>
+            <button class="hud-btn" onclick="document.body.classList.toggle('inclusive-font')">Easy Font</button>
+            <button class="hud-btn btn-teacher" onclick="toggleTeacherDesk()">Teacher Desk ⚙️</button>
         </div>
     </header>
 
     <main>
 
-        <!-- 1. GİRİŞ BRİFİNGİ -->
+        <!-- 1. GİRİŞ BRİFİNGİ (SADE İNGİLİZCE) -->
         <div class="cockpit-card" id="briefingScreen">
             <div style="padding:10px;">
-                <h2 style="color:var(--cyan-glow); margin-bottom:6px;">PRE-DIVE BRIEFING & SYSTEM CHECK</h2>
-                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Initialize your explorer profile and set your operational mission before submerging.</p>
+                <h2 style="color:var(--cyan-glow); margin-bottom:6px;">DIVE BRIEFING & START</h2>
+                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Type your name and choose your role before you start the mission.</p>
                 
                 <div class="briefing-form">
                     <div>
-                        <div class="field-label">1. Explorer Identification</div>
-                        <input type="text" id="inputPilotName" class="briefing-input" placeholder="Enter your full name..." autocomplete="off">
+                        <div class="field-label">1. Your Name</div>
+                        <input type="text" id="inputPilotName" class="briefing-input" placeholder="Type your name..." autocomplete="off">
                     </div>
 
                     <div>
-                        <div class="field-label">2. Operational Role</div>
+                        <div class="field-label">2. Choose Your Role</div>
                         <select id="selectPilotRole" class="briefing-select">
-                            <option value="Subsea Engineer">Subsea Engineer (Hardware & Mechanics)</option>
-                            <option value="Bio-Acoustic Specialist">Bio-Acoustic Specialist (Syntax & Sonar Decoding)</option>
-                            <option value="Navigation & Recon Officer">Navigation & Recon Officer (Tactical & Textual Analysis)</option>
+                            <option value="Subsea Technician">Subsea Technician (Hardware & Tools)</option>
+                            <option value="Grammar Diver">Grammar Diver (Sentences & Words)</option>
+                            <option value="Reading Explorer">Reading Explorer (Texts & Meanings)</option>
                         </select>
                     </div>
 
                     <div>
-                        <div class="field-label">3. Affective State & Readiness</div>
+                        <div class="field-label">3. How do you feel right now?</div>
                         <select id="selectPilotFeeling" class="briefing-select">
-                            <option value="⚡ Focused & Thrilled">⚡ Focused & Thrilled</option>
+                            <option value="⚡ Excited & Ready">⚡ Excited & Ready</option>
                             <option value="🌊 Calm & Curious">🌊 Calm & Curious</option>
-                            <option value="⚠️ Cautious & Vigilant">⚠️ Cautious & Vigilant</option>
+                            <option value="⚠️ A bit careful">⚠️ A bit careful</option>
                         </select>
                     </div>
 
-                    <div>
-                        <div class="field-label">4. Expedition Goal / Mission Objective</div>
-                        <input type="text" id="inputPilotGoal" class="briefing-input" placeholder="e.g., Decode underwater technical terms." value="Decode technical terminology and safely recover station telemetry.">
-                    </div>
-
-                    <button class="action-btn" style="padding:14px; margin-top:10px;" onclick="startExpedition()">INITIATE DIVE PROTOCOL 🌊</button>
+                    <button class="action-btn" style="padding:14px; margin-top:10px;" onclick="startExpedition()">START MISSION 🌊</button>
                 </div>
             </div>
         </div>
 
-        <!-- 2. AKTİF OYUN KONSOLU & SAHNE -->
+        <!-- 2. AKTİF OYUN KONSOLU -->
         <div id="gameContainer" style="display:none;">
 
             <div class="quick-nav-panel">
-                <div class="nav-section-title"><span>Module 1: Vocabulary Hangar</span><span>(Hardware)</span></div>
+                <div class="nav-section-title"><span>Module 1: Words</span></div>
                 <div class="nav-buttons-row" id="rowM1"></div>
 
-                <div class="nav-section-title"><span>Module 2: Sonar Grammar</span><span>(Syntax)</span></div>
+                <div class="nav-section-title"><span>Module 2: Grammar</span></div>
                 <div class="nav-buttons-row" id="rowM2"></div>
 
-                <div class="nav-section-title"><span>Module 3: Acoustic Chamber</span><span>(Listening)</span></div>
+                <div class="nav-section-title"><span>Module 3: Listening</span></div>
                 <div class="nav-buttons-row" id="rowM3"></div>
 
-                <div class="nav-section-title"><span>Module 4: Specimen Laboratory</span><span>(Reading)</span></div>
+                <div class="nav-section-title"><span>Module 4: Reading</span></div>
                 <div class="nav-buttons-row" id="rowM4"></div>
 
-                <div class="nav-section-title" style="color:var(--cyan-glow);"><span>Module 5: Bridge Command</span><span>(Micro-Writing)</span></div>
+                <div class="nav-section-title" style="color:var(--cyan-glow);"><span>Module 5: Writing</span></div>
                 <div class="nav-buttons-row" id="rowM5"></div>
 
-                <div class="nav-section-title" style="color:var(--gold-glow);"><span>Module 6: Deep Simulation</span><span>(Capstone)</span></div>
+                <div class="nav-section-title" style="color:var(--gold-glow);"><span>Module 6: Final Challenge</span></div>
                 <div class="nav-buttons-row" id="rowM6"></div>
             </div>
 
             <div class="cockpit-card">
                 <div class="hud-status-bar">
-                    <div>PILOT: <span style="color:var(--cyan-glow); font-weight:bold;" id="hudPilot">-</span></div>
+                    <div>PLAYER: <span style="color:var(--cyan-glow); font-weight:bold;" id="hudPilot">-</span></div>
                     <div>ROLE: <span style="color:var(--gold-glow);" id="hudRole">-</span></div>
                     <div>SCORE: <span style="color:var(--success-neon); font-weight:bold;" id="hudScore">0 XP</span></div>
                 </div>
 
-                <div class="stage-title" id="stagePrompt">Loading instructions...</div>
+                <div class="stage-title" id="stagePrompt">Loading...</div>
 
                 <div class="custom-media-box" id="mediaBox" style="display:none;"></div>
 
@@ -485,10 +480,10 @@
                 <div id="game4" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;" id="g4Cargo"></div><div id="g4Options"></div></div></div>
                 <div id="game5" style="display:none;"><div class="microscope-lens" id="microLens">SPECIMEN</div><input type="range" class="hud-slider" id="microSlider" min="0" max="20" value="15" oninput="adjustFocus(this.value)"><div id="g5Options" style="margin-top:10px;"></div></div>
 
-                <div id="game6" style="display:none;"><div class="pipe-assembly" id="pipeLine"><span style="color:#64748b;" id="pipePlaceholder">Place capsules into pipe sequentially...</span></div><div id="capsulesPool"></div><div style="margin-top:10px;"><button class="action-btn" onclick="checkPipeAssembly()">Weld Pipe</button><button class="opt-btn" onclick="resetPipe()">Reset</button></div></div>
-                <div id="game7" style="display:none;"><div style="background:#040914; padding:12px; border-radius:8px; margin-bottom:12px;"><div style="font-size:1.8rem; font-weight:bold; color:var(--cyan-glow);" id="freqLabel">90.0 MHz</div><div id="freqStatus" style="font-size:0.85rem; color:#94a3b8;">Adjust Frequency</div></div><input type="range" class="hud-slider" min="80" max="140" value="90" oninput="tuneRadio(this.value)"><button class="action-btn" onclick="checkRadioFreq()">Lock Frequency</button></div>
+                <div id="game6" style="display:none;"><div class="pipe-assembly" id="pipeLine"><span style="color:#64748b;" id="pipePlaceholder">Put words in order...</span></div><div id="capsulesPool"></div><div style="margin-top:10px;"><button class="action-btn" onclick="checkPipeAssembly()">Check Sentence</button><button class="opt-btn" onclick="resetPipe()">Reset</button></div></div>
+                <div id="game7" style="display:none;"><div style="background:#040914; padding:12px; border-radius:8px; margin-bottom:12px;"><div style="font-size:1.8rem; font-weight:bold; color:var(--cyan-glow);" id="freqLabel">90.0 MHz</div><div id="freqStatus" style="font-size:0.85rem; color:#94a3b8;">Tune Radio</div></div><input type="range" class="hud-slider" min="80" max="140" value="90" oninput="tuneRadio(this.value)"><button class="action-btn" onclick="checkRadioFreq()">Lock Frequency</button></div>
                 <div id="game8" style="display:none;"><div class="periscope-zone" id="g8Bubbles"></div></div>
-                <div id="game9" style="display:none;"><div class="scale-station"><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">LEFT SCALE (SUBJECT)</div><div style="font-size:1.1rem; font-weight:bold; color:var(--cyan-glow);" id="g9Subject">-</div></div><div style="font-size:1.8rem; color:var(--gold-glow);">⚖️</div><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">RIGHT SCALE (PREDICATE)</div><div id="panVerbDisplay" style="color:#64748b; font-weight:bold;">Unselected</div></div></div><div id="g9Options"></div></div>
+                <div id="game9" style="display:none;"><div class="scale-station"><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">SUBJECT</div><div style="font-size:1.1rem; font-weight:bold; color:var(--cyan-glow);" id="g9Subject">-</div></div><div style="font-size:1.8rem; color:var(--gold-glow);">⚖️</div><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">VERB</div><div id="panVerbDisplay" style="color:#64748b; font-weight:bold;">Select</div></div></div><div id="g9Options"></div></div>
                 <div id="game10" style="display:none;"><div style="background:#060e1d; border:1px solid var(--gold-glow); padding:12px; border-radius:6px; margin-bottom:12px; font-family:monospace; color:var(--gold-glow);" id="g10Prompt">-</div><div id="g10Options"></div></div>
 
                 <div id="game11" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG11" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g11Trans">-</div></div><div id="g11Options"></div></div>
@@ -503,23 +498,23 @@
                 <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border:1px solid var(--cyan-glow); margin-bottom:12px; text-align:left;" id="g19Text">-</div><div id="g19Options"></div></div>
                 <div id="game20" style="display:none;"><div style="background:#050d1a; padding:12px; margin-bottom:12px;" id="g20Table">-</div><div id="g20Options"></div></div>
 
-                <div id="game21" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g21Hint">-</div><div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;" id="g21Display">-</div><input type="text" class="hud-text-input" id="inputGame21" placeholder="TYPE INPUT..."><button class="action-btn" onclick="checkWriting(21)">Confirm</button></div></div>
-                <div id="game22" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g22Hint">-</div><div style="font-size:1.1rem; color:#fff; font-weight:bold;" id="g22Display">-</div><input type="text" class="hud-text-input" id="inputGame22" placeholder="TYPE INPUT..."><button class="action-btn" onclick="checkWriting(22)">Transmit</button></div></div>
-                <div id="game23" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g23Hint">-</div><div style="font-size:1.5rem;" id="g23Display">-</div><input type="text" class="hud-text-input" id="inputGame23" placeholder="TYPE INPUT..."><button class="action-btn" onclick="checkWriting(23)">Seal Specimen</button></div></div>
-                <div id="game24" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g24Hint">-</div><div style="font-size:1.2rem; color:var(--danger-neon); font-weight:bold;" id="g24Display">-</div><input type="text" class="hud-text-input" id="inputGame24" placeholder="ENTER CODE..."><button class="action-btn" onclick="checkWriting(24)">Unlock Hatch</button></div></div>
-                <div id="game25" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g25Hint">-</div><div style="font-size:1.1rem; color:#fff;" id="g25Display">-</div><input type="text" class="hud-text-input" id="inputGame25" placeholder="TYPE INPUT..."><button class="action-btn" onclick="checkWriting(25)">Sign Logbook</button></div></div>
+                <div id="game21" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g21Hint">-</div><div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;" id="g21Display">-</div><input type="text" class="hud-text-input" id="inputGame21" placeholder="TYPE HERE..."><button class="action-btn" onclick="checkWriting(21)">Confirm</button></div></div>
+                <div id="game22" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g22Hint">-</div><div style="font-size:1.1rem; color:#fff; font-weight:bold;" id="g22Display">-</div><input type="text" class="hud-text-input" id="inputGame22" placeholder="TYPE HERE..."><button class="action-btn" onclick="checkWriting(22)">Confirm</button></div></div>
+                <div id="game23" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g23Hint">-</div><div style="font-size:1.5rem;" id="g23Display">-</div><input type="text" class="hud-text-input" id="inputGame23" placeholder="TYPE HERE..."><button class="action-btn" onclick="checkWriting(23)">Confirm</button></div></div>
+                <div id="game24" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g24Hint">-</div><div style="font-size:1.2rem; color:var(--danger-neon); font-weight:bold;" id="g24Display">-</div><input type="text" class="hud-text-input" id="inputGame24" placeholder="TYPE CODE..."><button class="action-btn" onclick="checkWriting(24)">Confirm</button></div></div>
+                <div id="game25" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g25Hint">-</div><div style="font-size:1.1rem; color:#fff;" id="g25Display">-</div><input type="text" class="hud-text-input" id="inputGame25" placeholder="TYPE HERE..."><button class="action-btn" onclick="checkWriting(25)">Confirm</button></div></div>
 
                 <div id="game26" style="display:none;"><div style="background:#050d1a; border:2px solid var(--gold-glow); padding:15px; border-radius:8px; margin-bottom:15px;" id="g26Desc">-</div><div id="g26Options"></div></div>
                 <div id="game27" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px;" id="g27Desc">-</div><div id="g27Options"></div></div>
                 <div id="game28" style="display:none;"><div style="background:#071326; border:1px solid var(--border-hud); padding:15px; border-radius:8px; margin-bottom:15px;" id="g28Desc">-</div><div id="g28Options"></div></div>
                 <div id="game29" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px; font-size:0.9rem;" id="g29Desc">-</div><div id="g29Options"></div></div>
-                <div id="game30" style="display:none;"><div style="background:radial-gradient(circle, #0d274c 0%, #030813 90%); border:2px solid var(--success-neon); padding:20px; border-radius:12px; margin-bottom:15px;"><div style="font-size:1.6rem; color:var(--success-neon); font-weight:bold;" id="g30Title">EXPEDITION ACCOMPLISHED</div><div style="font-size:0.95rem; color:#cbd5e1; margin-top:8px;" id="g30Desc">All 6 core modules verified.</div></div><button class="action-btn" onclick="openReflectionModal()">PROCEED TO MISSION DEBRIEFING 📜</button></div>
+                <div id="game30" style="display:none;"><div style="background:radial-gradient(circle, #0d274c 0%, #030813 90%); border:2px solid var(--success-neon); padding:20px; border-radius:12px; margin-bottom:15px;"><div style="font-size:1.6rem; color:var(--success-neon); font-weight:bold;" id="g30Title">MISSION FINISHED!</div><div style="font-size:0.95rem; color:#cbd5e1; margin-top:8px;" id="g30Desc">You completed all stations.</div></div><button class="action-btn" onclick="openReflectionModal()">SEE RESULTS & CERTIFICATE 📜</button></div>
 
                 <div class="feedback-banner" id="feedback"></div>
 
                 <div style="display:flex; justify-content:space-between; margin-top:25px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
-                    <button class="hud-btn" onclick="prevGame()">⬅ Previous Station</button>
-                    <button class="hud-btn" onclick="nextGame()">Next Station ➡</button>
+                    <button class="hud-btn" onclick="prevGame()">⬅ Previous</button>
+                    <button class="hud-btn" onclick="nextGame()">Next ➡</button>
                 </div>
             </div>
         </div>
@@ -528,67 +523,67 @@
         <div class="cockpit-card" id="debriefScreen" style="display:none;">
             
             <div id="reflectionBox">
-                <h2 style="color:var(--cyan-glow); margin-bottom:8px;">POST-MISSION REFLECTION & DEBRIEFING</h2>
-                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Reflect on your expedition performance and linguistic acquisition before certification.</p>
+                <h2 style="color:var(--cyan-glow); margin-bottom:8px;">MISSION REVIEW</h2>
+                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">How was your mission? Write down your thoughts.</p>
 
                 <div class="briefing-form" style="margin-top:10px;">
                     <div>
-                        <div class="field-label">1. Post-Expedition Affective State</div>
+                        <div class="field-label">1. How do you feel about your score?</div>
                         <select id="selectPostFeeling" class="briefing-select">
-                            <option value="🏆 Accomplished, Confident & Competent">🏆 Accomplished, Confident & Competent</option>
-                            <option value="🧠 Intellectually Challenged & Enlightened">🧠 Intellectually Challenged & Enlightened</option>
-                            <option value="🔍 Need Further Immersion & Practice">🔍 Need Further Immersion & Practice</option>
+                            <option value="🏆 Great & Confident">🏆 Great & Confident</option>
+                            <option value="🧠 A bit hard, but I learned">🧠 A bit hard, but I learned</option>
+                            <option value="🔍 I need more practice">🔍 I need more practice</option>
                         </select>
                     </div>
 
                     <div>
-                        <div class="field-label">2. Key Linguistic Takeaway / Acquired Rule</div>
-                        <input type="text" id="inputKeyTakeaway" class="briefing-input" placeholder="e.g., Mastered bioluminescence terminology and present continuous syntax.">
+                        <div class="field-label">2. What was your favorite word or rule you learned?</div>
+                        <input type="text" id="inputKeyTakeaway" class="briefing-input" placeholder="e.g., I learned how to use submarine and diving.">
                     </div>
 
-                    <button class="action-btn" style="padding:12px; margin-top:10px;" onclick="generateCertificate()">GENERATE & ISSUE RESEARCH LICENSE 📜</button>
+                    <button class="action-btn" style="padding:12px; margin-top:10px;" onclick="generateCertificate()">GET MY CERTIFICATE 📜</button>
                 </div>
             </div>
 
             <div id="certificateContainer" style="display:none; margin-top:20px;">
                 <div class="certificate-frame" id="printableCert">
                     <div class="cert-seal">🎖️</div>
-                    <div class="cert-header">DEEP SEA RESEARCH LICENSE</div>
-                    <div class="cert-sub">BATHYSPHERE ADVANCED EXPEDITIONARY ACCREDITATION</div>
+                    <div class="cert-header">CERTIFICATE OF ACHIEVEMENT</div>
+                    <div class="cert-sub">BATHYSPHERE MISSION ACCREDITATION</div>
                     
-                    <div style="font-size:0.85rem; color:#94a3b8; margin-top:15px;">This official accreditation is hereby granted to:</div>
+                    <div style="font-size:0.85rem; color:#94a3b8; margin-top:15px;">This is proudly presented to:</div>
                     <div class="cert-name" id="certPilotName">-</div>
 
-                    <div class="cert-body">
-                        Having successfully navigated through 6 comprehensive learning modules and 30 technical stations aboard Bathysphere 1.0; demonstrating superior proficiency in acoustic decoding, syntax assembly, contextual deduction, and crisis command communication.
+                    <div class="cert-body" id="certBodyText">
+                        For successfully completing the deep sea language mission and exploring all stations aboard Bathysphere 1.0.
                     </div>
 
                     <div class="cert-meta-grid">
-                        <div><strong>OPERATIONAL ROLE:</strong><br><span id="certRole" style="color:var(--gold-glow);">-</span></div>
-                        <div><strong>TELEMETRY SCORE:</strong><br><span id="certScore" style="color:var(--success-neon); font-weight:bold;">-</span></div>
-                        <div><strong>DATE OF ISSUE:</strong><br><span id="certDate">-</span></div>
+                        <div><strong>ROLE:</strong><br><span id="certRole" style="color:var(--gold-glow);">-</span></div>
+                        <div><strong>SCORE:</strong><br><span id="certScore" style="color:var(--success-neon); font-weight:bold;">-</span></div>
+                        <div><strong>DATE:</strong><br><span id="certDate">-</span></div>
                     </div>
 
                     <div style="font-size:0.8rem; color:#94a3b8; border-top:1px dashed rgba(255,255,255,0.1); padding-top:10px; font-style:italic;">
-                        "Explorer Log Summary: <span id="certReflectNote" style="color:#e0f2fe;">-</span>"
+                        "Student Note: <span id="certReflectNote" style="color:#e0f2fe;">-</span>"
                     </div>
                 </div>
 
                 <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
                     <button class="action-btn" onclick="window.print()">Print / Save as PDF 🖨️</button>
-                    <button class="hud-btn" onclick="restartExpedition()">Start New Expedition 🔄</button>
+                    <button class="hud-btn" onclick="restartExpedition()">Start New Game 🔄</button>
                 </div>
             </div>
 
         </div>
 
-        <!-- 4. ÖĞRETMEN MASASI & ÖĞRENCİ ANALİTİK RAPORU -->
+        <!-- 4. ÖĞRETMEN MASASI -->
         <div class="teacher-desk" id="teacherDesk">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 style="color:var(--gold-glow);">ÖĞRETMEN MASASI // H5P CMS & ÖĞRENCİ ANALİTİK MERKEZİ</h3>
                 <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Kapat</button>
             </div>
-            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Öğrencilerin yaptığı dalışlar, hata yapılan istasyonlar ve yapay zeka tabanlı tanılama raporu aşağıda listelenmiştir.</p>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Öğrencilerin yaptığı dalışlar, hata oranları ve akıllı tanılama raporu aşağıdadır.</p>
 
             <div style="margin-top:15px;">
                 <label style="font-size:0.85rem; color:var(--cyan-glow); font-weight:bold;">DÜZENLENECEK İSTASYON (CMS):</label>
@@ -606,7 +601,7 @@
                 <button class="hud-btn" style="border-color:var(--danger-neon); color:var(--danger-neon);" onclick="resetToFactoryDefaults()">Varsayılanlara Sıfırla ⚠️</button>
             </div>
 
-            <h3 style="color:var(--gold-glow); margin-top:25px; border-top:1px solid rgba(255,183,3,0.3); padding-top:15px;">📊 ÖĞRENCİ ANALİTİK GEÇMİŞİ & HATA RAPORU</h3>
+            <h3 style="color:var(--gold-glow); margin-top:25px; border-top:1px solid rgba(255,183,3,0.3); padding-top:15px;">📊 ÖĞRENCİ ANALİTİK GEÇMİŞİ & AKILLI RAPOR</h3>
             <div style="overflow-x:auto;">
                 <table class="analytics-table" id="analyticsTable">
                     <tr>
@@ -614,8 +609,8 @@
                         <th>Öğrenci Adı</th>
                         <th>Rol</th>
                         <th>Skor</th>
-                        <th>Hatalı İstasyonlar</th>
-                        <th>Akıllı Tanılama (AI Diagnostic)</th>
+                        <th>Hatalı/Boş İstasyonlar</th>
+                        <th>Akıllı Tanılama Raporu</th>
                     </tr>
                 </table>
             </div>
@@ -663,10 +658,10 @@
         
         let pilot = { 
             name: "Explorer", 
-            role: "Subsea Engineer", 
-            feeling: "Focused", 
-            goal: "Decode telemetry", 
+            role: "Subsea Technician", 
+            feeling: "Excited", 
             score: 0,
+            visited: [],
             mistakes: [],
             postFeeling: "",
             keyTakeaway: ""
@@ -684,8 +679,8 @@
             pilot.name = name || "Explorer Cadet";
             pilot.role = document.getElementById('selectPilotRole').value;
             pilot.feeling = document.getElementById('selectPilotFeeling').value;
-            pilot.goal = document.getElementById('inputPilotGoal').value.trim();
             pilot.score = 0;
+            pilot.visited = [];
             pilot.mistakes = [];
 
             document.getElementById('hudPilot').innerText = pilot.name;
@@ -708,7 +703,7 @@
                 const btn = document.createElement('button');
                 btn.className = `jump-btn ${i === currentGame ? 'active' : ''}`;
                 btn.id = `btnJmp${i}`;
-                btn.innerText = `Station ${i}`;
+                btn.innerText = `St. ${i}`;
                 btn.onclick = () => jumpTo(i);
                 document.getElementById(rows[modIdx]).appendChild(btn);
             }
@@ -716,6 +711,8 @@
 
         function jumpTo(n) {
             currentGame = n;
+            if(!pilot.visited.includes(n)) pilot.visited.push(n);
+
             for(let i=1; i<=30; i++) {
                 const b = document.getElementById(`btnJmp${i}`);
                 if(b) b.classList.toggle('active', i === n);
@@ -805,7 +802,7 @@
                         if(document.getElementById('microSlider').value == 0) {
                             if(opt === data.correct) showFeedback(true);
                             else recordMistakeAndFeedback(false, n);
-                        } else alert("Calibrate optical slider to 0 to clarify lens first!");
+                        } else alert("Calibrate optical slider to 0 first!");
                     };
                     optBox.appendChild(btn);
                 });
@@ -823,7 +820,7 @@
                     b.innerText = `"${item.txt}"`;
                     b.onclick = () => {
                         if(item.cor) showFeedback(true, "✓ Direct hit! Flawed syntax eliminated.");
-                        else recordMistakeAndFeedback(false, n, "Periskop: Doğru cümleyi hedef aldınız.");
+                        else recordMistakeAndFeedback(false, n, "Periscope: Wrong target selected.");
                     };
                     box.appendChild(b);
                 });
@@ -839,7 +836,7 @@
                     b.onclick = () => {
                         document.getElementById('panVerbDisplay').innerText = v;
                         if(v === data.correct) showFeedback(true);
-                        else recordMistakeAndFeedback(false, n, "Terazi: Özne-fiil uyumsuzluğu.");
+                        else recordMistakeAndFeedback(false, n, "Scale: Subject-verb mismatch.");
                     };
                     box.appendChild(b);
                 });
@@ -862,7 +859,7 @@
             else if(data.type === "ses_sik") {
                 const aud = document.getElementById(`audioG${n}`);
                 if(aud) aud.src = data.customAudio || "";
-                document.getElementById(`g${n}Trans`).innerText = `Transcript: ${data.trans || "Listen to audio transmission."}`;
+                document.getElementById(`g${n}Trans`).innerText = `Transcript: ${data.trans || "Listen to audio."}`;
                 const box = document.getElementById(`g${n}Options`);
                 box.innerHTML = "";
                 [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5).forEach(opt => {
@@ -950,11 +947,11 @@
                 document.getElementById('hudScore').innerText = `${pilot.score} XP`;
                 fb.style.background = "rgba(0, 245, 212, 0.2)";
                 fb.style.color = "var(--success-neon)";
-                fb.innerText = msg || "✓ Telemetry Confirmed: System Verified!";
+                fb.innerText = msg || "✓ Correct! Good job.";
             } else {
                 fb.style.background = "rgba(255, 0, 85, 0.2)";
                 fb.style.color = "var(--danger-neon)";
-                fb.innerText = msg || "✕ Signal Interference: Mismatch detected, recalibrate and retry.";
+                fb.innerText = msg || "✕ Incorrect. Try again.";
             }
         }
 
@@ -968,10 +965,10 @@
             const data = getActiveStationData(n);
             const accepted = (data.answers || "").split(',').map(s => s.trim().toUpperCase());
             if(accepted.includes(val)) {
-                showFeedback(true, `✓ Input Validated: '${val}' integrated into telemetry!`);
+                showFeedback(true, `✓ Correct input: '${val}' saved!`);
             } else {
                 if(!pilot.mistakes.includes(n)) pilot.mistakes.push(n);
-                showFeedback(false, `✕ Invalid Input: '${val || "Empty"}'. Check term spelling.`);
+                showFeedback(false, `✕ Incorrect input: '${val || "Empty"}'. Check spelling.`);
             }
         }
 
@@ -984,15 +981,33 @@
 
         function generateCertificate() {
             pilot.postFeeling = document.getElementById('selectPostFeeling').value;
-            pilot.keyTakeaway = document.getElementById('inputKeyTakeaway').value.trim() || "Mastered deep-sea technical syntax and communicative protocols.";
+            pilot.keyTakeaway = document.getElementById('inputKeyTakeaway').value.trim() || "Completed all core stations.";
 
-            // Log kaydet
+            // Ziyaret edilip hiç XP alınmamış veya boş bırakılmış istasyonları eksik say
+            // 30 istasyonun kaçına girilmemiş bulalım
+            const unvisited = [];
+            for(let i=1; i<=30; i++) {
+                if(!pilot.visited.includes(i)) unvisited.push(i);
+            }
+            // Ziyaret edilip yanlış yapılanlar veya hiç girilmeyenler toplam hata havuzuna eklenir
+            pilot.unvisitedCount = unvisited.length;
+
             saveStudentLog();
 
             document.getElementById('certPilotName').innerText = pilot.name;
             document.getElementById('certRole').innerText = pilot.role;
-            document.getElementById('certScore').innerText = `${pilot.score} XP (Distinction)`;
+            document.getElementById('certScore').innerText = `${pilot.score} XP`;
             
+            // Sertifika metnini puana göre dinamik ayarla
+            const certBody = document.getElementById('certBodyText');
+            if(pilot.score >= 400) {
+                certBody.innerText = `For successfully completing the deep sea mission with a score of ${pilot.score} XP and showing great understanding!`;
+            } else if(pilot.score > 0) {
+                certBody.innerText = `For participating in the deep sea mission and scoring ${pilot.score} XP. Keep practicing to improve your skills!`;
+            } else {
+                certBody.innerText = `Certificate of Attendance. Scored 0 XP. Mission was submitted without completing questions.`;
+            }
+
             const today = new Date();
             const dateStr = today.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
             document.getElementById('certDate').innerText = dateStr;
@@ -1005,23 +1020,29 @@
 
         function saveStudentLog() {
             const today = new Date().toLocaleString('tr-TR');
-            // Akıllı Tanılama (AI Diagnostic Heuristic)
-            let diagnostic = "Mükemmel performans; modüllerde belirgin bir zayıflık tespit edilmedi.";
-            if(pilot.mistakes.length > 0) {
-                const modulesFailed = pilot.mistakes.map(id => `İstasyon ${id} (Modül ${Math.ceil(id/5)})`).join(', ');
-                diagnostic = `Hata yapılan istasyonlar: [${modulesFailed}]. Öğrencinin özellikle ilgili modül gramer ve kelime tekrarı yapması önerilir.`;
+            
+            // AKILLI TANILAMA (Akıllı Hata & Boş Bırakma Filtresi)
+            let diagnostic = "";
+            const totalIssues = pilot.mistakes.length;
+
+            if(pilot.score === 0) {
+                diagnostic = "⚠️ Kritik Durum: Öğrenci 0 XP aldı ve görevleri yapmadan geçti. Tekrar yönlendirme gerekir.";
+            } else if(totalIssues === 0 && pilot.score >= 500) {
+                diagnostic = "🏆 Mükemmel Performans: Hiç hata yapmadan tüm istasyonları tamamladı.";
+            } else {
+                diagnostic = `⚠️ Gelişim Alanı: ${totalIssues} istasyonda hata yapıldı. İlgili modül konularının tekrar edilmesi önerilir.`;
             }
 
             const record = {
                 date: today,
                 name: pilot.name,
                 role: pilot.role,
-                score: pilot.score,
-                mistakes: pilot.mistakes.length > 0 ? pilot.mistakes.join(', ') : "Hiç hata yok",
+                score: `${pilot.score} XP`,
+                mistakes: totalIssues > 0 ? pilot.mistakes.join(', ') : "Yok",
                 diagnostic: diagnostic
             };
 
-            studentLogs.unshift(record); // En yeni üste
+            studentLogs.unshift(record);
             localStorage.setItem('bathysphere_student_logs', JSON.stringify(studentLogs));
         }
 
@@ -1047,7 +1068,7 @@
             const data = getActiveStationData(3);
             const isCor = (val > 120 && val < 240);
             if(isCor) showFeedback(true, `✓ Valve Locked: '${data.targetVal}' pressure equalized!`);
-            else recordMistakeAndFeedback(false, 3, "Vana: Yanlış basınç derecesi.");
+            else recordMistakeAndFeedback(false, 3, "Valve: Wrong pressure level.");
         }
         function adjustFocus(val) { document.getElementById('microLens').style.filter = `blur(${val}px)`; }
 
@@ -1079,7 +1100,7 @@
         function checkPipeAssembly() {
             const isMatch = JSON.stringify(userPipe) === JSON.stringify(targetSentenceWords);
             if(isMatch) showFeedback(true, "✓ Line sealed: Syntax arrangement correct!");
-            else recordMistakeAndFeedback(false, 6, "Boru Hattı: Kelime dizilim sırası hatalı.");
+            else recordMistakeAndFeedback(false, 6, "Pipe: Word order incorrect.");
         }
 
         let curFreq = 90;
@@ -1100,7 +1121,7 @@
             const target = getActiveStationData(7).targetFreq || 120;
             const isCor = Math.abs(curFreq - target) <= 2;
             if(isCor) showFeedback(true, "✓ Frequency locked successfully!");
-            else recordMistakeAndFeedback(false, 7, "Radyo: Yanlış frekans bandı.");
+            else recordMistakeAndFeedback(false, 7, "Radio: Wrong waveband.");
         }
 
         let userSwitches = [];
@@ -1125,7 +1146,7 @@
             if(userSwitches.length === targetSwitchOrder.length) {
                 const isMatch = JSON.stringify(userSwitches) === JSON.stringify(targetSwitchOrder);
                 if(isMatch) showFeedback(true, "✓ Sequential protocol locked successfully!");
-                else recordMistakeAndFeedback(false, 15, "Şalter: Yanlış sıra.");
+                else recordMistakeAndFeedback(false, 15, "Switches: Wrong order.");
             }
         }
         function resetSwitches() {
@@ -1166,12 +1187,11 @@
 
         function renderAnalyticsTable() {
             const table = document.getElementById('analyticsTable');
-            // Başlığı koru
-            table.innerHTML = `<tr><th>Tarih</th><th>Öğrenci Adı</th><th>Rol</th><th>Skor</th><th>Hatalı İstasyonlar</th><th>Akıllı Tanılama (AI Diagnostic)</th></tr>`;
+            table.innerHTML = `<tr><th>Tarih</th><th>Öğrenci Adı</th><th>Rol</th><th>Skor</th><th>Hatalı/Boş İstasyonlar</th><th>Akıllı Tanılama Raporu</th></tr>`;
             
             studentLogs.forEach(log => {
                 const row = document.createElement('tr');
-                row.innerHTML = `<td>${log.date}</td><td>${log.name}</td><td>${log.role}</td><td style="color:var(--success-neon); font-weight:bold;">${log.score} XP</td><td>${log.mistakes}</td><td style="color:var(--gold-glow);">${log.diagnostic}</td>`;
+                row.innerHTML = `<td>${log.date}</td><td>${log.name}</td><td>${log.role}</td><td style="color:var(--success-neon); font-weight:bold;">${log.score}</td><td>${log.mistakes}</td><td style="color:var(--gold-glow);">${log.diagnostic}</td>`;
                 table.appendChild(row);
             });
         }
@@ -1218,7 +1238,7 @@
             tempImg = cust.customImg || "";
             tempAudio = cust.customAudio || "";
 
-            addFormField(container, "Görev Yönergesi (İngilizce Soru Metni):", "text", "adm_prompt", cust.prompt, def.prompt);
+            addFormField(container, "Görev Yönergesi (Soru Metni):", "text", "adm_prompt", cust.prompt, def.prompt);
 
             if(def.type === "fener") {
                 addFormField(container, "Karanlıkta Bulunacak Hedef Kelime:", "text", "adm_target", cust.target, def.target);
