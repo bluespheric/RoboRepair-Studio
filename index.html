@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Lab // Bathysphere 1.0 (Global EdTech & CMS)</title>
+    <title>Deep Sea Lab // Bathysphere 2.0 (AI Mission Generator & CMS)</title>
     <style>
         :root {
             --bg-abyss: #030813;
@@ -299,7 +299,7 @@
         }
         .cert-seal { font-size: 2.2rem; margin-bottom: 5px; }
 
-        /* TEACHER DESK & ANALYTICS */
+        /* TEACHER DESK & CMS */
         .teacher-desk {
             background: #060e1d;
             border: 2px solid var(--gold-glow);
@@ -309,6 +309,31 @@
             display: none;
             text-align: left;
         }
+
+        /* AI MISSION GENERATOR BOX */
+        .ai-generator-panel {
+            background: linear-gradient(135deg, rgba(189, 0, 255, 0.12) 0%, rgba(0, 242, 254, 0.08) 100%);
+            border: 2px solid var(--uv-glow);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .ai-panel-title {
+            color: #e879f9;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ai-flex-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
         .teacher-form-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -505,7 +530,7 @@
                 <div id="game16" style="display:none;"><div class="uv-chamber" id="uvChamber" onmousemove="moveUV(event)" onmouseleave="hideUV()"><div class="uv-secret-text" id="uvText">-</div><div class="uv-torch-overlay" id="uvOverlay"></div></div><div id="g16Options"></div></div>
                 <div id="game17" style="display:none;"><div style="background:#111a28; border-left:4px solid var(--gold-glow); padding:12px; text-align:left; margin-bottom:12px;" id="g17Log">-</div><div id="g17Options"></div></div>
                 <div id="game18" style="display:none;"><div style="background:#071326; padding:12px; border-left:4px solid var(--gold-glow); margin-bottom:12px;" id="g18Desc">-</div><div id="g18Options"></div></div>
-                <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border-left:4px solid var(--cyan-glow); margin-bottom:12px; text-align:left;" id="g19Text">-</div><div id="g19Options"></div></div>
+                <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border:1px solid var(--cyan-glow); margin-bottom:12px; text-align:left;" id="g19Text">-</div><div id="g19Options"></div></div>
                 <div id="game20" style="display:none;"><div style="background:#050d1a; padding:12px; margin-bottom:12px;" id="g20Table">-</div><div id="g20Options"></div></div>
 
                 <div id="game21" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g21Hint">-</div><div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;" id="g21Display">-</div><input type="text" class="hud-text-input" id="inputGame21" placeholder="TYPE HERE..."><button class="action-btn" onclick="checkWriting(21)">Confirm</button></div></div>
@@ -587,13 +612,26 @@
 
         </div>
 
-        <!-- 4. TEACHER DESK (CMS & ANALYTICS) -->
+        <!-- 4. TEACHER DESK -->
         <div class="teacher-desk" id="teacherDesk">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 style="color:var(--gold-glow);">TEACHER DESK</h3>
                 <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Close</button>
             </div>
-            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, export/import packages, and view student performance analytics.</p>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, generate AI missions with Gemini, and view student analytics.</p>
+
+            <!-- 🤖 AI MISSION GENERATOR -->
+            <div class="ai-generator-panel">
+                <div class="ai-panel-title">🤖 GEMINI AI MISSION GENERATOR (Web 3.0 / Procedural)</div>
+                <div style="font-size:0.8rem; color:#cbd5e1;">Enter your target English topic and let Gemini AI write all 30 stations instantly!</div>
+                
+                <div class="ai-flex-row">
+                    <input type="password" id="geminiApiKey" placeholder="Paste Gemini API Key..." style="flex:1; min-width:200px; padding:8px 12px; background:#071226; color:#fff; border:1px solid var(--uv-glow); border-radius:6px; font-size:0.85rem;">
+                    <input type="text" id="aiTopicInput" placeholder="e.g. Past Simple vs Continuous, B1 Level" style="flex:2; min-width:250px; padding:8px 12px; background:#071226; color:#fff; border:1px solid var(--cyan-glow); border-radius:6px; font-size:0.85rem;">
+                    <button class="action-btn" id="btnGenerateAI" onclick="generateMissionWithGemini()" style="background:linear-gradient(135deg, var(--uv-glow), #3b82f6); color:#fff;">Generate Mission ⚡</button>
+                </div>
+                <div id="aiLoadingStatus" style="font-size:0.8rem; color:var(--cyan-glow); margin-top:8px; display:none;">🤖 Gemini is generating your deep sea lesson package... Please wait!</div>
+            </div>
 
             <div style="margin-top:15px; display: flex; gap: 10px; align-items: center; justify-content: space-between;">
                 <div style="flex-grow: 1;">
@@ -761,6 +799,98 @@
                 }
             } else if(verify !== null) {
                 alert("❌ Incorrect current password!");
+            }
+        }
+
+        // 🤖 GEMINI API PROCEDURAL MISSION GENERATION
+        async function generateMissionWithGemini() {
+            const apiKeyInput = document.getElementById('geminiApiKey').value.trim();
+            const storedKey = localStorage.getItem('bathysphere_gemini_key') || "";
+            const activeKey = apiKeyInput || storedKey;
+
+            if(!activeKey) {
+                alert("Please paste your Gemini API Key first!");
+                return;
+            }
+            localStorage.setItem('bathysphere_gemini_key', activeKey);
+
+            const topic = document.getElementById('aiTopicInput').value.trim();
+            if(!topic) {
+                alert("Please enter a target learning topic (e.g. Past Simple, A2 Level)!");
+                return;
+            }
+
+            const status = document.getElementById('aiLoadingStatus');
+            const btn = document.getElementById('btnGenerateAI');
+            status.style.display = 'block';
+            btn.disabled = true;
+
+            const systemPrompt = `You are an expert English Curriculum Designer and AI game developer.
+Target English Topic: "${topic}".
+Theme: Deep Sea Submarine Exploration (Bathysphere).
+Task: Generate an updated 30-station educational JSON object adapting the theme and topic.
+Output strictly pure, raw valid JSON matching this exact structure without markdown ticks or backticks:
+{
+  "1": { "type": "fener", "prompt": "...", "target": "...", "decoys": ["...", "..."] },
+  "2": { "type": "kablo", "prompt": "...", "source": "...", "correct": "...", "distractors": ["...", "..."] },
+  "3": { "type": "vana", "prompt": "...", "targetVal": "...", "choices": ["...", "...", "..."] },
+  "4": { "type": "kargo", "prompt": "...", "cargo": "...", "correct": "...", "distractors": ["...", "..."] },
+  "5": { "type": "mikroskop", "prompt": "...", "label": "...", "correct": "...", "distractors": ["...", "..."] },
+  "6": { "type": "boru", "prompt": "...", "sentence": "Word1,Word2,Word3,Word4" },
+  "7": { "type": "radyo", "prompt": "...", "targetFreq": 110 },
+  "8": { "type": "periskop", "prompt": "...", "correctErr": "Grammar flaw sentence", "normals": ["Correct sentence 1", "Correct sentence 2"] },
+  "9": { "type": "terazi", "prompt": "...", "subject": "...", "correct": "...", "distractor": "..." },
+  "10": { "type": "mors", "prompt": "...", "text": "...", "correct": "...", "distractors": ["...", "..."] },
+  "11": { "type": "ses_sik", "prompt": "...", "trans": "...", "correct": "...", "distractors": ["...", "..."] },
+  "12": { "type": "ses_sik", "prompt": "...", "trans": "...", "correct": "...", "distractors": ["...", "..."] },
+  "13": { "type": "ses_sik", "prompt": "...", "trans": "...", "correct": "...", "distractors": ["...", "..."] },
+  "14": { "type": "ses_sik", "prompt": "...", "trans": "...", "correct": "...", "distractors": ["...", "..."] },
+  "15": { "type": "salter", "prompt": "...", "trans": "...", "order": "Vent,Power,Seal" },
+  "16": { "type": "uv", "prompt": "...", "text": "...", "correct": "...", "distractors": ["...", "..."] },
+  "17": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
+  "18": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
+  "19": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
+  "20": { "type": "tablo", "prompt": "...", "tableHtml": "...", "correct": "...", "distractors": ["...", "..."] },
+  "21": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1,ANSWER2" },
+  "22": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1" },
+  "23": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1" },
+  "24": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1" },
+  "25": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1" },
+  "26": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
+  "27": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
+  "28": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
+  "29": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
+  "30": { "type": "final", "prompt": "...", "title": "...", "desc": "..." }
+}`;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: systemPrompt }] }]
+                    })
+                });
+
+                const data = await response.json();
+                if(data.error) throw new Error(data.error.message);
+
+                let rawText = data.candidates[0].content.parts[0].text.trim();
+                if(rawText.startsWith("```json")) rawText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
+                else if(rawText.startsWith("```")) rawText = rawText.replace(/```/g, "").trim();
+
+                const parsedAIStations = JSON.parse(rawText);
+                customEdited = parsedAIStations;
+                localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
+
+                alert(`🎉 Success! Gemini AI generated 30 custom stations on "${topic}"!`);
+                jumpTo(1);
+                renderTeacherForm();
+            } catch(err) {
+                alert("AI Generation failed: " + err.message);
+            } finally {
+                status.style.display = 'none';
+                btn.disabled = false;
             }
         }
 
@@ -1260,6 +1390,8 @@
             const desk = document.getElementById('teacherDesk');
             desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
             if(desk.style.display === 'block') {
+                const savedKey = localStorage.getItem('bathysphere_gemini_key');
+                if(savedKey) document.getElementById('geminiApiKey').value = savedKey;
                 populateStationDropdown();
                 renderTeacherForm();
                 renderAnalyticsTable();
@@ -1318,7 +1450,6 @@
             a.remove();
         }
 
-        // DROPDOWN POPULATION (CLEAN FORMAT)
         function populateStationDropdown() {
             const sel = document.getElementById('admStationSelect');
             sel.innerHTML = "";
