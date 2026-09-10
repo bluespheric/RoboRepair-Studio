@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Research Lab // Batısfer 1.0 (Tam Sürüm)</title>
+    <title>Deep Sea Research Lab // Bathysphere 1.0 (Immersion Edition)</title>
     <style>
         :root {
             --bg-abyss: #030813;
@@ -89,7 +89,6 @@
             position: relative;
         }
 
-        /* BRİFİNG FORMU & ÖN DEĞERLENDİRME */
         .briefing-form {
             display: flex;
             flex-direction: column;
@@ -105,7 +104,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        .briefing-input, .briefing-select, .briefing-textarea {
+        .briefing-input, .briefing-select {
             padding: 10px 14px;
             border-radius: 6px;
             border: 1px solid var(--border-hud);
@@ -116,7 +115,6 @@
             width: 100%;
         }
 
-        /* 30 OYUN KONSOLU */
         .quick-nav-panel {
             background: #060e1d;
             border: 2px solid var(--border-hud);
@@ -247,7 +245,7 @@
             outline: none;
         }
 
-        /* ÇIKIŞ SERTİFİKASI & KARNE */
+        /* SERTİFİKA */
         .certificate-frame {
             background: linear-gradient(135deg, #061124 0%, #030813 100%);
             border: 4px double var(--gold-glow);
@@ -299,12 +297,9 @@
             font-size: 0.85rem;
             margin-bottom: 20px;
         }
-        .cert-seal {
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-        }
+        .cert-seal { font-size: 2.2rem; margin-bottom: 5px; }
 
-        /* ÖĞRETMEN MASASI */
+        /* ÖĞRETMEN MASASI (TÜRKÇE CMS) */
         .teacher-desk {
             background: #060e1d;
             border: 2px solid var(--gold-glow);
@@ -386,51 +381,51 @@
 <body>
 
     <header>
-        <h2>BATHYSPHERE LABS // EĞİTİM YÖNETİM MERKEZİ</h2>
+        <h2>BATHYSPHERE LABS // MISSION CONTROL</h2>
         <div class="hud-actions">
-            <button class="hud-btn" onclick="document.body.classList.toggle('inclusive-font')">Kapsayıcı Mod</button>
+            <button class="hud-btn" onclick="document.body.classList.toggle('inclusive-font')">Inclusive Mode</button>
             <button class="hud-btn btn-teacher" onclick="toggleTeacherDesk()">Öğretmen Masası (CMS) ⚙️</button>
         </div>
     </header>
 
     <main>
 
-        <!-- 1. GİRİŞ BRİFİNGİ & ÖN REFLEKSİYON -->
+        <!-- 1. GİRİŞ BRİFİNGİ (İNGİLİZCE IMMERSION) -->
         <div class="cockpit-card" id="briefingScreen">
             <div style="padding:10px;">
-                <h2 style="color:var(--cyan-glow); margin-bottom:6px;">KÂŞİF GİRİŞ BRİFİNGİ & DALIŞ PROTOKOLÜ</h2>
-                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Dalış simülasyonuna başlamadan önce zihinsel hazırlığını ve hedefini belirle.</p>
+                <h2 style="color:var(--cyan-glow); margin-bottom:6px;">PRE-DIVE BRIEFING & SYSTEM CHECK</h2>
+                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Initialize your explorer profile and set your operational mission before submerging.</p>
                 
                 <div class="briefing-form">
                     <div>
-                        <div class="field-label">1. Kâşif Kimliği</div>
-                        <input type="text" id="inputPilotName" class="briefing-input" placeholder="Adınızı ve Soyadınızı yazınız..." autocomplete="off">
+                        <div class="field-label">1. Explorer Identification</div>
+                        <input type="text" id="inputPilotName" class="briefing-input" placeholder="Enter your full name..." autocomplete="off">
                     </div>
 
                     <div>
-                        <div class="field-label">2. Operasyonel Rol</div>
+                        <div class="field-label">2. Operational Role</div>
                         <select id="selectPilotRole" class="briefing-select">
-                            <option value="Sualtı Mühendisi">Sualtı Mühendisi (Donanım & Sistem Odaklı)</option>
-                            <option value="Biyo-Akustik Uzmanı">Biyo-Akustik Uzmanı (Dil & Ses Frekans Odaklı)</option>
-                            <option value="Seyir & Navigasyon Subayı">Seyir & Navigasyon Subayı (Taktik & Metin Odaklı)</option>
+                            <option value="Subsea Engineer">Subsea Engineer (Hardware & Mechanics)</option>
+                            <option value="Bio-Acoustic Specialist">Bio-Acoustic Specialist (Syntax & Sonar Decoding)</option>
+                            <option value="Navigation & Recon Officer">Navigation & Recon Officer (Tactical & Textual Analysis)</option>
                         </select>
                     </div>
 
                     <div>
-                        <div class="field-label">3. Dalış Öncesi Duygu / Hazır Bulunuşluk</div>
+                        <div class="field-label">3. Affective State & Readiness</div>
                         <select id="selectPilotFeeling" class="briefing-select">
-                            <option value="⚡ Odaklanmış & Heyecanlı">⚡ Odaklanmış & Heyecanlı</option>
-                            <option value="🌊 Sakin & Keşfe Meraklı">🌊 Sakin & Keşfe Meraklı</option>
-                            <option value="⚠️ Temkinli & Dikkatli">⚠️ Temkinli & Dikkatli</option>
+                            <option value="⚡ Focused & Thrilled">⚡ Focused & Thrilled</option>
+                            <option value="🌊 Calm & Curious">🌊 Calm & Curious</option>
+                            <option value="⚠️ Cautious & Vigilant">⚠️ Cautious & Vigilant</option>
                         </select>
                     </div>
 
                     <div>
-                        <div class="field-label">4. Dalış Misyonu / Kişisel Hedef</div>
-                        <input type="text" id="inputPilotGoal" class="briefing-input" placeholder="Örn: 30 istasyonda hata yapmadan sualtı terimlerini deşifre etmek." value="Derin deniz batığını kurtarmak ve teknik İngilizce terimlerini deşifre etmek.">
+                        <div class="field-label">4. Expedition Goal / Mission Objective</div>
+                        <input type="text" id="inputPilotGoal" class="briefing-input" placeholder="e.g., Decode underwater technical terms and recover telemetry." value="Decode technical terminology and safely recover station telemetry.">
                     </div>
 
-                    <button class="action-btn" style="padding:14px; margin-top:10px;" onclick="startExpedition()">DALIŞ PROTOKOLÜNÜ BAŞLAT 🌊</button>
+                    <button class="action-btn" style="padding:14px; margin-top:10px;" onclick="startExpedition()">INITIATE DIVE PROTOCOL 🌊</button>
                 </div>
             </div>
         </div>
@@ -439,53 +434,53 @@
         <div id="gameContainer" style="display:none;">
 
             <div class="quick-nav-panel">
-                <div class="nav-section-title"><span>Modül 1: Kelime Hangârı</span><span>(Donanım)</span></div>
+                <div class="nav-section-title"><span>Module 1: Vocabulary Hangar</span><span>(Hardware)</span></div>
                 <div class="nav-buttons-row" id="rowM1"></div>
 
-                <div class="nav-section-title"><span>Modül 2: Sonar Gramer</span><span>(Yapı)</span></div>
+                <div class="nav-section-title"><span>Module 2: Sonar Grammar</span><span>(Syntax)</span></div>
                 <div class="nav-buttons-row" id="rowM2"></div>
 
-                <div class="nav-section-title"><span>Modül 3: Akustik Basınç Odası</span><span>(Dinleme)</span></div>
+                <div class="nav-section-title"><span>Module 3: Acoustic Chamber</span><span>(Listening)</span></div>
                 <div class="nav-buttons-row" id="rowM3"></div>
 
-                <div class="nav-section-title"><span>Modül 4: Numune Laboratuvarı</span><span>(Okuma)</span></div>
+                <div class="nav-section-title"><span>Module 4: Specimen Laboratory</span><span>(Reading)</span></div>
                 <div class="nav-buttons-row" id="rowM4"></div>
 
-                <div class="nav-section-title" style="color:var(--cyan-glow);"><span>Modül 5: Kaptan Köşkü</span><span>(Mikro-Yazma)</span></div>
+                <div class="nav-section-title" style="color:var(--cyan-glow);"><span>Module 5: Bridge Command</span><span>(Micro-Writing)</span></div>
                 <div class="nav-buttons-row" id="rowM5"></div>
 
-                <div class="nav-section-title" style="color:var(--gold-glow);"><span>Modül 6: Derinlik Simülasyonu</span><span>(Final)</span></div>
+                <div class="nav-section-title" style="color:var(--gold-glow);"><span>Module 6: Deep Simulation</span><span>(Capstone)</span></div>
                 <div class="nav-buttons-row" id="rowM6"></div>
             </div>
 
             <div class="cockpit-card">
                 <div class="hud-status-bar">
-                    <div>KÂŞİF: <span style="color:var(--cyan-glow); font-weight:bold;" id="hudPilot">-</span></div>
-                    <div>ROL: <span style="color:var(--gold-glow);" id="hudRole">-</span></div>
-                    <div>SKOR: <span style="color:var(--success-neon); font-weight:bold;" id="hudScore">0 XP</span></div>
+                    <div>PILOT: <span style="color:var(--cyan-glow); font-weight:bold;" id="hudPilot">-</span></div>
+                    <div>ROLE: <span style="color:var(--gold-glow);" id="hudRole">-</span></div>
+                    <div>SCORE: <span style="color:var(--success-neon); font-weight:bold;" id="hudScore">0 XP</span></div>
                 </div>
 
-                <div class="stage-title" id="stagePrompt">Yönerge Yükleniyor...</div>
+                <div class="stage-title" id="stagePrompt">Loading instructions...</div>
 
                 <div class="custom-media-box" id="mediaBox" style="display:none;"></div>
 
                 <div id="game1" style="display:none;"><div class="fener-area" id="fenerArea" onmousemove="moveFener(event)"><div class="hidden-word" id="g1W1" style="top:25%; left:12%;"></div><div class="hidden-word" id="g1W2" style="top:50%; left:55%;"></div><div class="hidden-word" id="g1W3" style="top:75%; left:28%;"></div><div class="dark-mask" id="darkMask"></div></div></div>
                 <div id="game2" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;" id="g2Source"></div><div id="g2Options"></div></div></div>
-                <div id="game3" style="display:none;"><div class="valve-wheel" id="valveWheel">-</div><input type="range" class="hud-slider" id="valveSlider" min="0" max="360" value="0" oninput="rotateValve(this.value)"><button class="action-btn" onclick="checkValve()">Vanayı Kilitle</button></div>
+                <div id="game3" style="display:none;"><div class="valve-wheel" id="valveWheel">-</div><input type="range" class="hud-slider" id="valveSlider" min="0" max="360" value="0" oninput="rotateValve(this.value)"><button class="action-btn" onclick="checkValve()">Lock Valve</button></div>
                 <div id="game4" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;" id="g4Cargo"></div><div id="g4Options"></div></div></div>
                 <div id="game5" style="display:none;"><div class="microscope-lens" id="microLens">SPECIMEN</div><input type="range" class="hud-slider" id="microSlider" min="0" max="20" value="15" oninput="adjustFocus(this.value)"><div id="g5Options" style="margin-top:10px;"></div></div>
 
-                <div id="game6" style="display:none;"><div class="pipe-assembly" id="pipeLine"><span style="color:#64748b;" id="pipePlaceholder">Kapsülleri sırayla boruya yerleştir...</span></div><div id="capsulesPool"></div><div style="margin-top:10px;"><button class="action-btn" onclick="checkPipeAssembly()">Hattı Kaynat</button><button class="opt-btn" onclick="resetPipe()">Sıfırla</button></div></div>
-                <div id="game7" style="display:none;"><div style="background:#040914; padding:12px; border-radius:8px; margin-bottom:12px;"><div style="font-size:1.8rem; font-weight:bold; color:var(--cyan-glow);" id="freqLabel">90.0 MHz</div><div id="freqStatus" style="font-size:0.85rem; color:#94a3b8;">Frekansı Ayarla</div></div><input type="range" class="hud-slider" min="80" max="140" value="90" oninput="tuneRadio(this.value)"><button class="action-btn" onclick="checkRadioFreq()">Frekansa Kilitlen</button></div>
+                <div id="game6" style="display:none;"><div class="pipe-assembly" id="pipeLine"><span style="color:#64748b;" id="pipePlaceholder">Place capsules into pipe sequentially...</span></div><div id="capsulesPool"></div><div style="margin-top:10px;"><button class="action-btn" onclick="checkPipeAssembly()">Weld Pipe</button><button class="opt-btn" onclick="resetPipe()">Reset</button></div></div>
+                <div id="game7" style="display:none;"><div style="background:#040914; padding:12px; border-radius:8px; margin-bottom:12px;"><div style="font-size:1.8rem; font-weight:bold; color:var(--cyan-glow);" id="freqLabel">90.0 MHz</div><div id="freqStatus" style="font-size:0.85rem; color:#94a3b8;">Adjust Frequency</div></div><input type="range" class="hud-slider" min="80" max="140" value="90" oninput="tuneRadio(this.value)"><button class="action-btn" onclick="checkRadioFreq()">Lock Frequency</button></div>
                 <div id="game8" style="display:none;"><div class="periscope-zone" id="g8Bubbles"></div></div>
-                <div id="game9" style="display:none;"><div class="scale-station"><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">SOL KÜFE (ÖZNE)</div><div style="font-size:1.1rem; font-weight:bold; color:var(--cyan-glow);" id="g9Subject">-</div></div><div style="font-size:1.8rem; color:var(--gold-glow);">⚖️</div><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">SAĞ KÜFE (YÜKLEM)</div><div id="panVerbDisplay" style="color:#64748b; font-weight:bold;">Seçilmedi</div></div></div><div id="g9Options"></div></div>
+                <div id="game9" style="display:none;"><div class="scale-station"><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">LEFT SCALE (SUBJECT)</div><div style="font-size:1.1rem; font-weight:bold; color:var(--cyan-glow);" id="g9Subject">-</div></div><div style="font-size:1.8rem; color:var(--gold-glow);">⚖️</div><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">RIGHT SCALE (PREDICATE)</div><div id="panVerbDisplay" style="color:#64748b; font-weight:bold;">Unselected</div></div></div><div id="g9Options"></div></div>
                 <div id="game10" style="display:none;"><div style="background:#060e1d; border:1px solid var(--gold-glow); padding:12px; border-radius:6px; margin-bottom:12px; font-family:monospace; color:var(--gold-glow);" id="g10Prompt">-</div><div id="g10Options"></div></div>
 
                 <div id="game11" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG11" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g11Trans">-</div></div><div id="g11Options"></div></div>
                 <div id="game12" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG12" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g12Trans">-</div></div><div id="g12Options"></div></div>
                 <div id="game13" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG13" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g13Trans">-</div></div><div id="g13Options"></div></div>
                 <div id="game14" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG14" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g14Trans">-</div></div><div id="g14Options"></div></div>
-                <div id="game15" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG15" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g15Trans">-</div></div><div class="switches-row" id="g15Switches"></div><button class="opt-btn" onclick="resetSwitches()">Şalterleri Sıfırla</button></div>
+                <div id="game15" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG15" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g15Trans">-</div></div><div class="switches-row" id="g15Switches"></div><button class="opt-btn" onclick="resetSwitches()">Reset Levers</button></div>
 
                 <div id="game16" style="display:none;"><div class="uv-chamber" id="uvChamber" onmousemove="moveUV(event)" onmouseleave="hideUV()"><div class="uv-secret-text" id="uvText">-</div><div class="uv-torch-overlay" id="uvOverlay"></div></div><div id="g16Options"></div></div>
                 <div id="game17" style="display:none;"><div style="background:#111a28; border-left:4px solid var(--gold-glow); padding:12px; text-align:left; margin-bottom:12px;" id="g17Log">-</div><div id="g17Options"></div></div>
@@ -493,94 +488,92 @@
                 <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border:1px solid var(--cyan-glow); margin-bottom:12px; text-align:left;" id="g19Text">-</div><div id="g19Options"></div></div>
                 <div id="game20" style="display:none;"><div style="background:#050d1a; padding:12px; margin-bottom:12px;" id="g20Table">-</div><div id="g20Options"></div></div>
 
-                <div id="game21" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g21Hint">-</div><div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;" id="g21Display">-</div><input type="text" class="hud-text-input" id="inputGame21" placeholder="YAZINIZ..."><button class="action-btn" onclick="checkWriting(21)">Kaydet</button></div></div>
-                <div id="game22" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g22Hint">-</div><div style="font-size:1.1rem; color:#fff; font-weight:bold;" id="g22Display">-</div><input type="text" class="hud-text-input" id="inputGame22" placeholder="YAZINIZ..."><button class="action-btn" onclick="checkWriting(22)">İlet</button></div></div>
-                <div id="game23" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g23Hint">-</div><div style="font-size:1.5rem;" id="g23Display">-</div><input type="text" class="hud-text-input" id="inputGame23" placeholder="YAZINIZ..."><button class="action-btn" onclick="checkWriting(23)">Mühürle</button></div></div>
-                <div id="game24" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g24Hint">-</div><div style="font-size:1.2rem; color:var(--danger-neon); font-weight:bold;" id="g24Display">-</div><input type="text" class="hud-text-input" id="inputGame24" placeholder="KODU GİRİNİZ..."><button class="action-btn" onclick="checkWriting(24)">Kilidi Aç</button></div></div>
-                <div id="game25" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g25Hint">-</div><div style="font-size:1.1rem; color:#fff;" id="g25Display">-</div><input type="text" class="hud-text-input" id="inputGame25" placeholder="YAZINIZ..."><button class="action-btn" onclick="checkWriting(25)">İmzala</button></div></div>
+                <div id="game21" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g21Hint">-</div><div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;" id="g21Display">-</div><input type="text" class="hud-text-input" id="inputGame21" placeholder="TYPE INPUT..."><button class="action-btn" onclick="checkWriting(21)">Confirm</button></div></div>
+                <div id="game22" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g22Hint">-</div><div style="font-size:1.1rem; color:#fff; font-weight:bold;" id="g22Display">-</div><input type="text" class="hud-text-input" id="inputGame22" placeholder="TYPE INPUT..."><button class="action-btn" onclick="checkWriting(22)">Transmit</button></div></div>
+                <div id="game23" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g23Hint">-</div><div style="font-size:1.5rem;" id="g23Display">-</div><input type="text" class="hud-text-input" id="inputGame23" placeholder="TYPE INPUT..."><button class="action-btn" onclick="checkWriting(23)">Seal Specimen</button></div></div>
+                <div id="game24" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g24Hint">-</div><div style="font-size:1.2rem; color:var(--danger-neon); font-weight:bold;" id="g24Display">-</div><input type="text" class="hud-text-input" id="inputGame24" placeholder="ENTER CODE..."><button class="action-btn" onclick="checkWriting(24)">Unlock Hatch</button></div></div>
+                <div id="game25" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g25Hint">-</div><div style="font-size:1.1rem; color:#fff;" id="g25Display">-</div><input type="text" class="hud-text-input" id="inputGame25" placeholder="TYPE INPUT..."><button class="action-btn" onclick="checkWriting(25)">Sign Logbook</button></div></div>
 
                 <div id="game26" style="display:none;"><div style="background:#050d1a; border:2px solid var(--gold-glow); padding:15px; border-radius:8px; margin-bottom:15px;" id="g26Desc">-</div><div id="g26Options"></div></div>
                 <div id="game27" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px;" id="g27Desc">-</div><div id="g27Options"></div></div>
                 <div id="game28" style="display:none;"><div style="background:#071326; border:1px solid var(--border-hud); padding:15px; border-radius:8px; margin-bottom:15px;" id="g28Desc">-</div><div id="g28Options"></div></div>
                 <div id="game29" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px; font-size:0.9rem;" id="g29Desc">-</div><div id="g29Options"></div></div>
-                <div id="game30" style="display:none;"><div style="background:radial-gradient(circle, #0d274c 0%, #030813 90%); border:2px solid var(--success-neon); padding:20px; border-radius:12px; margin-bottom:15px;"><div style="font-size:1.6rem; color:var(--success-neon); font-weight:bold;" id="g30Title">DALIŞ TAMAMLANDI</div><div style="font-size:0.95rem; color:#cbd5e1; margin-top:8px;" id="g30Desc">Tüm modülleri tamamladın.</div></div><button class="action-btn" onclick="openReflectionModal()">GÖREV SONU DEĞERLENDİRMESİNE GEÇ 📜</button></div>
+                <div id="game30" style="display:none;"><div style="background:radial-gradient(circle, #0d274c 0%, #030813 90%); border:2px solid var(--success-neon); padding:20px; border-radius:12px; margin-bottom:15px;"><div style="font-size:1.6rem; color:var(--success-neon); font-weight:bold;" id="g30Title">EXPEDITION ACCOMPLISHED</div><div style="font-size:0.95rem; color:#cbd5e1; margin-top:8px;" id="g30Desc">All 6 core modules verified.</div></div><button class="action-btn" onclick="openReflectionModal()">PROCEED TO MISSION DEBRIEFING 📜</button></div>
 
                 <div class="feedback-banner" id="feedback"></div>
 
                 <div style="display:flex; justify-content:space-between; margin-top:25px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
-                    <button class="hud-btn" onclick="prevGame()">⬅ Önceki İstasyon</button>
-                    <button class="hud-btn" onclick="nextGame()">Sonraki İstasyon ➡</button>
+                    <button class="hud-btn" onclick="prevGame()">⬅ Previous Station</button>
+                    <button class="hud-btn" onclick="nextGame()">Next Station ➡</button>
                 </div>
             </div>
         </div>
 
-        <!-- 3. GÖREV SONU REFLEKSİYON & SERTİFİKA EKRANI -->
+        <!-- 3. GÖREV SONU DEBRIEFING & SERTİFİKA EKRANI -->
         <div class="cockpit-card" id="debriefScreen" style="display:none;">
             
-            <!-- A: Üstbilişsel Değerlendirme Formu -->
             <div id="reflectionBox">
-                <h2 style="color:var(--cyan-glow); margin-bottom:8px;">SEFER SONU GÖREV DEĞERLENDİRMESİ</h2>
-                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Lisansını onaylamadan önce sefer tecrübeni ve kazanımlarını kaydet.</p>
+                <h2 style="color:var(--cyan-glow); margin-bottom:8px;">POST-MISSION REFLECTION & DEBRIEFING</h2>
+                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Reflect on your expedition performance and linguistic acquisition before certification.</p>
 
                 <div class="briefing-form" style="margin-top:10px;">
                     <div>
-                        <div class="field-label">1. Sefer Sonrası Hissiyatın</div>
+                        <div class="field-label">1. Post-Expedition Affective State</div>
                         <select id="selectPostFeeling" class="briefing-select">
-                            <option value="🏆 Başarmış, Kendine Güvenli & Yetkin">🏆 Başarmış, Kendine Güvenli & Yetkin</option>
-                            <option value="🧠 Zihnim Zorlandı ama Çok Şey Açıldı">🧠 Zihnim Zorlandı ama Çok Şey Açıldı</option>
-                            <option value="🔍 Bazı Noktaları Pekiştirmek İçin Tekrar Dalmalıyım">🔍 Bazı Noktaları Pekiştirmek İçin Tekrar Dalmalıyım</option>
+                            <option value="🏆 Accomplished, Confident & Competent">🏆 Accomplished, Confident & Competent</option>
+                            <option value="🧠 Intellectually Challenged & Enlightened">🧠 Intellectually Challenged & Enlightened</option>
+                            <option value="🔍 Need Further Immersion & Practice">🔍 Need Further Immersion & Practice</option>
                         </select>
                     </div>
 
                     <div>
-                        <div class="field-label">2. Bu Görevde Kazandığın En Kritik Kelime / Kural</div>
-                        <input type="text" id="inputKeyTakeaway" class="briefing-input" placeholder="Örn: Bioluminescence kavramını veya -ing ekleme mantığını pekiştirdim.">
+                        <div class="field-label">2. Key Linguistic Takeaway / Acquired Rule</div>
+                        <input type="text" id="inputKeyTakeaway" class="briefing-input" placeholder="e.g., Mastered bioluminescence terminology and present continuous syntax.">
                     </div>
 
-                    <button class="action-btn" style="padding:12px; margin-top:10px;" onclick="generateCertificate()">SERFİTİKAYI OLUŞTUR VE YAZDIR 📜</button>
+                    <button class="action-btn" style="padding:12px; margin-top:10px;" onclick="generateCertificate()">GENERATE & ISSUE RESEARCH LICENSE 📜</button>
                 </div>
             </div>
 
-            <!-- B: Yazdırılabilir / İndirilebilir Başarı Sertifikası -->
             <div id="certificateContainer" style="display:none; margin-top:20px;">
                 <div class="certificate-frame" id="printableCert">
                     <div class="cert-seal">🎖️</div>
-                    <div class="cert-header">DERİN DENİZ ARAŞTIRMA LİSANSI</div>
+                    <div class="cert-header">DEEP SEA RESEARCH LICENSE</div>
                     <div class="cert-sub">BATHYSPHERE ADVANCED EXPEDITIONARY ACCREDITATION</div>
                     
-                    <div style="font-size:0.85rem; color:#94a3b8; margin-top:15px;">İşbu belge, derin deniz araştırma protokollerini üstün başarıyla tamamlayan:</div>
+                    <div style="font-size:0.85rem; color:#94a3b8; margin-top:15px;">This official accreditation is hereby granted to:</div>
                     <div class="cert-name" id="certPilotName">-</div>
 
                     <div class="cert-body">
-                        Yukarıda adı geçen kâşif, Batısfer 1.0 derin deniz araştırma istasyonunda 6 modül ve 30 teknik dil simülasyonunu başarıyla tamamlamış; akustik deşifre, sözdizimi inşası, bilimsel çıkarım ve kriz komuta görevlerinde tam yetkinlik göstermiştir.
+                        Having successfully navigated through 6 comprehensive learning modules and 30 technical stations aboard Bathysphere 1.0; demonstrating superior proficiency in acoustic decoding, syntax assembly, contextual deduction, and crisis command communication.
                     </div>
 
                     <div class="cert-meta-grid">
-                        <div><strong>GÖREV ROLÜ:</strong><br><span id="certRole" style="color:var(--gold-glow);">-</span></div>
-                        <div><strong>TOPLAM TELEMETRİ:</strong><br><span id="certScore" style="color:var(--success-neon); font-weight:bold;">-</span></div>
-                        <div><strong>DALIŞ TARİHİ:</strong><br><span id="certDate">-</span></div>
+                        <div><strong>OPERATIONAL ROLE:</strong><br><span id="certRole" style="color:var(--gold-glow);">-</span></div>
+                        <div><strong>TELEMETRY SCORE:</strong><br><span id="certScore" style="color:var(--success-neon); font-weight:bold;">-</span></div>
+                        <div><strong>DATE OF ISSUE:</strong><br><span id="certDate">-</span></div>
                     </div>
 
                     <div style="font-size:0.8rem; color:#94a3b8; border-top:1px dashed rgba(255,255,255,0.1); padding-top:10px; font-style:italic;">
-                        "Kâşif Sefer Özeti: <span id="certReflectNote" style="color:#e0f2fe;">-</span>"
+                        "Explorer Log Summary: <span id="certReflectNote" style="color:#e0f2fe;">-</span>"
                     </div>
                 </div>
 
                 <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
-                    <button class="action-btn" onclick="window.print()">Sertifikayı Yazdır / PDF İndir 🖨️</button>
-                    <button class="hud-btn" onclick="restartExpedition()">Yeni Sefer Başlat 🔄</button>
+                    <button class="action-btn" onclick="window.print()">Print / Save as PDF 🖨️</button>
+                    <button class="hud-btn" onclick="restartExpedition()">Start New Expedition 🔄</button>
                 </div>
             </div>
 
         </div>
 
-        <!-- 4. ÖĞRETMEN MASASI (DİNAMİK H5P FORM CMS) -->
+        <!-- 4. ÖĞRETMEN MASASI (TÜRKÇE CMS EDİTÖRÜ) -->
         <div class="teacher-desk" id="teacherDesk">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 style="color:var(--gold-glow);">ÖĞRETMEN MASASI // H5P TARZI İÇERİK EDİTÖRÜ</h3>
                 <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Kapat</button>
             </div>
-            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Kutular temiz gelir; gri yazılar sadece kılavuzdur. Doğrudan yazmaya başlayabilirsiniz.</p>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Öğrenci arayüzü İngilizce olarak yapılandırılmıştır. İstasyonları seçip ders içeriğini dinamik olarak güncelleyebilirsiniz.</p>
 
             <div style="margin-top:15px;">
                 <label style="font-size:0.85rem; color:var(--cyan-glow); font-weight:bold;">DÜZENLENECEK İSTASYON:</label>
@@ -603,44 +596,44 @@
 
     <script>
         const defaultStations = {
-            1: { type: "fener", prompt: "Feneri karanlık batıkta gezdir, gizli hedef parçayı tespit et ve tıkla:", target: "PROPELLER", decoys: ["DÜMEN", "ÇAPA"] },
-            2: { type: "kablo", prompt: "Kopan elektrik kablosunu doğru sisteme bağla:", source: "⚡ KABLO: ANCHOR", correct: "Demir / Çapa Terminali", distractors: ["Pusula Paneli", "Kazan Dairesi"] },
-            3: { type: "vana", prompt: "Analog göstergeyi doğru seviyeye çevirip kilitle:", targetVal: "SUBMARINE", choices: ["FİLİKA", "SUBMARINE", "SONDA"] },
-            4: { type: "kargo", prompt: "Konveyörden gelen kargo sandığını ilgili departmana sevk et:", cargo: "📦 KARGO: NAVIGATION", correct: "Seyir & Yön Bulma", distractors: ["Mutfak", "Makine Dairesi"] },
-            5: { type: "mikroskop", prompt: "Kaydıracı 0'a getirerek merceği netleştir, tespit edilen numuneyi onayla:", label: "SPECIMEN", correct: "Numune / Canlı Örneği", distractors: ["Hurda Parça", "Ölçüm Cihazı"] },
-            6: { type: "boru", prompt: "Oksijen sızıntısını durdurmak için kelimeleri doğru sıraya diz:", sentence: "The,submarine,is,diving" },
-            7: { type: "radyo", prompt: "Radyo frekansını 120.0 MHz şimdiki zaman dalga boyuna ayarla:", targetFreq: 120 },
-            8: { type: "periskop", prompt: "Periskop nişangâhında gramer hatası içeren derin deniz balonunu vur:", correctErr: "The whale is more big", normals: ["The whale is bigger", "The submarine is diving"] },
-            9: { type: "terazi", prompt: "Özne-fiil uyumunu sağlamak için sağ kefeye denk gelen doğru fiili koy:", subject: "The Scientists...", correct: "...discover", distractor: "...discovers" },
-            10: { type: "mors", prompt: "Telsiz mesajındaki eksik şimdiki zaman ekini seçip deşifre et:", text: "The research sub is div[ ? ] right now.", correct: "-ing", distractors: ["-ed", "-s"] },
-            11: { type: "ses_sik", prompt: "Akustik mors ses kaydını dinle ve acil çağrı kodunu belirle:", trans: "[ Mors Bip Kodları ]", correct: "MAYDAY (Acil Durum)", distractors: ["ROGER (Anlaşıldı)", "STANDBY (Bekle)"] },
-            12: { type: "ses_sik", prompt: "Biyo-akustik ses kaydını dinle ve derin deniz organizmasını tespit et:", trans: "[ Düşük frekanslı balina yankısı ]", correct: "Mavi Balina (Blue Whale)", distractors: ["Yunus Tıklaması", "Karides Sürüsü"] },
-            13: { type: "ses_sik", prompt: "Kaptanın telsizden verdiği acil durum emrini dinle ve onayla:", trans: "Emergency: Surface immediately!", correct: "Surface immediately (Yüzeye Çık)", distractors: ["Increase Speed (Hızlan)", "Drop Anchor (Demir At)"] },
-            14: { type: "ses_sik", prompt: "Cümleyi dinle ve konuşmacının ses tonundaki ana vurgulu kelimeyi seç:", trans: "We must dive NOW!", correct: "NOW", distractors: ["We", "dive"] },
-            15: { type: "salter", prompt: "Kaptanın sıralı talimatını dinle ve 3 şalteri duyduğun sırayla indir:", trans: "Order: First Vent, second Power, finally Seal!", order: "Vent,Power,Seal" },
-            16: { type: "uv", prompt: "UV fenerini doku üzerine tut, gizli raporu oku ve çıkarımını yap:", text: "SPECIMEN: Organism produces bioluminescence to attract prey in darkness.", correct: "Kendi ışığını üreterek avını çeker.", distractors: ["Işıktan kaçarak saklanır.", "Güneşle fotosentez yapar."] },
-            17: { type: "okuma_sik", prompt: "Kaptanın yırtık seyir günlüğünü oku ve güvenli hedef sektörü belirle:", log: "...Heavy current. Heading towards the trench in Sector Beta, next to the volcano...", correct: "Sektör Beta", distractors: ["Sektör Alpha", "Sektör Gamma"] },
-            18: { type: "okuma_sik", prompt: "Organizmanın hayatta kalma toleransı metnini okuyup ait olduğu okyanus katmanını bul:", log: "PROFILE: No eyes, survives 800 atmospheres with absolute zero sunlight.", correct: "The Abyss (4000m+)", distractors: ["Sunlight Zone (0-200m)", "Twilight Zone (200-1000m)"] },
-            19: { type: "okuma_sik", prompt: "Viperfish saha gözlem raporunu oku ve avlanma adaptasyonunu seç:", log: "OBSERVATION: Needle-like teeth do not fit inside its mouth; impales fast prey in midnight zone.", correct: "Sivri dişleriyle hızlı avları delmek.", distractors: ["Kuma gömülüp saklanmak.", "Yosun otlamak."] },
-            20: { type: "tablo", prompt: "Telemetri arıza tablosunu incele; acil müdahale edilmesi gereken arızalı sistemi seç:", tableHtml: "Pervane: NORMAL | Valf: OVERHEAT 98°C | Sonar: NORMAL", correct: "Reaktör Soğutma Valfi (Overheat)", distractors: ["Ana İtki Pervanesi", "Dış Sonar Alıcısı"] },
-            21: { type: "yazma", prompt: "Navigasyon pusulasındaki 0° Kuzey yönünün İngilizcesini kutuya yaz:", hint: "Pusula Göstergesi:", display: "[ 0° / N ]", answers: "NORTH" },
-            22: { type: "yazma", prompt: "Telsiz cümlesindeki eksik sıfatı İngilizce yazarak tamamla:", hint: "Cümle Tamamlama:", display: "The pressure is very [ ? ] in the abyss.", answers: "HIGH,EXTREME" },
-            23: { type: "yazma", prompt: "Toplanan canlı organizma için tüpün üzerine İngilizce tür adını yaz:", hint: "Numune Türü:", display: "🐟 / 🦈", answers: "FISH,SHARK,VIPERFISH" },
-            24: { type: "yazma", prompt: "Acil çıkış kapağının İngilizce 4 harfli güvenlik kodunu gir:", hint: "Güvenlik Terminali:", display: "KİLİT: BLOCKED", answers: "OPEN,EXIT" },
-            25: { type: "yazma", prompt: "Kaptanın defterine 'HAZIR' durum kodunu İngilizce yazarak imzala:", hint: "Hazır Bulunuşluk:", display: "Crew status: [ ? ] for dive.", answers: "READY" },
-            26: { type: "okuma_sik", prompt: "Alarm durumunda merkeze iletilmesi gereken resmi acil durum kurtarma çağrısı:", log: "CRITICAL DEPTH ALARM DETECTED!", correct: "MAYDAY, MAYDAY!", distractors: ["OVER AND OUT", "ROGER THAT"] },
-            27: { type: "okuma_sik", prompt: "Su sızıntısı başladı. Enerji önceliğini doğru hayati sisteme aktar:", log: "HULL BREACH: Power must be diverted to vital systems.", correct: "Yaşam Desteği Önceliklendir (Life Support)", distractors: ["Işıklara Ver (Light)", "Reaktörü Kapat (Shut Down)"] },
-            28: { type: "okuma_sik", prompt: "Basınç hava kilidini mühürleme prosedürünü doğru sırayla seç:", log: "AIRLOCK SYSTEM INITIALIZED.", correct: "1. Outer Hatch -> 2. Inner Chamber", distractors: ["1. Inner Chamber -> 2. Open Water"] },
-            29: { type: "okuma_sik", prompt: "Başarıyla sonuçlanan seferin durum raporunu onayla:", log: "All specimens cataloged and hull integrity sealed. Mission is...", correct: "...SUCCESSFUL", distractors: ["...FAILED", "...ABORTED"] },
-            30: { type: "final", prompt: "Tüm 6 modülü ve 30 araştırma istasyonunu tamamladın! Yüzeye çıkış kolunu çek:", title: "TÜM 6 MODÜL TAMAMLANDI!", desc: "Tüm telemetri onaylandı, yüzeye çıkışa hazırsın." }
+            1: { type: "fener", prompt: "Hover the spotlight across the wreckage to locate and select the target hardware:", target: "PROPELLER", decoys: ["RUDDER", "ANCHOR"] },
+            2: { type: "kablo", prompt: "Connect the severed electrical lead to the corresponding terminal:", source: "⚡ LEAD: ANCHOR", correct: "Anchor Terminal", distractors: ["Compass Panel", "Boiler Room"] },
+            3: { type: "vana", prompt: "Rotate the analog gauge to match the required operational vessel:", targetVal: "SUBMARINE", choices: ["LIFEBOAT", "SUBMARINE", "SONDE"] },
+            4: { type: "kargo", prompt: "Route the incoming cargo crate to the designated station department:", cargo: "📦 CRATE: NAVIGATION", correct: "Navigation & Recon", distractors: ["Galley", "Engine Block"] },
+            5: { type: "mikroskop", prompt: "Calibrate the slider to 0 to focus the optical lens, then classify the sample:", label: "SPECIMEN", correct: "Biological Specimen", distractors: ["Scrap Metal", "Gauge Sensor"] },
+            6: { type: "boru", prompt: "Halt oxygen leakage by arranging the syntax capsules in correct order:", sentence: "The,submarine,is,diving" },
+            7: { type: "radyo", prompt: "Calibrate radio frequency to 120.0 MHz present continuous wave:", targetFreq: 120 },
+            8: { type: "periskop", prompt: "Target and eliminate the deep-sea bubble containing a grammatical flaw:", correctErr: "The whale is more big", normals: ["The whale is bigger", "The submarine is diving"] },
+            9: { type: "terazi", prompt: "Balance the hydro-scale by matching the plural subject with the correct verb:", subject: "The Scientists...", correct: "...discover", distractor: "...discovers" },
+            10: { type: "mors", prompt: "Select the missing present progressive suffix to decode the transmission:", text: "The research sub is div[ ? ] right now.", correct: "-ing", distractors: ["-ed", "-s"] },
+            11: { type: "ses_sik", prompt: "Listen to the acoustic telegraph signal and identify the distress call:", trans: "[ Acoustic Telegraph Beeps ]", correct: "MAYDAY (Distress Signal)", distractors: ["ROGER (Affirmative)", "STANDBY (Hold)"] },
+            12: { type: "ses_sik", prompt: "Analyze the bio-acoustic playback and identify the marine organism:", trans: "[ Low-frequency cetacean reverberation ]", correct: "Blue Whale (Low Echo)", distractors: ["Dolphin Clicks", "Shrimp Clatter"] },
+            13: { type: "ses_sik", prompt: "Listen to the Captain's emergency transmission and acknowledge order:", trans: "Emergency: Surface immediately!", correct: "Surface immediately", distractors: ["Increase Speed", "Drop Anchor"] },
+            14: { type: "ses_sik", prompt: "Listen to the statement and identify the primary stressed nucleus word:", trans: "We must dive NOW!", correct: "NOW", distractors: ["We", "dive"] },
+            15: { type: "salter", prompt: "Listen to the sequence command and pull the safety levers in exact order:", trans: "Order: First Vent, second Power, finally Seal!", order: "Vent,Power,Seal" },
+            16: { type: "uv", prompt: "Expose sample to UV light, examine encrypted lab findings and deduce:", text: "SPECIMEN: Organism produces bioluminescence to attract prey in darkness.", correct: "Generates internal light to lure prey.", distractors: ["Flees from luminescent sources.", "Undergoes solar photosynthesis."] },
+            17: { type: "okuma_sik", prompt: "Inspect the damaged captain's logbook and confirm safe vector sector:", log: "...Heavy current. Heading towards the trench in Sector Beta, next to the volcano...", correct: "Sector Beta", distractors: ["Sector Alpha", "Sector Gamma"] },
+            18: { type: "okuma_sik", prompt: "Examine hydrostatic tolerance parameters and identify the depth zone:", log: "PROFILE: Blind organism, withstands 800 atm hydrostatic pressure with zero light.", correct: "The Abyss (4000m+)", distractors: ["Sunlight Zone (0-200m)", "Twilight Zone (200-1000m)"] },
+            19: { type: "okuma_sik", prompt: "Analyze the Viperfish field report and identify feeding adaptation:", log: "OBSERVATION: Needle-like teeth do not fit inside its mouth; impales fast prey in midnight zone.", correct: "Impaling fast prey with needle teeth.", distractors: ["Burrowing into seabed sediment.", "Grazing benthic kelp."] },
+            20: { type: "tablo", prompt: "Examine the diagnostic telemetry log and isolate the malfunctioning module:", tableHtml: "Propeller: NORMAL | Reactor Valve: OVERHEAT 98°C | Sonar: NORMAL", correct: "Reactor Valve (Overheat)", distractors: ["Propeller Unit", "Sonar Array"] },
+            21: { type: "yazma", prompt: "Input the English cardinal direction shown on the 0° bearing:", hint: "Compass Bearing:", display: "[ 0° / N ]", answers: "NORTH" },
+            22: { type: "yazma", prompt: "Complete the sentence by typing the appropriate adjective for abyss pressure:", hint: "Sentence Completion:", display: "The pressure is very [ ? ] in the abyss.", answers: "HIGH,EXTREME" },
+            23: { type: "yazma", prompt: "Type the English biological taxon name to label the containment vial:", hint: "Specimen Label:", display: "🐟 / 🦈", answers: "FISH,SHARK,VIPERFISH" },
+            24: { type: "yazma", prompt: "Enter the 4-letter emergency access code to release hatch lock:", hint: "Security Override:", display: "LOCK: BLOCKED", answers: "OPEN,EXIT" },
+            25: { type: "yazma", prompt: "Sign the dive status report by confirming explorer readiness code:", hint: "Operational Status:", display: "Crew status: [ ? ] for dive.", answers: "READY" },
+            26: { type: "okuma_sik", prompt: "Select the mandatory distress radio code for vessel breach:", log: "CRITICAL DEPTH ALARM DETECTED!", correct: "MAYDAY, MAYDAY!", distractors: ["OVER AND OUT", "ROGER THAT"] },
+            27: { type: "okuma_sik", prompt: "Water breach detected. Allocate auxiliary reactor power to essential life support:", log: "HULL BREACH: Power must be diverted to vital systems.", correct: "Prioritize Life Support (100%)", distractors: ["Route to Exterior Light Array", "Complete Reactor Shutdown"] },
+            28: { type: "okuma_sik", prompt: "Identify the correct protocol sequence for airlock decompression:", log: "AIRLOCK SYSTEM INITIALIZED.", correct: "1. Outer Hatch -> 2. Inner Chamber", distractors: ["1. Inner Chamber -> 2. Open Water"] },
+            29: { type: "okuma_sik", prompt: "Verify expedition status following successful sample retrieval and hull seal:", log: "All specimens cataloged and hull integrity sealed. Mission is...", correct: "...SUCCESSFUL", distractors: ["...FAILED", "...ABORTED"] },
+            30: { type: "final", prompt: "All 6 modules and 30 telemetry stations verified! Pull ascent lever:", title: "EXPEDITION ACCOMPLISHED!", desc: "All mission objectives completed. Ready to surface." }
         };
 
         let customEdited = JSON.parse(localStorage.getItem('bathysphere_cms_custom')) || {};
         let pilot = { 
-            name: "Kâşif", 
-            role: "Sualtı Mühendisi", 
-            feeling: "Odaklanmış", 
-            goal: "Dalışı bitirmek", 
+            name: "Explorer", 
+            role: "Subsea Engineer", 
+            feeling: "Focused", 
+            goal: "Decode telemetry", 
             score: 0,
             postFeeling: "",
             keyTakeaway: ""
@@ -655,7 +648,7 @@
 
         function startExpedition() {
             const name = document.getElementById('inputPilotName').value.trim();
-            pilot.name = name || "Kâşif Dalgıç";
+            pilot.name = name || "Explorer Cadet";
             pilot.role = document.getElementById('selectPilotRole').value;
             pilot.feeling = document.getElementById('selectPilotFeeling').value;
             pilot.goal = document.getElementById('inputPilotGoal').value.trim();
@@ -681,7 +674,7 @@
                 const btn = document.createElement('button');
                 btn.className = `jump-btn ${i === currentGame ? 'active' : ''}`;
                 btn.id = `btnJmp${i}`;
-                btn.innerText = `${i}. İstasyon`;
+                btn.innerText = `Station ${i}`;
                 btn.onclick = () => jumpTo(i);
                 document.getElementById(rows[modIdx]).appendChild(btn);
             }
@@ -723,11 +716,11 @@
             if(stage) stage.style.display = 'block';
 
             if(data.type === "fener") {
-                document.getElementById('g1W1').innerText = (data.decoys && data.decoys[0]) || "DÜMEN";
+                document.getElementById('g1W1').innerText = (data.decoys && data.decoys[0]) || "RUDDER";
                 document.getElementById('g1W1').onclick = () => showFeedback(false);
                 document.getElementById('g1W2').innerText = data.target || "PROPELLER";
-                document.getElementById('g1W2').onclick = () => showFeedback(true, `✓ Doğru hedef '${data.target}' bulundu!`);
-                document.getElementById('g1W3').innerText = (data.decoys && data.decoys[1]) || "ÇAPA";
+                document.getElementById('g1W2').onclick = () => showFeedback(true, `✓ Target identified: '${data.target}' logged!`);
+                document.getElementById('g1W3').innerText = (data.decoys && data.decoys[1]) || "ANCHOR";
                 document.getElementById('g1W3').onclick = () => showFeedback(false);
             }
             else if(data.type === "kablo") {
@@ -744,7 +737,7 @@
                 });
             }
             else if(data.type === "vana") {
-                document.getElementById('valveWheel').innerText = (data.choices && data.choices[0]) || "FİLİKA";
+                document.getElementById('valveWheel').innerText = (data.choices && data.choices[0]) || "LIFEBOAT";
             }
             else if(data.type === "kargo") {
                 document.getElementById('g4Cargo').innerText = data.cargo;
@@ -770,7 +763,7 @@
                     btn.innerText = opt;
                     btn.onclick = () => {
                         if(document.getElementById('microSlider').value == 0) showFeedback(opt === data.correct);
-                        else alert("Önce kaydıracı 0'a çekip görüntüyü netleştirin!");
+                        else alert("Calibrate optical slider to 0 to clarify lens first!");
                     };
                     optBox.appendChild(btn);
                 });
@@ -786,7 +779,7 @@
                     const b = document.createElement('div');
                     b.className = 'bubble-target';
                     b.innerText = `"${item.txt}"`;
-                    b.onclick = () => showFeedback(item.cor, item.cor ? "✓ Tam isabet! Hatalı kural imha edildi." : "✕ Yanlış hedef!");
+                    b.onclick = () => showFeedback(item.cor, item.cor ? "✓ Direct hit! Flawed syntax eliminated." : "✕ Warning: Incorrect target!");
                     box.appendChild(b);
                 });
             }
@@ -820,7 +813,7 @@
             else if(data.type === "ses_sik") {
                 const aud = document.getElementById(`audioG${n}`);
                 if(aud) aud.src = data.customAudio || "";
-                document.getElementById(`g${n}Trans`).innerText = `Transkript: ${data.trans || "Ses kaydını dinleyiniz."}`;
+                document.getElementById(`g${n}Trans`).innerText = `Transcript: ${data.trans || "Listen to audio transmission."}`;
                 const box = document.getElementById(`g${n}Options`);
                 box.innerHTML = "";
                 [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5).forEach(opt => {
@@ -834,7 +827,7 @@
             else if(data.type === "salter") {
                 const aud = document.getElementById(`audioG15`);
                 if(aud) aud.src = data.customAudio || "";
-                document.getElementById('g15Trans').innerText = `Talimat: ${data.trans}`;
+                document.getElementById('g15Trans').innerText = `Instruction: ${data.trans}`;
                 initSwitches(data.order);
             }
             else if(data.type === "uv") {
@@ -896,11 +889,11 @@
                 document.getElementById('hudScore').innerText = `${pilot.score} XP`;
                 fb.style.background = "rgba(0, 245, 212, 0.2)";
                 fb.style.color = "var(--success-neon)";
-                fb.innerText = msg || "✓ Telemetri Doğrulandı: Görev başarıyla onaylandı!";
+                fb.innerText = msg || "✓ Telemetry Confirmed: System Verified!";
             } else {
                 fb.style.background = "rgba(255, 0, 85, 0.2)";
                 fb.style.color = "var(--danger-neon)";
-                fb.innerText = msg || "✕ Sinyal Karıştı: Hatalı eşleşme veya girdi, tekrar deneyin.";
+                fb.innerText = msg || "✕ Signal Interference: Mismatch detected, recalibrate and retry.";
             }
         }
 
@@ -909,13 +902,12 @@
             const data = getActiveStationData(n);
             const accepted = (data.answers || "").split(',').map(s => s.trim().toUpperCase());
             if(accepted.includes(val)) {
-                showFeedback(true, `✓ Doğru Giriş: '${val}' sisteme işlendi!`);
+                showFeedback(true, `✓ Input Validated: '${val}' integrated into telemetry!`);
             } else {
-                showFeedback(false, `✕ Geçersiz: '${val || "Boş"}'. Doğru kelimeyi yazın.`);
+                showFeedback(false, `✕ Invalid Input: '${val || "Empty"}'. Check term spelling.`);
             }
         }
 
-        /* --- REFLEKSİYON & SERTİFİKA OLUŞTURMA MOTORU --- */
         function openReflectionModal() {
             document.getElementById('gameContainer').style.display = 'none';
             document.getElementById('debriefScreen').style.display = 'block';
@@ -925,15 +917,14 @@
 
         function generateCertificate() {
             pilot.postFeeling = document.getElementById('selectPostFeeling').value;
-            pilot.keyTakeaway = document.getElementById('inputKeyTakeaway').value.trim() || "Tüm derin deniz dil simülasyonunu başarıyla tamamladım.";
+            pilot.keyTakeaway = document.getElementById('inputKeyTakeaway').value.trim() || "Mastered deep-sea technical syntax and communicative protocols.";
 
             document.getElementById('certPilotName').innerText = pilot.name;
             document.getElementById('certRole').innerText = pilot.role;
-            document.getElementById('certScore').innerText = `${pilot.score} XP (Mükemmel Seviye)`;
+            document.getElementById('certScore').innerText = `${pilot.score} XP (Distinction)`;
             
-            // Güncel Otomatik Tarih
             const today = new Date();
-            const dateStr = today.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+            const dateStr = today.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
             document.getElementById('certDate').innerText = dateStr;
 
             document.getElementById('certReflectNote').innerText = `${pilot.postFeeling} - "${pilot.keyTakeaway}"`;
@@ -954,16 +945,16 @@
         function rotateValve(val) {
             document.getElementById('valveWheel').style.transform = `rotate(${val}deg)`;
             const data = getActiveStationData(3);
-            let txt = (data.choices && data.choices[0]) || "FİLİKA";
+            let txt = (data.choices && data.choices[0]) || "LIFEBOAT";
             if(val > 120 && val < 240) txt = (data.choices && data.choices[1]) || "SUBMARINE";
-            if(val >= 240) txt = (data.choices && data.choices[2]) || "SONDA";
+            if(val >= 240) txt = (data.choices && data.choices[2]) || "SONDE";
             document.getElementById('valveWheel').innerText = txt;
         }
         function checkValve() {
             const val = document.getElementById('valveSlider').value;
             const data = getActiveStationData(3);
             const isCor = (val > 120 && val < 240);
-            showFeedback(isCor, isCor ? `✓ Vana kilitlendi: '${data.targetVal}' dengelendi!` : "✕ Hatalı basınç derecesi.");
+            showFeedback(isCor, isCor ? `✓ Valve Locked: '${data.targetVal}' pressure equalized!` : "✕ Pressure mismatch.");
         }
         function adjustFocus(val) { document.getElementById('microLens').style.filter = `blur(${val}px)`; }
 
@@ -972,7 +963,7 @@
         function initPipeGame(sentenceStr) {
             userPipe = [];
             targetSentenceWords = (sentenceStr || "The,submarine,is,diving").split(',').map(s => s.trim());
-            document.getElementById('pipeLine').innerHTML = '<span style="color:#64748b;" id="pipePlaceholder">Kapsülleri sırayla boruya yerleştir...</span>';
+            document.getElementById('pipeLine').innerHTML = '<span style="color:#64748b;" id="pipePlaceholder">Place capsules into pipe sequentially...</span>';
             const pool = document.getElementById('capsulesPool');
             pool.innerHTML = "";
             [...targetSentenceWords].sort(() => Math.random() - 0.5).forEach(w => {
@@ -994,7 +985,7 @@
         function resetPipe() { initPipeGame(getActiveStationData(6).sentence); }
         function checkPipeAssembly() {
             const isMatch = JSON.stringify(userPipe) === JSON.stringify(targetSentenceWords);
-            showFeedback(isMatch, isMatch ? "✓ Boru hattı kenetlendi: Cümle dizilimi doğru!" : "✕ Gaz sızıntısı: Kelime sırası hatalı.");
+            showFeedback(isMatch, isMatch ? "✓ Line sealed: Syntax arrangement correct!" : "✕ Gas rupture: Word order incorrect.");
         }
 
         let curFreq = 90;
@@ -1004,17 +995,17 @@
             const st = document.getElementById('freqStatus');
             const target = getActiveStationData(7).targetFreq || 120;
             if(Math.abs(v - target) <= 2) {
-                st.innerText = "⚡ TEMİZ SİNYAL: Frekans Yakalandı!";
+                st.innerText = "⚡ CLEAN SIGNAL: Waveband Locked!";
                 st.style.color = "var(--success-neon)";
             } else {
-                st.innerText = `Parazit: ${target}.0 MHz civarına ayarla`;
+                st.innerText = `Static Interference: Tune near ${target}.0 MHz`;
                 st.style.color = "#94a3b8";
             }
         }
         function checkRadioFreq() {
             const target = getActiveStationData(7).targetFreq || 120;
             const isCor = Math.abs(curFreq - target) <= 2;
-            showFeedback(isCor, isCor ? "✓ Frekansa kilitlenildi!" : "✕ Parazit devam ediyor.");
+            showFeedback(isCor, isCor ? "✓ Frequency locked successfully!" : "✕ Interference persists.");
         }
 
         let userSwitches = [];
@@ -1038,7 +1029,7 @@
             if(el) el.classList.add('active');
             if(userSwitches.length === targetSwitchOrder.length) {
                 const isMatch = JSON.stringify(userSwitches) === JSON.stringify(targetSwitchOrder);
-                showFeedback(isMatch, isMatch ? "✓ Sıralı protokol başarıyla mühürlendi!" : "✕ Yanlış sıra! Şalterleri sıfırlayın.");
+                showFeedback(isMatch, isMatch ? "✓ Sequential protocol locked successfully!" : "✕ Incorrect sequence! Reset levers.");
             }
         }
         function resetSwitches() {
@@ -1066,7 +1057,7 @@
             txt.style.textShadow = "none";
         }
 
-        // ÖĞRETMEN MASASI
+        // ÖĞRETMEN MASASI (TÜRKÇE CMS EDİTÖRÜ)
         function toggleTeacherDesk() {
             const desk = document.getElementById('teacherDesk');
             desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
@@ -1083,7 +1074,7 @@
                 const opt = document.createElement('option');
                 opt.value = i;
                 const d = getActiveStationData(i);
-                opt.innerText = `${i}. İstasyon (${d.type.toUpperCase()}) - ${(d.prompt || "").substring(0, 30)}...`;
+                opt.innerText = `İstasyon ${i} (${d.type.toUpperCase()}) - ${(d.prompt || "").substring(0, 30)}...`;
                 sel.appendChild(opt);
             }
             sel.value = currentGame;
@@ -1102,16 +1093,16 @@
             tempImg = cust.customImg || "";
             tempAudio = cust.customAudio || "";
 
-            addFormField(container, "Görev Yönergesi (Soru Metni):", "text", "adm_prompt", cust.prompt, def.prompt);
+            addFormField(container, "Görev Yönergesi (İngilizce Soru Metni):", "text", "adm_prompt", cust.prompt, def.prompt);
 
             if(def.type === "fener") {
                 addFormField(container, "Karanlıkta Bulunacak Hedef Kelime:", "text", "adm_target", cust.target, def.target);
-                addFormField(container, "Çeldirici Yanıltıcı Kelimeler (Virgülle):", "text", "adm_decoys", cust.decoys ? cust.decoys.join(', ') : "", (def.decoys || []).join(', '));
+                addFormField(container, "Çeldirici Kelimeler (Virgülle):", "text", "adm_decoys", cust.decoys ? cust.decoys.join(', ') : "", (def.decoys || []).join(', '));
             }
             else if(def.type === "kablo" || def.type === "kargo") {
                 addFormField(container, "Kablo / Kargo Kaynak Etiketi:", "text", "adm_source", cust.source || cust.cargo, def.source || def.cargo);
                 addFormField(container, "Doğru Hedef Terminal / Departman:", "text", "adm_correct", cust.correct, def.correct);
-                addFormField(container, "Yanlış Hedefler (Virgülle ayırın):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
+                addFormField(container, "Yanlış Hedefler (Virgülle):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
             else if(def.type === "vana") {
                 addFormField(container, "Hedef Kilitlenecek Kelime:", "text", "adm_targetVal", cust.targetVal, def.targetVal);
@@ -1120,7 +1111,7 @@
             else if(def.type === "mikroskop") {
                 addFormField(container, "Mercek Üstündeki Yazı:", "text", "adm_label", cust.label, def.label);
                 addFormField(container, "Doğru Tanım:", "text", "adm_correct", cust.correct, def.correct);
-                addFormField(container, "Yanlış Tanımlar (Virgülle ayırın):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
+                addFormField(container, "Yanlış Tanımlar (Virgülle):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
             else if(def.type === "boru") {
                 addFormField(container, "Öğrencinin Dizeceği Cümle (Virgülle kelimeler):", "text", "adm_sentence", cust.sentence, def.sentence);
@@ -1140,11 +1131,11 @@
             else if(def.type === "mors" || def.type === "ses_sik" || def.type === "okuma_sik" || def.type === "tablo" || def.type === "uv") {
                 if(def.log !== undefined) addFormField(container, "Okuma Metni / Seyir Defteri Paragrafı:", "textarea", "adm_log", cust.log, def.log);
                 if(def.text !== undefined) addFormField(container, "Görüntülenecek Metin:", "textarea", "adm_text", cust.text, def.text);
-                if(def.tableHtml !== undefined) addFormField(container, "Tablo / Veri Metni:", "text", "adm_tableHtml", cust.tableHtml, def.tableHtml);
+                if(def.tableHtml !== undefined) addFormField(container, "Tablo / Telemetri Metni:", "text", "adm_tableHtml", cust.tableHtml, def.tableHtml);
                 if(def.trans !== undefined) addFormField(container, "Ses Transkripti / İpucu:", "text", "adm_trans", cust.trans, def.trans);
 
                 addFormField(container, "Doğru Şık:", "text", "adm_correct", cust.correct, def.correct);
-                addFormField(container, "Yanlış Şıklar (Virgülle ayırın):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
+                addFormField(container, "Yanlış Şıklar (Virgülle):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
             else if(def.type === "salter") {
                 addFormField(container, "Ses Transkripti / İpucu:", "text", "adm_trans", cust.trans, def.trans);
