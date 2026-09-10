@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Lab // Bathysphere 1.0 (Clean English & Smart Analytics)</title>
+    <title>Deep Sea Lab // Bathysphere 1.0 (Clean English & Analytics Manager)</title>
     <style>
         :root {
             --bg-abyss: #030813;
@@ -363,6 +363,16 @@
             text-align: left;
         }
         .analytics-table th { background: #0b1c36; color: var(--gold-glow); }
+        .del-log-btn {
+            background: rgba(255, 0, 85, 0.2);
+            color: var(--danger-neon);
+            border: 1px solid var(--danger-neon);
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        .del-log-btn:hover { background: var(--danger-neon); color: #fff; }
 
         /* MEKANİKLER */
         .fener-area { position: relative; width: 100%; height: 200px; background: #02050d; border: 2px dashed var(--border-hud); overflow: hidden; cursor: crosshair; }
@@ -405,7 +415,7 @@
 
     <main>
 
-        <!-- 1. GİRİŞ BRİFİNGİ (SADE İNGİLİZCE) -->
+        <!-- 1. GİRİŞ BRİFİNGİ -->
         <div class="cockpit-card" id="briefingScreen">
             <div style="padding:10px;">
                 <h2 style="color:var(--cyan-glow); margin-bottom:6px;">DIVE BRIEFING & START</h2>
@@ -555,7 +565,7 @@
                     <div class="cert-name" id="certPilotName">-</div>
 
                     <div class="cert-body" id="certBodyText">
-                        For successfully completing the deep sea language mission and exploring all stations aboard Bathysphere 1.0.
+                        For successfully completing the deep sea mission and exploring all stations aboard Bathysphere 1.0.
                     </div>
 
                     <div class="cert-meta-grid">
@@ -601,7 +611,10 @@
                 <button class="hud-btn" style="border-color:var(--danger-neon); color:var(--danger-neon);" onclick="resetToFactoryDefaults()">Varsayılanlara Sıfırla ⚠️</button>
             </div>
 
-            <h3 style="color:var(--gold-glow); margin-top:25px; border-top:1px solid rgba(255,183,3,0.3); padding-top:15px;">📊 ÖĞRENCİ ANALİTİK GEÇMİŞİ & AKILLI RAPOR</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:25px; border-top:1px solid rgba(255,183,3,0.3); padding-top:15px;">
+                <h3 style="color:var(--gold-glow);">📊 ÖĞRENCİ ANALİTİK GEÇMİŞİ & AKILLI RAPOR</h3>
+                <button class="hud-btn" style="border-color:var(--danger-neon); color:var(--danger-neon); padding:5px 10px;" onclick="clearAllStudentLogs()">Tüm Geçmişi Temizle 🗑️</button>
+            </div>
             <div style="overflow-x:auto;">
                 <table class="analytics-table" id="analyticsTable">
                     <tr>
@@ -611,6 +624,7 @@
                         <th>Skor</th>
                         <th>Hatalı/Boş İstasyonlar</th>
                         <th>Akıllı Tanılama Raporu</th>
+                        <th>İşlem</th>
                     </tr>
                 </table>
             </div>
@@ -983,22 +997,12 @@
             pilot.postFeeling = document.getElementById('selectPostFeeling').value;
             pilot.keyTakeaway = document.getElementById('inputKeyTakeaway').value.trim() || "Completed all core stations.";
 
-            // Ziyaret edilip hiç XP alınmamış veya boş bırakılmış istasyonları eksik say
-            // 30 istasyonun kaçına girilmemiş bulalım
-            const unvisited = [];
-            for(let i=1; i<=30; i++) {
-                if(!pilot.visited.includes(i)) unvisited.push(i);
-            }
-            // Ziyaret edilip yanlış yapılanlar veya hiç girilmeyenler toplam hata havuzuna eklenir
-            pilot.unvisitedCount = unvisited.length;
-
             saveStudentLog();
 
             document.getElementById('certPilotName').innerText = pilot.name;
             document.getElementById('certRole').innerText = pilot.role;
             document.getElementById('certScore').innerText = `${pilot.score} XP`;
             
-            // Sertifika metnini puana göre dinamik ayarla
             const certBody = document.getElementById('certBodyText');
             if(pilot.score >= 400) {
                 certBody.innerText = `For successfully completing the deep sea mission with a score of ${pilot.score} XP and showing great understanding!`;
@@ -1021,7 +1025,6 @@
         function saveStudentLog() {
             const today = new Date().toLocaleString('tr-TR');
             
-            // AKILLI TANILAMA (Akıllı Hata & Boş Bırakma Filtresi)
             let diagnostic = "";
             const totalIssues = pilot.mistakes.length;
 
@@ -1034,6 +1037,7 @@
             }
 
             const record = {
+                id: Date.now(),
                 date: today,
                 name: pilot.name,
                 role: pilot.role,
@@ -1174,7 +1178,7 @@
             txt.style.textShadow = "none";
         }
 
-        // ÖĞRETMEN MASASI & ANALİTİK
+        // ÖĞRETMEN MASASI & ANALİTİK (SİLME DESTEKLİ)
         function toggleTeacherDesk() {
             const desk = document.getElementById('teacherDesk');
             desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
@@ -1187,13 +1191,38 @@
 
         function renderAnalyticsTable() {
             const table = document.getElementById('analyticsTable');
-            table.innerHTML = `<tr><th>Tarih</th><th>Öğrenci Adı</th><th>Rol</th><th>Skor</th><th>Hatalı/Boş İstasyonlar</th><th>Akıllı Tanılama Raporu</th></tr>`;
+            table.innerHTML = `<tr><th>Tarih</th><th>Öğrenci Adı</th><th>Rol</th><th>Skor</th><th>Hatalı/Boş İstasyonlar</th><th>Akıllı Tanılama Raporu</th><th>İşlem</th></tr>`;
             
-            studentLogs.forEach(log => {
+            studentLogs.forEach((log, index) => {
                 const row = document.createElement('tr');
-                row.innerHTML = `<td>${log.date}</td><td>${log.name}</td><td>${log.role}</td><td style="color:var(--success-neon); font-weight:bold;">${log.score}</td><td>${log.mistakes}</td><td style="color:var(--gold-glow);">${log.diagnostic}</td>`;
+                row.innerHTML = `
+                    <td>${log.date}</td>
+                    <td>${log.name}</td>
+                    <td>${log.role}</td>
+                    <td style="color:var(--success-neon); font-weight:bold;">${log.score}</td>
+                    <td>${log.mistakes}</td>
+                    <td style="color:var(--gold-glow);">${log.diagnostic}</td>
+                    <td><button class="del-log-btn" onclick="deleteSingleLog(${index})">Sil ❌</button></td>
+                `;
                 table.appendChild(row);
             });
+        }
+
+        function deleteSingleLog(index) {
+            if(confirm("Bu öğrenci kaydı silinsin mi?")) {
+                studentLogs.splice(index, 1);
+                localStorage.setItem('bathysphere_student_logs', JSON.stringify(studentLogs));
+                renderAnalyticsTable();
+            }
+        }
+
+        function clearAllStudentLogs() {
+            if(confirm("Tüm öğrenci geçmişi kalıcı olarak temizlensin mi?")) {
+                studentLogs = [];
+                localStorage.removeItem('bathysphere_student_logs');
+                renderAnalyticsTable();
+                alert("Tüm geçmiş temizlendi!");
+            }
         }
 
         function exportStudentLogsCSV() {
