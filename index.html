@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Lab // Bathysphere 1.0 (Clean English & Analytics Manager)</title>
+    <title>Deep Sea Lab // Bathysphere 1.0 (Global EdTech & CMS)</title>
     <style>
         :root {
             --bg-abyss: #030813;
@@ -245,7 +245,7 @@
             outline: none;
         }
 
-        /* SERTİFİKA */
+        /* CERTIFICATE */
         .certificate-frame {
             background: linear-gradient(135deg, #061124 0%, #030813 100%);
             border: 4px double var(--gold-glow);
@@ -299,7 +299,7 @@
         }
         .cert-seal { font-size: 2.2rem; margin-bottom: 5px; }
 
-        /* ÖĞRETMEN MASASI & ANALİTİK TABLO */
+        /* TEACHER DESK & ANALYTICS */
         .teacher-desk {
             background: #060e1d;
             border: 2px solid var(--gold-glow);
@@ -374,7 +374,7 @@
         }
         .del-log-btn:hover { background: var(--danger-neon); color: #fff; }
 
-        /* MEKANİKLER */
+        /* MECHANICS */
         .fener-area { position: relative; width: 100%; height: 200px; background: #02050d; border: 2px dashed var(--border-hud); overflow: hidden; cursor: crosshair; }
         .hidden-word { position: absolute; font-size: 1.3rem; font-weight: bold; color: #fff; padding: 10px; cursor: pointer; z-index: 1; }
         .dark-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2; pointer-events: none; }
@@ -415,7 +415,7 @@
 
     <main>
 
-        <!-- 1. GİRİŞ BRİFİNGİ -->
+        <!-- 1. BRIEFING SCREEN -->
         <div class="cockpit-card" id="briefingScreen">
             <div style="padding:10px;">
                 <h2 style="color:var(--cyan-glow); margin-bottom:6px;">DIVE BRIEFING & START</h2>
@@ -450,7 +450,7 @@
             </div>
         </div>
 
-        <!-- 2. AKTİF OYUN KONSOLU -->
+        <!-- 2. GAME CONSOLE -->
         <div id="gameContainer" style="display:none;">
 
             <div class="quick-nav-panel">
@@ -529,7 +529,7 @@
             </div>
         </div>
 
-        <!-- 3. GÖREV SONU DEBRIEFING & SERTİFİKA EKRANI -->
+        <!-- 3. DEBRIEFING & CERTIFICATE SCREEN -->
         <div class="cockpit-card" id="debriefScreen" style="display:none;">
             
             <div id="reflectionBox">
@@ -587,48 +587,53 @@
 
         </div>
 
-        <!-- 4. ÖĞRETMEN MASASI -->
+        <!-- 4. TEACHER DESK (CMS & ANALYTICS) -->
         <div class="teacher-desk" id="teacherDesk">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h3 style="color:var(--gold-glow);">ÖĞRETMEN MASASI // H5P CMS & ÖĞRENCİ ANALİTİK MERKEZİ</h3>
-                <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Kapat</button>
+                <h3 style="color:var(--gold-glow);">TEACHER DESK // H5P CMS & STUDENT ANALYTICS</h3>
+                <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Close</button>
             </div>
-            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Öğrencilerin yaptığı dalışlar, hata oranları ve akıllı tanılama raporu aşağıdadır.</p>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, export/import packages, and view student performance analytics.</p>
 
-            <div style="margin-top:15px;">
-                <label style="font-size:0.85rem; color:var(--cyan-glow); font-weight:bold;">DÜZENLENECEK İSTASYON (CMS):</label>
-                <select id="admStationSelect" style="width:100%; padding:10px; background:#0d1e38; color:#fff; border:1px solid var(--border-hud); border-radius:6px; margin-top:5px;" onchange="renderTeacherForm()"></select>
+            <div style="margin-top:15px; display: flex; gap: 10px; align-items: center; justify-content: space-between;">
+                <div style="flex-grow: 1;">
+                    <label style="font-size:0.85rem; color:var(--cyan-glow); font-weight:bold;">SELECT STATION TO EDIT (CMS):</label>
+                    <select id="admStationSelect" style="width:100%; padding:10px; background:#0d1e38; color:#fff; border:1px solid var(--border-hud); border-radius:6px; margin-top:5px;" onchange="renderTeacherForm()"></select>
+                </div>
+                <div style="margin-top: 22px;">
+                    <button class="hud-btn" style="border-color:var(--gold-glow); color:var(--gold-glow);" onclick="changeMasterPassword()">Change Password 🔑</button>
+                </div>
             </div>
 
             <div id="teacherDynamicFields" class="teacher-form-section"></div>
 
             <div class="teacher-actions">
-                <button class="action-btn" onclick="saveCurrentStation()">Bu İstasyonu Kaydet & Canlıya Al 💾</button>
-                <button class="hud-btn" style="border-color:#ff9f1c; color:#ff9f1c;" onclick="clearCurrentFormInputs()">Kutuları Temizle (Boş Şablon) 🧹</button>
-                <button class="hud-btn" onclick="exportJSON()">Ders Paketini İndir (JSON)</button>
+                <button class="action-btn" onclick="saveCurrentStation()">Save & Deploy Station 💾</button>
+                <button class="hud-btn" style="border-color:#ff9f1c; color:#ff9f1c;" onclick="clearCurrentFormInputs()">Clear Fields (Blank Template) 🧹</button>
+                <button class="hud-btn" onclick="exportJSON()">Export Lesson Package (JSON)</button>
                 <input type="file" id="importJsonFile" accept=".json" style="display:none;" onchange="importJSON(event)">
-                <button class="hud-btn" onclick="document.getElementById('importJsonFile').click()">Ders Paketi Yükle (JSON)</button>
-                <button class="hud-btn" style="border-color:var(--danger-neon); color:var(--danger-neon);" onclick="resetToFactoryDefaults()">Varsayılanlara Sıfırla ⚠️</button>
+                <button class="hud-btn" onclick="document.getElementById('importJsonFile').click()">Import Lesson Package (JSON)</button>
+                <button class="hud-btn" style="border-color:var(--danger-neon); color:var(--danger-neon);" onclick="resetToFactoryDefaults()">Reset to Factory Defaults ⚠️</button>
             </div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:25px; border-top:1px solid rgba(255,183,3,0.3); padding-top:15px;">
-                <h3 style="color:var(--gold-glow);">📊 ÖĞRENCİ ANALİTİK GEÇMİŞİ & AKILLI RAPOR</h3>
-                <button class="hud-btn" style="border-color:var(--danger-neon); color:var(--danger-neon); padding:5px 10px;" onclick="clearAllStudentLogs()">Tüm Geçmişi Temizle 🗑️</button>
+                <h3 style="color:var(--gold-glow);">📊 STUDENT ANALYTICS HISTORY & DIAGNOSTICS</h3>
+                <button class="hud-btn" style="border-color:var(--danger-neon); color:var(--danger-neon); padding:5px 10px;" onclick="clearAllStudentLogs()">Clear All Logs 🗑️</button>
             </div>
             <div style="overflow-x:auto;">
                 <table class="analytics-table" id="analyticsTable">
                     <tr>
-                        <th>Tarih</th>
-                        <th>Öğrenci Adı</th>
-                        <th>Rol</th>
-                        <th>Skor</th>
-                        <th>Hatalı/Boş İstasyonlar</th>
-                        <th>Akıllı Tanılama Raporu</th>
-                        <th>İşlem</th>
+                        <th>Date</th>
+                        <th>Student Name</th>
+                        <th>Role</th>
+                        <th>Score</th>
+                        <th>Incorrect/Missed Stations</th>
+                        <th>AI Diagnostic Report</th>
+                        <th>Action</th>
                     </tr>
                 </table>
             </div>
-            <button class="hud-btn" style="margin-top:12px;" onclick="exportStudentLogsCSV()">Tüm Raporu CSV Olarak İndir 📥</button>
+            <button class="hud-btn" style="margin-top:12px;" onclick="exportStudentLogsCSV()">Export Full Report as CSV 📥</button>
         </div>
 
     </main>
@@ -721,13 +726,42 @@
             return { ...def, ...cust };
         }
 
-        // ŞİFRE KONTROLÜ (Teacher Desk Güvenliği)
+        // DYNAMIC MASTER PASSWORD SYSTEM (First-Time Setup & Verification)
         function checkTeacherPassword() {
-            const pass = prompt("🔒 Yetkili Girişi // Öğretmen Şifresini Girin:");
-            if(pass === "18811938") {
+            let storedPass = localStorage.getItem('bathysphere_master_pass');
+            
+            if(!storedPass) {
+                // First-time setup for the teacher on this device/browser
+                let newPass = prompt("🔐 First-Time Teacher Setup: Please create your Master Password:");
+                if(newPass && newPass.trim() !== "") {
+                    localStorage.setItem('bathysphere_master_pass', newPass.trim());
+                    alert("✓ Master password created successfully! Opening Teacher Desk...");
+                    toggleTeacherDesk();
+                }
+                return;
+            }
+
+            let pass = prompt("🔒 Authorized Access // Enter Teacher Master Password:");
+            if(pass === storedPass) {
                 toggleTeacherDesk();
             } else if(pass !== null) {
-                alert("❌ Hatalı şifre! Erişim reddedildi.");
+                alert("❌ Incorrect password! Access denied.");
+            }
+        }
+
+        function changeMasterPassword() {
+            let currentPass = localStorage.getItem('bathysphere_master_pass');
+            let verify = prompt("Enter your CURRENT master password:");
+            if(verify === currentPass) {
+                let nextPass = prompt("Enter your NEW master password:");
+                if(nextPass && nextPass.trim() !== "") {
+                    localStorage.setItem('bathysphere_master_pass', nextPass.trim());
+                    alert("✓ Master password updated successfully!");
+                } else {
+                    alert("Password cannot be empty.");
+                }
+            } else if(verify !== null) {
+                alert("❌ Incorrect current password!");
             }
         }
 
@@ -1067,17 +1101,17 @@
         }
 
         function saveStudentLog() {
-            const today = new Date().toLocaleString('tr-TR');
+            const today = new Date().toLocaleString('en-US');
             
             let diagnostic = "";
             const totalIssues = pilot.mistakes.length;
 
             if(pilot.score === 0) {
-                diagnostic = "⚠️ Kritik Durum: Öğrenci 0 XP aldı ve görevleri yapmadan geçti. Tekrar yönlendirme gerekir.";
+                diagnostic = "⚠️ Critical: Student scored 0 XP and completed mission without answers.";
             } else if(totalIssues === 0 && pilot.score >= 500) {
-                diagnostic = "🏆 Mükemmel Performans: Hiç hata yapmadan tüm istasyonları tamamladı.";
+                diagnostic = "🏆 Excellent Performance: Completed all stations without any errors.";
             } else {
-                diagnostic = `⚠️ Gelişim Alanı: ${totalIssues} istasyonda hata yapıldı. İlgili modül konularının tekrar edilmesi önerilir.`;
+                diagnostic = `⚠️ Growth Area: Errors recorded in ${totalIssues} stations. Review recommended.`;
             }
 
             const record = {
@@ -1086,7 +1120,7 @@
                 name: pilot.name,
                 role: pilot.role,
                 score: `${pilot.score} XP`,
-                mistakes: totalIssues > 0 ? pilot.mistakes.join(', ') : "Yok",
+                mistakes: totalIssues > 0 ? pilot.mistakes.join(', ') : "None",
                 diagnostic: diagnostic
             };
 
@@ -1222,7 +1256,7 @@
             txt.style.textShadow = "none";
         }
 
-        // ÖĞRETMEN MASASI & ANALİTİK (SİLME DESTEKLİ)
+        // TEACHER DESK & ANALYTICS
         function toggleTeacherDesk() {
             const desk = document.getElementById('teacherDesk');
             desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
@@ -1235,7 +1269,7 @@
 
         function renderAnalyticsTable() {
             const table = document.getElementById('analyticsTable');
-            table.innerHTML = `<tr><th>Tarih</th><th>Öğrenci Adı</th><th>Rol</th><th>Skor</th><th>Hatalı/Boş İstasyonlar</th><th>Akıllı Tanılama Raporu</th><th>İşlem</th></tr>`;
+            table.innerHTML = `<tr><th>Date</th><th>Student Name</th><th>Role</th><th>Score</th><th>Incorrect/Missed Stations</th><th>AI Diagnostic Report</th><th>Action</th></tr>`;
             
             studentLogs.forEach((log, index) => {
                 const row = document.createElement('tr');
@@ -1246,14 +1280,14 @@
                     <td style="color:var(--success-neon); font-weight:bold;">${log.score}</td>
                     <td>${log.mistakes}</td>
                     <td style="color:var(--gold-glow);">${log.diagnostic}</td>
-                    <td><button class="del-log-btn" onclick="deleteSingleLog(${index})">Sil ❌</button></td>
+                    <td><button class="del-log-btn" onclick="deleteSingleLog(${index})">Delete ❌</button></td>
                 `;
                 table.appendChild(row);
             });
         }
 
         function deleteSingleLog(index) {
-            if(confirm("Bu öğrenci kaydı silinsin mi?")) {
+            if(confirm("Delete this student log?")) {
                 studentLogs.splice(index, 1);
                 localStorage.setItem('bathysphere_student_logs', JSON.stringify(studentLogs));
                 renderAnalyticsTable();
@@ -1261,17 +1295,17 @@
         }
 
         function clearAllStudentLogs() {
-            if(confirm("Tüm öğrenci geçmişi kalıcı olarak temizlensin mi?")) {
+            if(confirm("Permanently clear all student logs?")) {
                 studentLogs = [];
                 localStorage.removeItem('bathysphere_student_logs');
                 renderAnalyticsTable();
-                alert("Tüm geçmiş temizlendi!");
+                alert("All logs cleared!");
             }
         }
 
         function exportStudentLogsCSV() {
-            if(studentLogs.length === 0) { alert("Henüz kaydedilmiş öğrenci verisi yok."); return; }
-            let csv = "Tarih,Ogrenci Adi,Rol,Skor,Hatali Istasyonlar,AI Tanilama Raporu\n";
+            if(studentLogs.length === 0) { alert("No student data recorded yet."); return; }
+            let csv = "Date,Student Name,Role,Score,Incorrect Stations,AI Diagnostic Report\n";
             studentLogs.forEach(l => {
                 csv += `"${l.date}","${l.name}","${l.role}","${l.score}","${l.mistakes}","${l.diagnostic}"\n`;
             });
@@ -1279,7 +1313,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "ogrenci_analitik_raporu.csv";
+            a.download = "student_analytics_report.csv";
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -1292,7 +1326,7 @@
                 const opt = document.createElement('option');
                 opt.value = i;
                 const d = getActiveStationData(i);
-                opt.innerText = `İstasyon ${i} (${d.type.toUpperCase()}) - ${(d.prompt || "").substring(0, 30)}...`;
+                opt.innerText = `Station ${i} (${d.type.toUpperCase()}) - ${(d.prompt || "").substring(0, 30)}...`;
                 sel.appendChild(opt);
             }
             sel.value = currentGame;
@@ -1311,66 +1345,66 @@
             tempImg = cust.customImg || "";
             tempAudio = cust.customAudio || "";
 
-            addFormField(container, "Görev Yönergesi (Soru Metni):", "text", "adm_prompt", cust.prompt, def.prompt);
+            addFormField(container, "Mission Prompt / Question:", "text", "adm_prompt", cust.prompt, def.prompt);
 
             if(def.type === "fener") {
-                addFormField(container, "Karanlıkta Bulunacak Hedef Kelime:", "text", "adm_target", cust.target, def.target);
-                addFormField(container, "Çeldirici Kelimeler (Virgülle):", "text", "adm_decoys", cust.decoys ? cust.decoys.join(', ') : "", (def.decoys || []).join(', '));
+                addFormField(container, "Target Keyword:", "text", "adm_target", cust.target, def.target);
+                addFormField(container, "Decoy Words (Comma-separated):", "text", "adm_decoys", cust.decoys ? cust.decoys.join(', ') : "", (def.decoys || []).join(', '));
             }
             else if(def.type === "kablo" || def.type === "kargo") {
-                addFormField(container, "Kablo / Kargo Kaynak Etiketi:", "text", "adm_source", cust.source || cust.cargo, def.source || def.cargo);
-                addFormField(container, "Doğru Hedef Terminal / Departman:", "text", "adm_correct", cust.correct, def.correct);
-                addFormField(container, "Yanlış Hedefler (Virgülle):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
+                addFormField(container, "Source Cable / Cargo Label:", "text", "adm_source", cust.source || cust.cargo, def.source || def.cargo);
+                addFormField(container, "Correct Terminal / Department:", "text", "adm_correct", cust.correct, def.correct);
+                addFormField(container, "Incorrect Distractors (Comma-separated):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
             else if(def.type === "vana") {
-                addFormField(container, "Hedef Kilitlenecek Kelime:", "text", "adm_targetVal", cust.targetVal, def.targetVal);
-                addFormField(container, "Gösterge Aşamaları (Virgülle 3 kelime):", "text", "adm_choices", cust.choices ? cust.choices.join(', ') : "", (def.choices || []).join(', '));
+                addFormField(container, "Target Keyword to Lock:", "text", "adm_targetVal", cust.targetVal, def.targetVal);
+                addFormField(container, "Gauge Choices (3 words comma-separated):", "text", "adm_choices", cust.choices ? cust.choices.join(', ') : "", (def.choices || []).join(', '));
             }
             else if(def.type === "mikroskop") {
-                addFormField(container, "Mercek Üstündeki Yazı:", "text", "adm_label", cust.label, def.label);
-                addFormField(container, "Doğru Tanım:", "text", "adm_correct", cust.correct, def.correct);
-                addFormField(container, "Yanlış Tanımlar (Virgülle):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
+                addFormField(container, "Lens Specimen Label:", "text", "adm_label", cust.label, def.label);
+                addFormField(container, "Correct Definition:", "text", "adm_correct", cust.correct, def.correct);
+                addFormField(container, "Incorrect Distractors (Comma-separated):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
             else if(def.type === "boru") {
-                addFormField(container, "Öğrencinin Dizeceği Cümle (Virgülle kelimeler):", "text", "adm_sentence", cust.sentence, def.sentence);
+                addFormField(container, "Target Sentence (Comma-separated words):", "text", "adm_sentence", cust.sentence, def.sentence);
             }
             else if(def.type === "radyo") {
-                addFormField(container, "Kilitlenecek Hedef Frekans (MHz):", "number", "adm_targetFreq", cust.targetFreq, def.targetFreq);
+                addFormField(container, "Target Frequency (MHz):", "number", "adm_targetFreq", cust.targetFreq, def.targetFreq);
             }
             else if(def.type === "periskop") {
-                addFormField(container, "Patlatılacak Hatalı Cümle:", "text", "adm_correctErr", cust.correctErr, def.correctErr);
-                addFormField(container, "Doğru Cümleler (Virgülle 2 cümle):", "text", "adm_normals", cust.normals ? cust.normals.join(', ') : "", (def.normals || []).join(', '));
+                addFormField(container, "Flawed Sentence to Eliminate:", "text", "adm_correctErr", cust.correctErr, def.correctErr);
+                addFormField(container, "Normal Sentences (2 items comma-separated):", "text", "adm_normals", cust.normals ? cust.normals.join(', ') : "", (def.normals || []).join(', '));
             }
             else if(def.type === "terazi") {
-                addFormField(container, "Sol Küfe (Özne / Cümle Başı):", "text", "adm_subject", cust.subject, def.subject);
-                addFormField(container, "Doğru Dengelenecek Fiil:", "text", "adm_correct", cust.correct, def.correct);
-                addFormField(container, "Hatalı Çeldirici Fiil:", "text", "adm_distractor", cust.distractor, def.distractor);
+                addFormField(container, "Scale Subject (Left Pan):", "text", "adm_subject", cust.subject, def.subject);
+                addFormField(container, "Correct Verb:", "text", "adm_correct", cust.correct, def.correct);
+                addFormField(container, "Incorrect Verb Distractor:", "text", "adm_distractor", cust.distractor, def.distractor);
             }
             else if(def.type === "mors" || def.type === "ses_sik" || def.type === "okuma_sik" || def.type === "tablo" || def.type === "uv") {
-                if(def.log !== undefined) addFormField(container, "Okuma Metni / Seyir Defteri Paragrafı:", "textarea", "adm_log", cust.log, def.log);
-                if(def.text !== undefined) addFormField(container, "Görüntülenecek Metin:", "textarea", "adm_text", cust.text, def.text);
-                if(def.tableHtml !== undefined) addFormField(container, "Tablo / Telemetri Metni:", "text", "adm_tableHtml", cust.tableHtml, def.tableHtml);
-                if(def.trans !== undefined) addFormField(container, "Ses Transkripti / İpucu:", "text", "adm_trans", cust.trans, def.trans);
+                if(def.log !== undefined) addFormField(container, "Reading Log / Captain's Note:", "textarea", "adm_log", cust.log, def.log);
+                if(def.text !== undefined) addFormField(container, "Display Text:", "textarea", "adm_text", cust.text, def.text);
+                if(def.tableHtml !== undefined) addFormField(container, "Telemetry Table Text:", "text", "adm_tableHtml", cust.tableHtml, def.tableHtml);
+                if(def.trans !== undefined) addFormField(container, "Audio Transcript / Hint:", "text", "adm_trans", cust.trans, def.trans);
 
-                addFormField(container, "Doğru Şık:", "text", "adm_correct", cust.correct, def.correct);
-                addFormField(container, "Yanlış Şıklar (Virgülle):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
+                addFormField(container, "Correct Option:", "text", "adm_correct", cust.correct, def.correct);
+                addFormField(container, "Incorrect Options (Comma-separated):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
             else if(def.type === "salter") {
-                addFormField(container, "Ses Transkripti / İpucu:", "text", "adm_trans", cust.trans, def.trans);
-                addFormField(container, "İndirilecek Şalter Sırası (Virgülle):", "text", "adm_order", cust.order, def.order);
+                addFormField(container, "Audio Transcript / Instruction:", "text", "adm_trans", cust.trans, def.trans);
+                addFormField(container, "Lever Sequence Order (Comma-separated):", "text", "adm_order", cust.order, def.order);
             }
             else if(def.type === "yazma") {
-                addFormField(container, "Yazma İpucu / Başlık:", "text", "adm_hint", cust.hint, def.hint);
-                addFormField(container, "Ekranda Görünen Gösterge / Cümle:", "text", "adm_display", cust.display, def.display);
-                addFormField(container, "Kabul Edilecek Cevaplar (Virgülle):", "text", "adm_answers", cust.answers, def.answers);
+                addFormField(container, "Writing Hint / Category:", "text", "adm_hint", cust.hint, def.hint);
+                addFormField(container, "Display Prompt / Indicator:", "text", "adm_display", cust.display, def.display);
+                addFormField(container, "Accepted Answers (Comma-separated):", "text", "adm_answers", cust.answers, def.answers);
             }
             else if(def.type === "final") {
-                addFormField(container, "Final Başlığı:", "text", "adm_title", cust.title, def.title);
-                addFormField(container, "Final Kutlama Metni:", "textarea", "adm_desc", cust.desc, def.desc);
+                addFormField(container, "Final Header Title:", "text", "adm_title", cust.title, def.title);
+                addFormField(container, "Final Success Description:", "textarea", "adm_desc", cust.desc, def.desc);
             }
 
-            addMediaField(container, "Görsel Dosyası Yükle (JPG/PNG):", "image/*", (b64) => { tempImg = b64; }, cust.customImg || def.customImg);
-            addMediaField(container, "Ses Dosyası Yükle (MP3/WAV):", "audio/*", (b64) => { tempAudio = b64; }, cust.customAudio || def.customAudio);
+            addMediaField(container, "Upload Custom Image (JPG/PNG):", "image/*", (b64) => { tempImg = b64; }, cust.customImg || def.customImg);
+            addMediaField(container, "Upload Custom Audio (MP3/WAV):", "audio/*", (b64) => { tempAudio = b64; }, cust.customAudio || def.customAudio);
         }
 
         function addFormField(container, labelText, type, id, userVal, placeholderVal) {
@@ -1381,12 +1415,12 @@
             if(type === "textarea") {
                 input = document.createElement('textarea');
                 input.value = userVal !== undefined ? userVal : "";
-                input.placeholder = `Örn: ${placeholderVal || ""}`;
+                input.placeholder = `e.g. ${placeholderVal || ""}`;
             } else {
                 input = document.createElement('input');
                 input.type = type;
                 input.value = userVal !== undefined ? userVal : "";
-                input.placeholder = `Örn: ${placeholderVal || ""}`;
+                input.placeholder = `e.g. ${placeholderVal || ""}`;
             }
             input.id = id;
             grp.appendChild(input);
@@ -1396,7 +1430,7 @@
         function addMediaField(container, labelText, accept, callback, existing) {
             const grp = document.createElement('div');
             grp.className = 'teacher-group';
-            grp.innerHTML = `<label>${labelText} ${existing ? '✓ (Yüklü)' : ''}</label><input type="file" accept="${accept}">`;
+            grp.innerHTML = `<label>${labelText} ${existing ? '✓ (Loaded)' : ''}</label><input type="file" accept="${accept}">`;
             grp.querySelector('input').onchange = (e) => {
                 const file = e.target.files[0];
                 if(file) {
@@ -1413,7 +1447,7 @@
             container.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(el => el.value = "");
             tempImg = "";
             tempAudio = "";
-            alert("Kutular temizlendi! Kendi içeriğinizi yazıp kaydedebilirsiniz.");
+            alert("Fields cleared! You can write your custom content now.");
         }
 
         function saveCurrentStation() {
@@ -1510,7 +1544,7 @@
 
             customEdited[id] = data;
             localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
-            alert(`İstasyon ${id} başarıyla güncellendi ve kaydedildi!`);
+            alert(`Station ${id} successfully updated and deployed!`);
             jumpTo(id);
         }
 
@@ -1520,7 +1554,7 @@
             const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullExport, null, 2));
             const a = document.createElement('a');
             a.href = str;
-            a.download = "bathysphere_ders_paketi.json";
+            a.download = "bathysphere_lesson_package.json";
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -1534,20 +1568,20 @@
                     try {
                         customEdited = JSON.parse(ev.target.result);
                         localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
-                        alert("Ders paketi başarıyla yüklendi!");
+                        alert("Lesson package successfully imported!");
                         jumpTo(currentGame);
                         renderTeacherForm();
-                    } catch(err) { alert("Hatalı JSON dosyası!"); }
+                    } catch(err) { alert("Invalid JSON file!"); }
                 };
                 r.readAsText(f);
             }
         }
 
         function resetToFactoryDefaults() {
-            if(confirm("Yaptığınız tüm özelleştirmeler silinip orijinal şablona dönülsün mü?")) {
+            if(confirm("Are you sure you want to reset all customizations to factory defaults?")) {
                 localStorage.removeItem('bathysphere_cms_custom');
                 customEdited = {};
-                alert("Sistem sıfırlandı!");
+                alert("System reset to factory defaults!");
                 jumpTo(1);
                 renderTeacherForm();
             }
