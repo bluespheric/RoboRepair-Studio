@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Research Lab // 30 Görev Tam Sürüm</title>
+    <title>Deep Sea Research Lab // Batısfer 1.0 (Tam Sürüm)</title>
     <style>
         :root {
             --bg-abyss: #030813;
-            --panel-bg: rgba(13, 27, 42, 0.95);
+            --panel-bg: rgba(13, 27, 42, 0.96);
             --cyan-glow: #00f2fe;
             --cyan-dim: #0582ca;
             --gold-glow: #ffb703;
@@ -51,6 +51,11 @@
             z-index: 100;
         }
 
+        .hud-actions {
+            display: flex;
+            gap: 10px;
+        }
+
         .hud-btn {
             background: rgba(5, 130, 202, 0.15);
             color: var(--cyan-glow);
@@ -60,13 +65,57 @@
             cursor: pointer;
             font-size: 0.85rem;
             font-weight: 600;
+            transition: 0.2s;
         }
         .hud-btn:hover { background: var(--cyan-glow); color: #000; }
+
+        .btn-teacher {
+            border-color: var(--gold-glow);
+            color: var(--gold-glow);
+            background: rgba(255, 183, 3, 0.1);
+        }
+        .btn-teacher:hover { background: var(--gold-glow); color: #000; }
 
         main {
             width: 92%;
             max-width: 950px;
             margin: 20px auto;
+        }
+
+        .cockpit-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-hud);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            text-align: center;
+            position: relative;
+        }
+
+        /* 1. ADIM: BRİFİNG */
+        .briefing-box {
+            padding: 20px 10px;
+        }
+        .briefing-box h2 {
+            font-size: 1.8rem;
+            color: var(--cyan-glow);
+            margin-bottom: 12px;
+        }
+        .briefing-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 380px;
+            margin: 20px auto;
+        }
+        .briefing-input, .briefing-select {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-hud);
+            background: #060e1d;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
         }
 
         /* 30 OYUN KONSOLU */
@@ -77,17 +126,16 @@
             padding: 15px;
             margin-bottom: 20px;
         }
-
         .nav-section-title {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--gold-glow);
             letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: bold;
-            margin-bottom: 5px;
-            margin-top: 5px;
+            margin: 6px 0 4px 0;
+            display: flex;
+            justify-content: space-between;
         }
-
         .nav-buttons-row {
             display: flex;
             gap: 6px;
@@ -95,7 +143,6 @@
             padding-bottom: 6px;
             margin-bottom: 6px;
         }
-
         .jump-btn {
             background: #0d1e38;
             color: #94a3b8;
@@ -114,38 +161,34 @@
             font-weight: 800;
         }
 
-        .cockpit-card {
-            background: var(--panel-bg);
+        .hud-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #060e1d;
             border: 1px solid var(--border-hud);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            text-align: center;
+            border-radius: 8px;
+            padding: 10px 18px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
         }
 
         .stage-title {
             font-size: 1.15rem;
             color: var(--cyan-glow);
             margin-bottom: 20px;
+            line-height: 1.4;
         }
 
-        .bottom-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .custom-media-box {
+            margin: 10px auto 15px auto;
+            max-width: 400px;
         }
-
-        .nav-arrow-btn {
-            background: #081224;
-            color: #e0f2fe;
-            border: 1px solid var(--border-hud);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
+        .custom-media-box img {
+            max-width: 100%;
+            max-height: 180px;
+            border-radius: 8px;
+            border: 1px solid var(--cyan-glow);
         }
 
         .feedback-banner {
@@ -165,6 +208,7 @@
             font-weight: bold;
             cursor: pointer;
         }
+        .action-btn:hover { box-shadow: 0 0 15px rgba(0, 242, 254, 0.5); }
 
         .opt-btn {
             background: #081224;
@@ -180,14 +224,14 @@
 
         .hud-slider { width: 80%; margin: 15px auto; display: block; }
 
-        /* YAZMA KUTUSU (MODÜL 5) */
+        /* YAZMA KUTULARI */
         .writing-box {
             background: #060e1d;
             border: 2px solid var(--border-hud);
             border-radius: 10px;
-            padding: 20px;
+            padding: 18px;
             margin: 0 auto 15px auto;
-            max-width: 500px;
+            max-width: 480px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -206,7 +250,64 @@
             outline: none;
         }
 
-        /* ÇEŞİTLİ OYUN STİLLERİ */
+        /* ÇIKIŞ RAPORU */
+        .debrief-table {
+            width: 100%;
+            max-width: 550px;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #060e1d;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-hud);
+            text-align: left;
+        }
+        .debrief-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        /* ÖĞRETMEN MASASI MODAL */
+        .teacher-desk {
+            background: #060e1d;
+            border: 2px solid var(--gold-glow);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+            display: none;
+            text-align: left;
+        }
+        .teacher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .teacher-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .teacher-group label {
+            font-size: 0.78rem;
+            color: #94a3b8;
+        }
+        .teacher-group input, .teacher-group select {
+            background: #0d1e38;
+            border: 1px solid #1e3a5f;
+            color: #fff;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .teacher-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* MEKANİK ELEMANLARI */
         .fener-area { position: relative; width: 100%; height: 200px; background: #02050d; border: 2px dashed var(--border-hud); overflow: hidden; cursor: crosshair; }
         .hidden-word { position: absolute; font-size: 1.3rem; font-weight: bold; color: #fff; padding: 10px; cursor: pointer; z-index: 1; }
         .dark-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2; pointer-events: none; }
@@ -214,11 +315,8 @@
         .microscope-lens { width: 140px; height: 140px; border: 6px solid #3a506b; border-radius: 50%; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; font-size: 1.2rem; font-weight: bold; filter: blur(15px); }
         .pipe-assembly { min-height: 60px; background: #060e1d; border: 2px dashed var(--border-hud); border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px; margin-bottom: 12px; }
         .capsule { background: #0e2744; color: #fff; border: 1px solid var(--cyan-glow); padding: 8px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; margin: 3px; display: inline-block; }
-        .radio-display { background: #040914; border: 2px solid var(--border-hud); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
         .periscope-zone { width: 100%; height: 200px; background: radial-gradient(circle, #091a32 0%, #030813 90%); border: 2px solid var(--cyan-glow); border-radius: 12px; display: flex; align-items: center; justify-content: space-around; }
         .bubble-target { background: rgba(0, 242, 254, 0.12); border: 2px solid var(--cyan-glow); padding: 10px 16px; border-radius: 30px; color: #fff; font-weight: bold; cursor: pointer; }
-        .scale-station { display: flex; justify-content: space-around; align-items: center; margin-bottom: 15px; }
-        .scale-pan { width: 180px; background: #060e1d; border: 2px solid var(--border-hud); border-radius: 10px; padding: 12px; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .switches-row { display: flex; justify-content: center; gap: 20px; margin: 15px 0; }
         .switch-lever { width: 45px; height: 80px; background: #111d33; border: 2px solid var(--border-hud); border-radius: 25px; position: relative; cursor: pointer; }
         .switch-handle { width: 33px; height: 33px; background: #64748b; border-radius: 50%; position: absolute; top: 6px; left: 4px; transition: top 0.2s; }
@@ -232,214 +330,223 @@
 <body>
 
     <header>
-        <h2>BATHYSPHERE LABS // 30 GÖREV TAM MATRİS</h2>
-        <button class="hud-btn" onclick="document.body.classList.toggle('inclusive-font')">Kapsayıcı Mod</button>
+        <h2>BATHYSPHERE LABS // ARAŞTIRMA SİSTEMİ</h2>
+        <div class="hud-actions">
+            <button class="hud-btn" onclick="document.body.classList.toggle('inclusive-font')">Kapsayıcı Mod</button>
+            <button class="hud-btn btn-teacher" onclick="toggleTeacherDesk()">Öğretmen Masası ⚙️</button>
+        </div>
     </header>
 
     <main>
-        <!-- HIZLI OYUN SEÇİCİ KONSOLU (1 - 30) -->
-        <div class="quick-nav-panel">
-            <div class="nav-section-title">Modül 1: Kelime Hangârı</div>
-            <div class="nav-buttons-row">
-                <button class="jump-btn active" id="btnJmp1" onclick="jumpTo(1)">1. Fener</button>
-                <button class="jump-btn" id="btnJmp2" onclick="jumpTo(2)">2. Kablo</button>
-                <button class="jump-btn" id="btnJmp3" onclick="jumpTo(3)">3. Vana</button>
-                <button class="jump-btn" id="btnJmp4" onclick="jumpTo(4)">4. Kargo</button>
-                <button class="jump-btn" id="btnJmp5" onclick="jumpTo(5)">5. Mikroskop</button>
-            </div>
 
-            <div class="nav-section-title">Modül 2: Sonar Gramer</div>
-            <div class="nav-buttons-row">
-                <button class="jump-btn" id="btnJmp6" onclick="jumpTo(6)">6. Boru</button>
-                <button class="jump-btn" id="btnJmp7" onclick="jumpTo(7)">7. Radyo</button>
-                <button class="jump-btn" id="btnJmp8" onclick="jumpTo(8)">8. Periskop</button>
-                <button class="jump-btn" id="btnJmp9" onclick="jumpTo(9)">9. Terazi</button>
-                <button class="jump-btn" id="btnJmp10" onclick="jumpTo(10)">10. Mors</button>
-            </div>
-
-            <div class="nav-section-title">Modül 3: Akustik Basınç Odası (Dinleme)</div>
-            <div class="nav-buttons-row">
-                <button class="jump-btn" id="btnJmp11" onclick="jumpTo(11)">11. Telsiz</button>
-                <button class="jump-btn" id="btnJmp12" onclick="jumpTo(12)">12. Balina</button>
-                <button class="jump-btn" id="btnJmp13" onclick="jumpTo(13)">13. Filtre</button>
-                <button class="jump-btn" id="btnJmp14" onclick="jumpTo(14)">14. Vurgu</button>
-                <button class="jump-btn" id="btnJmp15" onclick="jumpTo(15)">15. Şalter</button>
-            </div>
-
-            <div class="nav-section-title">Modül 4: Numune Laboratuvarı (Okuma)</div>
-            <div class="nav-buttons-row">
-                <button class="jump-btn" id="btnJmp16" onclick="jumpTo(16)">16. UV</button>
-                <button class="jump-btn" id="btnJmp17" onclick="jumpTo(17)">17. Seyir</button>
-                <button class="jump-btn" id="btnJmp18" onclick="jumpTo(18)">18. Katman</button>
-                <button class="jump-btn" id="btnJmp19" onclick="jumpTo(19)">19. Besin</button>
-                <button class="jump-btn" id="btnJmp20" onclick="jumpTo(20)">20. Tablo</button>
-            </div>
-
-            <div class="nav-section-title" style="color:var(--cyan-glow);">Modül 5: Kaptan Köşkü (Mikro-Yazma)</div>
-            <div class="nav-buttons-row">
-                <button class="jump-btn" id="btnJmp21" onclick="jumpTo(21)">21. Rota Yazımı</button>
-                <button class="jump-btn" id="btnJmp22" onclick="jumpTo(22)">22. Telsiz Kelimesi</button>
-                <button class="jump-btn" id="btnJmp23" onclick="jumpTo(23)">23. Numune Etiketi</button>
-                <button class="jump-btn" id="btnJmp24" onclick="jumpTo(24)">24. Kapak Şifresi</button>
-                <button class="jump-btn" id="btnJmp25" onclick="jumpTo(25)">25. Seyir Kaydı</button>
-            </div>
-
-            <div class="nav-section-title" style="color:var(--gold-glow);">Modül 6: Büyük Derinlik Simülasyonu (Final)</div>
-            <div class="nav-buttons-row">
-                <button class="jump-btn" id="btnJmp26" onclick="jumpTo(26)">26. Acil Sinyal</button>
-                <button class="jump-btn" id="btnJmp27" onclick="jumpTo(27)">27. Güç Dengesi</button>
-                <button class="jump-btn" id="btnJmp28" onclick="jumpTo(28)">28. Basınç Kilidi</button>
-                <button class="jump-btn" id="btnJmp29" onclick="jumpTo(29)">29. Rapor Onayı</button>
-                <button class="jump-btn" id="btnJmp30" onclick="jumpTo(30)">30. Yüzeye Çıkış</button>
+        <!-- 1. GİRİŞ BRİFİNGİ -->
+        <div class="cockpit-card" id="briefingScreen">
+            <div class="briefing-box">
+                <h2>BİLGİSAYARLI BRİFİNG & SİSTEM KONTROLÜ</h2>
+                <p style="color:#94a3b8; font-size:0.95rem; margin-bottom:15px;">Dalış öncesi telemetri doğrulaması ve kâşif lisansı kaydı.</p>
+                <div class="briefing-form">
+                    <input type="text" id="inputPilotName" class="briefing-input" placeholder="Kâşif / Öğrenci Adı..." autocomplete="off">
+                    <select id="selectPilotRole" class="briefing-select">
+                        <option value="Sualtı Mühendisi">Rol: Sualtı Mühendisi</option>
+                        <option value="Biyo-Akustik Uzmanı">Rol: Biyo-Akustik Uzmanı</option>
+                        <option value="Seyir & Navigasyon Subayı">Rol: Seyir & Navigasyon Subayı</option>
+                    </select>
+                    <button class="action-btn" style="padding:14px;" onclick="startExpedition()">DALIŞ PROTOKOLÜNÜ BAŞLAT 🌊</button>
+                </div>
             </div>
         </div>
 
-        <!-- AKTİF SAHNE -->
-        <div class="cockpit-card">
-            <div class="stage-title" id="stagePrompt">Yükleniyor...</div>
+        <!-- 2. AKTİF OYUN KONSOLU & SAHNE -->
+        <div id="gameContainer" style="display:none;">
 
-            <!-- MODÜL 1 -->
-            <div id="game1" style="display:none;"><div class="fener-area" id="fenerArea" onmousemove="moveFener(event)"><div class="hidden-word" style="top:25%; left:12%;" onclick="showFeedback(false)">Dümen</div><div class="hidden-word" style="top:50%; left:55%;" onclick="showFeedback(true, '✓ Doğru: PROPELLER bulundu!')">Pervane (PROPELLER)</div><div class="hidden-word" style="top:75%; left:28%;" onclick="showFeedback(false)">Çapa</div><div class="dark-mask" id="darkMask"></div></div></div>
-            <div id="game2" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;">⚡ Kopan Hat: ANCHOR</div><button class="opt-btn" onclick="showFeedback(false)">➔ Pusula Paneli</button><button class="opt-btn" onclick="showFeedback(true, '✓ ANCHOR kablosu bağlandı!')">➔ Demir / Çapa Terminali</button><button class="opt-btn" onclick="showFeedback(false)">➔ Kazan Dairesi</button></div></div>
-            <div id="game3" style="display:none;"><div class="valve-wheel" id="valveWheel">FİLİKA</div><input type="range" class="hud-slider" id="valveSlider" min="0" max="360" value="0" oninput="rotateValve(this.value)"><button class="action-btn" onclick="checkValve()">Vanayı Kilitle</button></div>
-            <div id="game4" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;">📦 Kargo: NAVIGATION</div><button class="opt-btn" onclick="showFeedback(false)">➔ Mutfak</button><button class="opt-btn" onclick="showFeedback(true, '✓ Kargo sevk edildi!')">➔ Seyir & Yön Bulma</button><button class="opt-btn" onclick="showFeedback(false)">➔ Makine</button></div></div>
-            <div id="game5" style="display:none;"><div class="microscope-lens" id="microLens">SPECIMEN</div><input type="range" class="hud-slider" id="microSlider" min="0" max="20" value="15" oninput="adjustFocus(this.value)"><div><button class="opt-btn" onclick="checkFocus(false)">Hurda Metal</button><button class="opt-btn" onclick="checkFocus(true)">Numune / Örnek</button></div></div>
+            <div class="quick-nav-panel">
+                <div class="nav-section-title"><span>Modül 1: Kelime Hangârı</span><span>(Donanım)</span></div>
+                <div class="nav-buttons-row">
+                    <button class="jump-btn active" id="btnJmp1" onclick="jumpTo(1)">1. Fener</button>
+                    <button class="jump-btn" id="btnJmp2" onclick="jumpTo(2)">2. Kablo</button>
+                    <button class="jump-btn" id="btnJmp3" onclick="jumpTo(3)">3. Vana</button>
+                    <button class="jump-btn" id="btnJmp4" onclick="jumpTo(4)">4. Kargo</button>
+                    <button class="jump-btn" id="btnJmp5" onclick="jumpTo(5)">5. Mikroskop</button>
+                </div>
 
-            <!-- MODÜL 2 -->
-            <div id="game6" style="display:none;"><div class="pipe-assembly" id="pipeLine"><span style="color:#64748b;" id="pipePlaceholder">Kapsülleri boruya diz...</span></div><div id="capsulesPool"></div><div style="margin-top:10px;"><button class="action-btn" onclick="checkPipeAssembly()">Hattı Kaynat</button><button class="opt-btn" onclick="resetPipe()">Sıfırla</button></div></div>
-            <div id="game7" style="display:none;"><div class="radio-display"><div style="font-size:1.8rem; font-weight:bold; color:var(--cyan-glow);" id="freqLabel">90.0 MHz</div><div id="freqStatus" style="font-size:0.85rem; color:#94a3b8;">Parazit: 120 MHz'e ayarla</div></div><input type="range" class="hud-slider" min="80" max="140" value="90" oninput="tuneRadio(this.value)"><button class="action-btn" onclick="checkRadioFreq()">Frekansa Kilitlen</button></div>
-            <div id="game8" style="display:none;"><div class="periscope-zone"><div class="bubble-target" onclick="shootBubble(false)">"The whale is bigger"</div><div class="bubble-target" onclick="shootBubble(true)">"The whale is more big"</div><div class="bubble-target" onclick="shootBubble(false)">"The submarine is diving"</div></div></div>
-            <div id="game9" style="display:none;"><div class="scale-station"><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">ÖZNE (ÇOĞUL)</div><div style="font-size:1.1rem; font-weight:bold; color:var(--cyan-glow);">"The Scientists..."</div></div><div style="font-size:1.8rem; color:var(--gold-glow);">⚖️</div><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">YÜKLEM</div><div id="panVerbDisplay" style="color:#64748b; font-weight:bold;">Seçilmedi</div></div></div><div><button class="opt-btn" onclick="selectScaleWeight('discovers', false)">...discovers</button><button class="opt-btn" onclick="selectScaleWeight('discover', true)">...discover</button></div></div>
-            <div id="game10" style="display:none;"><div style="background:#060e1d; border:1px solid var(--gold-glow); padding:12px; border-radius:6px; margin-bottom:12px; font-family:monospace; color:var(--gold-glow);">TELSİZ: "The sub is div[ ? ] right now."</div><button class="opt-btn" onclick="showFeedback(false)">-ed</button><button class="opt-btn" onclick="showFeedback(true, '✓ diving şimdiki zaman kuralını sağladı!')">-ing</button><button class="opt-btn" onclick="showFeedback(false)">-s</button></div>
+                <div class="nav-section-title"><span>Modül 2: Sonar Gramer</span><span>(Yapı)</span></div>
+                <div class="nav-buttons-row">
+                    <button class="jump-btn" id="btnJmp6" onclick="jumpTo(6)">6. Boru</button>
+                    <button class="jump-btn" id="btnJmp7" onclick="jumpTo(7)">7. Radyo</button>
+                    <button class="jump-btn" id="btnJmp8" onclick="jumpTo(8)">8. Periskop</button>
+                    <button class="jump-btn" id="btnJmp9" onclick="jumpTo(9)">9. Terazi</button>
+                    <button class="jump-btn" id="btnJmp10" onclick="jumpTo(10)">10. Mors</button>
+                </div>
 
-            <!-- MODÜL 3 -->
-            <div id="game11" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio controls style="width:80%;"><source src="" type="audio/mp3"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Transkript: [ ... --- ... Acil Mors ]</div></div><button class="opt-btn" onclick="showFeedback(false)">ROGER</button><button class="opt-btn" onclick="showFeedback(true, '✓ MAYDAY onaylandı!')">MAYDAY</button></div>
-            <div id="game12" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio controls style="width:80%;"><source src="" type="audio/mp3"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Transkript: [ Düşük frekanslı balina sesi ]</div></div><button class="opt-btn" onclick="showFeedback(false)">Yunus</button><button class="opt-btn" onclick="showFeedback(true, '✓ Mavi Balina (Blue Whale) doğrulandı!')">Mavi Balina</button></div>
-            <div id="game13" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio controls style="width:80%;"><source src="" type="audio/mp3"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Transkript: "Emergency: Surface immediately!"</div></div><button class="opt-btn" onclick="showFeedback(false)">"Increase Speed"</button><button class="opt-btn" onclick="showFeedback(true, '✓ Surface immediately emri onaylandı!')">"Surface immediately"</button></div>
-            <div id="game14" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio controls style="width:80%;"><source src="" type="audio/mp3"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Transkript: "We must dive NOW!"</div></div><button class="opt-btn" onclick="showFeedback(false)">We</button><button class="opt-btn" onclick="showFeedback(false)">dive</button><button class="opt-btn" onclick="showFeedback(true, '✓ NOW kelimesi vurgulanıyor!')">NOW</button></div>
-            <div id="game15" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio controls style="width:80%;"><source src="" type="audio/mp3"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Emir: "First Vent, second Power, finally Seal!"</div></div><div class="switches-row"><div class="switch-lever" id="swVent" onclick="pullSwitch('Vent')"><div class="switch-handle"></div></div><div class="switch-lever" id="swPower" onclick="pullSwitch('Power')"><div class="switch-handle"></div></div><div class="switch-lever" id="swSeal" onclick="pullSwitch('Seal')"><div class="switch-handle"></div></div></div><button class="opt-btn" onclick="resetSwitches()">Sıfırla</button></div>
+                <div class="nav-section-title"><span>Modül 3: Akustik Basınç Odası</span><span>(Dinleme)</span></div>
+                <div class="nav-buttons-row">
+                    <button class="jump-btn" id="btnJmp11" onclick="jumpTo(11)">11. Telsiz</button>
+                    <button class="jump-btn" id="btnJmp12" onclick="jumpTo(12)">12. Balina</button>
+                    <button class="jump-btn" id="btnJmp13" onclick="jumpTo(13)">13. Filtre</button>
+                    <button class="jump-btn" id="btnJmp14" onclick="jumpTo(14)">14. Vurgu</button>
+                    <button class="jump-btn" id="btnJmp15" onclick="jumpTo(15)">15. Şalter</button>
+                </div>
 
-            <!-- MODÜL 4 -->
-            <div id="game16" style="display:none;"><div class="uv-chamber" id="uvChamber" onmousemove="moveUV(event)" onmouseleave="hideUV()"><div class="uv-secret-text" id="uvText">"Organism produces bioluminescence to attract prey in darkness."</div><div class="uv-torch-overlay" id="uvOverlay"></div></div><button class="opt-btn" onclick="showFeedback(false)">Işıktan kaçar.</button><button class="opt-btn" onclick="showFeedback(true, '✓ Kendi ışığıyla avını çeker!')">Kendi ışığıyla avını çeker.</button></div>
-            <div id="game17" style="display:none;"><div style="background:#111a28; border-left:4px solid var(--gold-glow); padding:12px; text-align:left; margin-bottom:12px;">"...Heading towards the trench in <u>Sector Beta</u>, next to the volcano..."</div><button class="opt-btn" onclick="showFeedback(false)">Sektör Alpha</button><button class="opt-btn" onclick="showFeedback(true, '✓ Sector Beta doğrulandı!')">Sektör Beta</button></div>
-            <div id="game18" style="display:none;"><div style="background:#071326; padding:12px; border:1px solid var(--gold-glow); margin-bottom:12px;">"No eyes, extreme pressure over 800 atm with zero sunlight."</div><button class="opt-btn" onclick="showFeedback(false)">Sunlight Zone (0-200m)</button><button class="opt-btn" onclick="showFeedback(true, '✓ Doğru: The Abyss Zone!')">The Abyss (4000m+)</button></div>
-            <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border:1px solid var(--cyan-glow); margin-bottom:12px; text-align:left;">"Viperfish has needle-like teeth to impale fast prey in midnight zone."</div><button class="opt-btn" onclick="showFeedback(false)">Bitki otlamak.</button><button class="opt-btn" onclick="showFeedback(true, '✓ Sivri dişleriyle hızlı avları delmek!')">Sivri dişleriyle hızlı avları delmek.</button></div>
-            <div id="game20" style="display:none;"><div style="background:#050d1a; padding:10px; margin-bottom:12px;">Pervane: NORMAL | Valf: <span style="color:var(--danger-neon); font-weight:bold;">OVERHEAT 98°C</span> | Sonar: NORMAL</div><button class="opt-btn" onclick="showFeedback(false)">Pervane</button><button class="opt-btn" onclick="showFeedback(true, '✓ Reaktör Valfi aşırı ısınmış!')">Reaktör Soğutma Valfi</button></div>
+                <div class="nav-section-title"><span>Modül 4: Numune Laboratuvarı</span><span>(Okuma)</span></div>
+                <div class="nav-buttons-row">
+                    <button class="jump-btn" id="btnJmp16" onclick="jumpTo(16)">16. UV</button>
+                    <button class="jump-btn" id="btnJmp17" onclick="jumpTo(17)">17. Seyir</button>
+                    <button class="jump-btn" id="btnJmp18" onclick="jumpTo(18)">18. Katman</button>
+                    <button class="jump-btn" id="btnJmp19" onclick="jumpTo(19)">19. Besin</button>
+                    <button class="jump-btn" id="btnJmp20" onclick="jumpTo(20)">20. Tablo</button>
+                </div>
 
-            <!-- ===================== MODÜL 5: MİKRO-YAZMA ===================== -->
-            <!-- Oyun 21: Rota Yönü Yazımı -->
-            <div id="game21" style="display:none;">
-                <div class="writing-box">
-                    <div style="font-size:0.9rem; color:#94a3b8;">Navigasyon pusulası 0° Kuzey yönünü gösteriyor. Hedef sektör için İngilizce yönü yaz:</div>
-                    <div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;">PUSULA: [ 0° / N ]</div>
-                    <input type="text" class="hud-text-input" id="inputGame21" placeholder="YÖNÜ YAZIN (Örn: NORTH)" autocomplete="off">
-                    <button class="action-btn" onclick="checkWriting(21, ['NORTH'])">Rotayı Kaydet</button>
+                <div class="nav-section-title" style="color:var(--cyan-glow);"><span>Modül 5: Kaptan Köşkü</span><span>(Mikro-Yazma)</span></div>
+                <div class="nav-buttons-row">
+                    <button class="jump-btn" id="btnJmp21" onclick="jumpTo(21)">21. Rota</button>
+                    <button class="jump-btn" id="btnJmp22" onclick="jumpTo(22)">22. Telsiz</button>
+                    <button class="jump-btn" id="btnJmp23" onclick="jumpTo(23)">23. Etiket</button>
+                    <button class="jump-btn" id="btnJmp24" onclick="jumpTo(24)">24. Şifre</button>
+                    <button class="jump-btn" id="btnJmp25" onclick="jumpTo(25)">25. Seyir Kaydı</button>
+                </div>
+
+                <div class="nav-section-title" style="color:var(--gold-glow);"><span>Modül 6: Derinlik Simülasyonu</span><span>(Final)</span></div>
+                <div class="nav-buttons-row">
+                    <button class="jump-btn" id="btnJmp26" onclick="jumpTo(26)">26. Acil Sinyal</button>
+                    <button class="jump-btn" id="btnJmp27" onclick="jumpTo(27)">27. Güç Dengesi</button>
+                    <button class="jump-btn" id="btnJmp28" onclick="jumpTo(28)">28. Basınç Kilidi</button>
+                    <button class="jump-btn" id="btnJmp29" onclick="jumpTo(29)">29. Rapor Onayı</button>
+                    <button class="jump-btn" id="btnJmp30" onclick="jumpTo(30)">30. Yüzeye Çıkış</button>
                 </div>
             </div>
 
-            <!-- Oyun 22: Telsiz Kelimesi -->
-            <div id="game22" style="display:none;">
-                <div class="writing-box">
-                    <div style="font-size:0.9rem; color:#94a3b8;">Cümledeki eksik sıfatı (Yüksek / Aşırı) İngilizce tamamla:</div>
-                    <div style="font-size:1.1rem; color:#fff; font-weight:bold;">"The pressure is very [ ? ] in the deep abyss."</div>
-                    <input type="text" class="hud-text-input" id="inputGame22" placeholder="EKSİK KELİMEYİ YAZIN (HIGH)" autocomplete="off">
-                    <button class="action-btn" onclick="checkWriting(22, ['HIGH', 'EXTREME'])">Telsiz Mesajını İlet</button>
+            <div class="cockpit-card">
+                <div class="hud-status-bar">
+                    <div>KÂŞİF: <span style="color:var(--cyan-glow); font-weight:bold;" id="hudPilot">-</span></div>
+                    <div>ROL: <span style="color:var(--gold-glow);" id="hudRole">-</span></div>
+                    <div>SKOR: <span style="color:var(--success-neon); font-weight:bold;" id="hudScore">0 XP</span></div>
                 </div>
-            </div>
 
-            <!-- Oyun 23: Numune Etiketi -->
-            <div id="game23" style="display:none;">
-                <div class="writing-box">
-                    <div style="font-size:0.9rem; color:#94a3b8;">Toplanan organizma için tüpün üzerine 'balık' veya 'köpekbalığı' kelimesini İngilizce yaz:</div>
-                    <div style="font-size:2.2rem;">🐟 / 🦈</div>
-                    <input type="text" class="hud-text-input" id="inputGame23" placeholder="TÜR ADI (FISH / SHARK)" autocomplete="off">
-                    <button class="action-btn" onclick="checkWriting(23, ['FISH', 'SHARK'])">Tüpü Mühürle</button>
+                <div class="stage-title" id="stagePrompt">Yükleniyor...</div>
+
+                <!-- ÖĞRETMENİN YÜKLEDİĞİ GÖRSEL/SES ALANI -->
+                <div class="custom-media-box" id="mediaBox" style="display:none;"></div>
+
+                <!-- OYUN MEKANİK ALANLARI (1-30) -->
+                <div id="game1" style="display:none;"><div class="fener-area" id="fenerArea" onmousemove="moveFener(event)"><div class="hidden-word" id="g1W1" style="top:25%; left:12%;" onclick="showFeedback(false)">Dümen</div><div class="hidden-word" id="g1W2" style="top:50%; left:55%;" onclick="showFeedback(true, '✓ Doğru parça tespit edildi!')">Pervane (PROPELLER)</div><div class="hidden-word" id="g1W3" style="top:75%; left:28%;" onclick="showFeedback(false)">Çapa</div><div class="dark-mask" id="darkMask"></div></div></div>
+                <div id="game2" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;">⚡ Kopan Hat: ANCHOR</div><button class="opt-btn" onclick="showFeedback(false)">➔ Pusula Paneli</button><button class="opt-btn" onclick="showFeedback(true, '✓ Kablo bağlandı!')">➔ Demir / Çapa Terminali</button><button class="opt-btn" onclick="showFeedback(false)">➔ Kazan Dairesi</button></div></div>
+                <div id="game3" style="display:none;"><div class="valve-wheel" id="valveWheel">FİLİKA</div><input type="range" class="hud-slider" id="valveSlider" min="0" max="360" value="0" oninput="rotateValve(this.value)"><button class="action-btn" onclick="checkValve()">Vanayı Kilitle</button></div>
+                <div id="game4" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;">📦 Kargo: NAVIGATION</div><button class="opt-btn" onclick="showFeedback(false)">➔ Mutfak</button><button class="opt-btn" onclick="showFeedback(true, '✓ Kargo sevk edildi!')">➔ Seyir & Yön Bulma</button><button class="opt-btn" onclick="showFeedback(false)">➔ Makine</button></div></div>
+                <div id="game5" style="display:none;"><div class="microscope-lens" id="microLens">SPECIMEN</div><input type="range" class="hud-slider" id="microSlider" min="0" max="20" value="15" oninput="adjustFocus(this.value)"><div><button class="opt-btn" onclick="checkFocus(false)">Hurda Metal</button><button class="opt-btn" onclick="checkFocus(true)">Numune / Örnek</button></div></div>
+
+                <div id="game6" style="display:none;"><div class="pipe-assembly" id="pipeLine"><span style="color:#64748b;" id="pipePlaceholder">Kapsülleri sırayla boruya yerleştir...</span></div><div id="capsulesPool"></div><div style="margin-top:10px;"><button class="action-btn" onclick="checkPipeAssembly()">Hattı Kaynat</button><button class="opt-btn" onclick="resetPipe()">Sıfırla</button></div></div>
+                <div id="game7" style="display:none;"><div style="background:#040914; padding:12px; border-radius:8px; margin-bottom:12px;"><div style="font-size:1.8rem; font-weight:bold; color:var(--cyan-glow);" id="freqLabel">90.0 MHz</div><div id="freqStatus" style="font-size:0.85rem; color:#94a3b8;">Parazit: 120 MHz'e ayarla</div></div><input type="range" class="hud-slider" min="80" max="140" value="90" oninput="tuneRadio(this.value)"><button class="action-btn" onclick="checkRadioFreq()">Frekansa Kilitlen</button></div>
+                <div id="game8" style="display:none;"><div class="periscope-zone"><div class="bubble-target" onclick="shootBubble(false)">"The whale is bigger"</div><div class="bubble-target" onclick="shootBubble(true)">"The whale is more big"</div><div class="bubble-target" onclick="shootBubble(false)">"The submarine is diving"</div></div></div>
+                <div id="game9" style="display:none;"><div class="scale-station"><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">ÖZNE (ÇOĞUL)</div><div style="font-size:1.1rem; font-weight:bold; color:var(--cyan-glow);">"The Scientists..."</div></div><div style="font-size:1.8rem; color:var(--gold-glow);">⚖️</div><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">YÜKLEM</div><div id="panVerbDisplay" style="color:#64748b; font-weight:bold;">Seçilmedi</div></div></div><div><button class="opt-btn" onclick="selectScaleWeight('discovers', false)">...discovers</button><button class="opt-btn" onclick="selectScaleWeight('discover', true)">...discover</button></div></div>
+                <div id="game10" style="display:none;"><div style="background:#060e1d; border:1px solid var(--gold-glow); padding:12px; border-radius:6px; margin-bottom:12px; font-family:monospace; color:var(--gold-glow);">TELSİZ: "The sub is div[ ? ] right now."</div><button class="opt-btn" onclick="showFeedback(false)">-ed</button><button class="opt-btn" onclick="showFeedback(true, '✓ diving şimdiki zaman kuralını sağladı!')">-ing</button><button class="opt-btn" onclick="showFeedback(false)">-s</button></div>
+
+                <div id="game11" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG11" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Transkript: [ ... --- ... Acil Mors ]</div></div><button class="opt-btn" onclick="showFeedback(false)">ROGER</button><button class="opt-btn" onclick="showFeedback(true, '✓ MAYDAY onaylandı!')">MAYDAY</button></div>
+                <div id="game12" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG12" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Transkript: [ Derin balina biyo-akustiği ]</div></div><button class="opt-btn" onclick="showFeedback(false)">Yunus</button><button class="opt-btn" onclick="showFeedback(true, '✓ Mavi Balina (Blue Whale) doğrulandı!')">Mavi Balina</button></div>
+                <div id="game13" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG13" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Transkript: "Emergency: Surface immediately!"</div></div><button class="opt-btn" onclick="showFeedback(false)">"Increase Speed"</button><button class="opt-btn" onclick="showFeedback(true, '✓ Surface immediately emri onaylandı!')">"Surface immediately"</button></div>
+                <div id="game14" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG14" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Transkript: "We must dive NOW!"</div></div><button class="opt-btn" onclick="showFeedback(false)">We</button><button class="opt-btn" onclick="showFeedback(false)">dive</button><button class="opt-btn" onclick="showFeedback(true, '✓ NOW vurgulanıyor!')">NOW</button></div>
+                <div id="game15" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG15" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">Sıralı: "First Vent, second Power, finally Seal!"</div></div><div class="switches-row"><div class="switch-lever" id="swVent" onclick="pullSwitch('Vent')"><div class="switch-handle"></div></div><div class="switch-lever" id="swPower" onclick="pullSwitch('Power')"><div class="switch-handle"></div></div><div class="switch-lever" id="swSeal" onclick="pullSwitch('Seal')"><div class="switch-handle"></div></div></div><button class="opt-btn" onclick="resetSwitches()">Sıfırla</button></div>
+
+                <div id="game16" style="display:none;"><div class="uv-chamber" id="uvChamber" onmousemove="moveUV(event)" onmouseleave="hideUV()"><div class="uv-secret-text" id="uvText">"Organism produces bioluminescence to attract prey in darkness."</div><div class="uv-torch-overlay" id="uvOverlay"></div></div><button class="opt-btn" onclick="showFeedback(false)">Işıktan kaçar.</button><button class="opt-btn" onclick="showFeedback(true, '✓ Kendi ışığıyla avını çeker!')">Kendi ışığıyla avını çeker.</button></div>
+                <div id="game17" style="display:none;"><div style="background:#111a28; border-left:4px solid var(--gold-glow); padding:12px; text-align:left; margin-bottom:12px;">"...Heading towards the trench in <u>Sector Beta</u>, next to volcano..."</div><button class="opt-btn" onclick="showFeedback(false)">Sektör Alpha</button><button class="opt-btn" onclick="showFeedback(true, '✓ Sector Beta doğrulandı!')">Sektör Beta</button></div>
+                <div id="game18" style="display:none;"><div style="background:#071326; padding:12px; border:1px solid var(--gold-glow); margin-bottom:12px;">"No eyes, extreme pressure over 800 atm with zero sunlight."</div><button class="opt-btn" onclick="showFeedback(false)">Sunlight (0-200m)</button><button class="opt-btn" onclick="showFeedback(true, '✓ Doğru: The Abyss Zone!')">The Abyss (4000m+)</button></div>
+                <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border:1px solid var(--cyan-glow); margin-bottom:12px; text-align:left;">"Viperfish has needle-like teeth to impale fast prey in midnight zone."</div><button class="opt-btn" onclick="showFeedback(false)">Bitki otlamak.</button><button class="opt-btn" onclick="showFeedback(true, '✓ Sivri dişleriyle hızlı avları delmek!')">Sivri dişleriyle hızlı avları delmek.</button></div>
+                <div id="game20" style="display:none;"><div style="background:#050d1a; padding:10px; margin-bottom:12px;">Pervane: NORMAL | Valf: <span style="color:var(--danger-neon); font-weight:bold;">OVERHEAT 98°C</span> | Sonar: NORMAL</div><button class="opt-btn" onclick="showFeedback(false)">Pervane</button><button class="opt-btn" onclick="showFeedback(true, '✓ Reaktör Valfi aşırı ısınmış!')">Reaktör Soğutma Valfi</button></div>
+
+                <div id="game21" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;">0° Kuzey yönünün İngilizcesini yaz:</div><div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;">[ 0° / N ]</div><input type="text" class="hud-text-input" id="inputGame21" placeholder="YÖNÜ YAZIN (NORTH)"><button class="action-btn" onclick="checkWriting(21, ['NORTH'])">Kaydet</button></div></div>
+                <div id="game22" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;">Eksik sıfatı tamamla:</div><div style="font-size:1.1rem; color:#fff; font-weight:bold;">"The pressure is very [ ? ] in the deep abyss."</div><input type="text" class="hud-text-input" id="inputGame22" placeholder="EKSİK KELİME (HIGH)"><button class="action-btn" onclick="checkWriting(22, ['HIGH', 'EXTREME'])">İlet</button></div></div>
+                <div id="game23" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;">Tür adını İngilizce yaz:</div><div style="font-size:2rem;">🐟 / 🦈</div><input type="text" class="hud-text-input" id="inputGame23" placeholder="TÜR ADI (FISH / SHARK)"><button class="action-btn" onclick="checkWriting(23, ['FISH', 'SHARK'])">Tüpü Mühürle</button></div></div>
+                <div id="game24" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;">4 harfli güvenlik kodunu yaz:</div><div style="font-size:1.2rem; color:var(--danger-neon); font-weight:bold;">KİLİT: BLOCKED</div><input type="text" class="hud-text-input" id="inputGame24" placeholder="KOD (OPEN / EXIT)" maxlength="4"><button class="action-btn" onclick="checkWriting(24, ['OPEN', 'EXIT'])">Kilidi Aç</button></div></div>
+                <div id="game25" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;">Durum kodunu yaz:</div><div style="font-size:1.1rem; color:#fff;">Status: Crew is [ ? ] for dive.</div><input type="text" class="hud-text-input" id="inputGame25" placeholder="DURUM KODU (READY)"><button class="action-btn" onclick="checkWriting(25, ['READY'])">İmzala</button></div></div>
+
+                <div id="game26" style="display:none;"><div style="background:#050d1a; border:2px solid var(--gold-glow); padding:15px; border-radius:8px; margin-bottom:15px;">Acil kurtarma çağrısı hangisidir?</div><button class="opt-btn" onclick="showFeedback(false)">OVER AND OUT</button><button class="opt-btn" onclick="showFeedback(true, '✓ MAYDAY iletildi!')">MAYDAY, MAYDAY!</button></div>
+                <div id="game27" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px;">Enerjiyi 'Yaşam Destek' sistemine aktar:</div><button class="opt-btn" onclick="showFeedback(false)">Işıklara Ver</button><button class="opt-btn" onclick="showFeedback(true, '✓ Yaşam Destek korundu!')">Yaşam Desteği Önceliklendir</button></div>
+                <div id="game28" style="display:none;"><div style="background:#071326; border:1px solid var(--border-hud); padding:15px; border-radius:8px; margin-bottom:15px;">Hava kilidi kapatma protokolü:</div><button class="opt-btn" onclick="showFeedback(true, '✓ Hava kilidi mühürlendi!')">1. Outer Hatch -> 2. Inner Chamber</button><button class="opt-btn" onclick="showFeedback(false)">1. Inner Chamber -> 2. Open Water</button></div>
+                <div id="game29" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px;">"Mission status is officially..."</div><button class="opt-btn" onclick="showFeedback(false)">...FAILED</button><button class="opt-btn" onclick="showFeedback(true, '✓ Rapor onaylandı: SUCCESSFUL!')">...SUCCESSFUL</button></div>
+                <div id="game30" style="display:none;"><div style="background:radial-gradient(circle, #0d274c 0%, #030813 90%); border:2px solid var(--success-neon); padding:20px; border-radius:12px; margin-bottom:15px;"><div style="font-size:1.6rem; color:var(--success-neon); font-weight:bold;">TÜM 6 MODÜL TAMAMLANDI!</div></div><button class="action-btn" onclick="finishExpedition()">GÖREVİ BİTİR VE SEYİR DEFTERİNİ AÇ 📜</button></div>
+
+                <div class="feedback-banner" id="feedback"></div>
+
+                <div class="bottom-nav">
+                    <button class="nav-arrow-btn" onclick="prevGame()">⬅ Önceki</button>
+                    <button class="nav-arrow-btn" onclick="nextGame()">Sonraki ➡</button>
                 </div>
-            </div>
-
-            <!-- Oyun 24: Kapak Şifresi -->
-            <div id="game24" style="display:none;">
-                <div class="writing-box">
-                    <div style="font-size:0.9rem; color:#94a3b8;">Acil çıkış kapağını açmak için İngilizce 'AÇ' veya 'ÇIKIŞ' anlamına gelen 4 harfli kodu gir:</div>
-                    <div style="font-size:1.2rem; color:var(--danger-neon); font-weight:bold;">KİLİT: BLOCKED</div>
-                    <input type="text" class="hud-text-input" id="inputGame24" placeholder="KOD (OPEN / EXIT)" maxlength="4" autocomplete="off">
-                    <button class="action-btn" onclick="checkWriting(24, ['OPEN', 'EXIT'])">Kilidi Aç</button>
-                </div>
-            </div>
-
-            <!-- Oyun 25: Seyir Kaydı -->
-            <div id="game25" style="display:none;">
-                <div class="writing-box">
-                    <div style="font-size:0.9rem; color:#94a3b8;">Kaptanın defterine 'HAZIR' durum kodunu İngilizce yazarak imzala:</div>
-                    <div style="font-size:1.1rem; color:#fff;">Status: Research crew is [ ? ] for dive.</div>
-                    <input type="text" class="hud-text-input" id="inputGame25" placeholder="DURUM KODU (READY)" autocomplete="off">
-                    <button class="action-btn" onclick="checkWriting(25, ['READY'])">Defteri İmzala</button>
-                </div>
-            </div>
-
-            <!-- ===================== MODÜL 6: BÜYÜK DERİNLİK SİMÜLASYONU (FİNAL) ===================== -->
-            <!-- Oyun 26: Acil Çağrı -->
-            <div id="game26" style="display:none;">
-                <div style="background:#050d1a; border:2px solid var(--gold-glow); padding:15px; border-radius:8px; margin-bottom:15px;">
-                    <strong>ALARM:</strong> Kritik derinlikte üsse geçilecek acil kurtarma çağrısı hangisidir?
-                </div>
-                <button class="opt-btn" onclick="showFeedback(false)">OVER AND OUT</button>
-                <button class="opt-btn" onclick="showFeedback(true, '✓ MAYDAY çağrısı üsse iletildi!')">MAYDAY, MAYDAY!</button>
-                <button class="opt-btn" onclick="showFeedback(false)">ROGER THAT</button>
-            </div>
-
-            <!-- Oyun 27: Güç Dengesi -->
-            <div id="game27" style="display:none;">
-                <div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px;">
-                    <strong>SU SIZINTISI:</strong> Enerjiyi motorlardan çekip 'Yaşam Destek' (Life Support) sistemine aktar:
-                </div>
-                <button class="opt-btn" onclick="showFeedback(false)">Işıklara Ver (%100 Light)</button>
-                <button class="opt-btn" onclick="showFeedback(true, '✓ Oksijen ve Yaşam Destek korundu!')">Yaşam Desteği Önceliklendir (%100 Life Support)</button>
-            </div>
-
-            <!-- Oyun 28: Basınç Kilidi -->
-            <div id="game28" style="display:none;">
-                <div style="background:#071326; border:1px solid var(--border-hud); padding:15px; border-radius:8px; margin-bottom:15px;">
-                    <strong>HAVA KİLİDİ:</strong> Dış ve iç kapak kilit protokolünü doğru sırayla seç:
-                </div>
-                <button class="opt-btn" onclick="showFeedback(true, '✓ Hava kilidi mühürlendi!')">1. Outer Hatch -> 2. Inner Chamber</button>
-                <button class="opt-btn" onclick="showFeedback(false)">1. Inner Chamber -> 2. Open Water</button>
-            </div>
-
-            <!-- Oyun 29: Rapor Onayı -->
-            <div id="game29" style="display:none;">
-                <div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px; font-size:0.9rem;">
-                    "We explored the abyss and repaired the hull. Mission status is officially..."
-                </div>
-                <button class="opt-btn" onclick="showFeedback(false)">...FAILED</button>
-                <button class="opt-btn" onclick="showFeedback(true, '✓ Rapor onaylandı: SUCCESSFUL!')">...SUCCESSFUL</button>
-            </div>
-
-            <!-- Oyun 30: Büyük Final: Yüzeye Çıkış -->
-            <div id="game30" style="display:none;">
-                <div style="background:radial-gradient(circle, #0d274c 0%, #030813 90%); border:2px solid var(--success-neon); padding:20px; border-radius:12px; margin-bottom:15px;">
-                    <div style="font-size:1.8rem; color:var(--success-neon); font-weight:900; margin-bottom:8px;">TÜM 6 MODÜL TAMAMLANDI!</div>
-                    <div style="font-size:0.95rem; color:#cbd5e1;">Kelime, Gramer, Dinleme, Okuma, Yazma ve Final Komuta aşamalarını geçtin.</div>
-                </div>
-                <button class="action-btn" style="font-size:1.1rem; padding:12px 25px;" onclick="showFeedback(true, '🎉 TEBRİKLER! Batısfer yüzeye ulaştı, görev başarıyla bitti!')">YÜZEYE ÇIKIŞ KOLUNU ÇEK 🚀</button>
-            </div>
-
-            <div class="feedback-banner" id="feedback"></div>
-
-            <div class="bottom-nav">
-                <button class="nav-arrow-btn" onclick="prevGame()">⬅ Önceki</button>
-                <button class="nav-arrow-btn" onclick="nextGame()">Sonraki ➡</button>
             </div>
         </div>
+
+        <!-- 3. GÖREV SONU DEBRIEFING & KARNE -->
+        <div class="cockpit-card" id="debriefScreen" style="display:none;">
+            <h2 style="color:var(--cyan-glow); margin-bottom:10px;">SEFER SEYİR DEFTERİ // RESMİ KARNE</h2>
+            <p style="color:#94a3b8; font-size:0.9rem;">Dalış simülasyonu başarıyla kaydedildi. Öğrenci performans telemetrisi:</p>
+
+            <table class="debrief-table">
+                <tr><td>KÂŞİF ADI:</td><td id="repPilot">-</td></tr>
+                <tr><td>OPERASYONEL ROL:</td><td id="repRole">-</td></tr>
+                <tr><td>TOPLAM KAZANILAN SKOR:</td><td id="repScore" style="color:var(--success-neon); font-weight:bold;">-</td></tr>
+                <tr><td>TAMAMLANAN İSTASYONLAR:</td><td>30 / 30 İstasyon Aktif</td></tr>
+                <tr><td>LİSANS STATÜSÜ:</td><td style="color:var(--gold-glow); font-weight:bold;">Yetkili Derin Deniz Araştırmacısı</td></tr>
+            </table>
+
+            <button class="action-btn" onclick="restartExpedition()">YENİ DALIŞ BAŞLAT 🔄</button>
+        </div>
+
+        <!-- 4. BÜYÜK ÖĞRETMEN MASASI PANELİ -->
+        <div class="teacher-desk" id="teacherDesk">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="color:var(--gold-glow);">ÖĞRETMEN MASASI // DİNAMİK İÇERİK & MEDYA YÖNETİCİSİ</h3>
+                <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Kapat</button>
+            </div>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">İstasyon seçin; soru metnini, doğru cevabı ve görsel/ses dosyalarını doğrudan güncelleyin. Değişiklikler tarayıcınıza kalıcı kaydedilir.</p>
+
+            <div class="teacher-grid">
+                <div class="teacher-group">
+                    <label>Düzenlenecek İstasyon</label>
+                    <select id="admGameSelect" onchange="loadAdminForm()"></select>
+                </div>
+                <div class="teacher-group">
+                    <label>Görev Yönergesi (Soru Metni)</label>
+                    <input type="text" id="admPrompt">
+                </div>
+                <div class="teacher-group">
+                    <label>Doğru Cevap (Kelime / Şık)</label>
+                    <input type="text" id="admCorrect">
+                </div>
+                <div class="teacher-group">
+                    <label>Görsel Dosyası Yükle (Bilgisayardan)</label>
+                    <input type="file" id="admImgFile" accept="image/*" onchange="handleImageUpload(event)">
+                </div>
+                <div class="teacher-group">
+                    <label>veya Görsel URL'si Yapıştır</label>
+                    <input type="text" id="admImgUrl" placeholder="https://...">
+                </div>
+                <div class="teacher-group">
+                    <label>Ses Dosyası Yükle (MP3/WAV)</label>
+                    <input type="file" id="admAudioFile" accept="audio/*" onchange="handleAudioUpload(event)">
+                </div>
+                <div class="teacher-group">
+                    <label>veya Ses URL'si Yapıştır</label>
+                    <input type="text" id="admAudioUrl" placeholder="https://...mp3">
+                </div>
+            </div>
+
+            <div class="teacher-actions">
+                <button class="action-btn" onclick="saveAdminGame()">İstasyonu Güncelle & Kaydet 💾</button>
+                <button class="hud-btn" onclick="exportDataJSON()">Tüm Veriyi İndir (JSON)</button>
+                <input type="file" id="importJsonInput" accept=".json" style="display:none;" onchange="importDataJSON(event)">
+                <button class="hud-btn" onclick="document.getElementById('importJsonInput').click()">Ders Planı Yükle (JSON)</button>
+            </div>
+        </div>
+
     </main>
 
     <script>
+        let pilot = { name: "Kâşif", role: "Sualtı Mühendisi", score: 0 };
         let currentGame = 1;
 
-        const prompts = {
+        // 30 OYUNUN TAM DİNAMİK VERİ TABANI
+        const defaultPrompts = {
             1: "Oyun 1: Feneri gezdir, 'PROPELLER' yazısını bulup tıkla.",
             2: "Oyun 2: Kopan 'ANCHOR' kablosunu doğru terminal portuna bağla.",
-            3: "Oyun 3: Vanayı çevirip 'SUBMARINE' (Denizaltı) seviyesine getir ve kilitle.",
+            3: "Oyun 3: Vanayı çevirip 'SUBMARINE' seviyesine getir ve kilitle.",
             4: "Oyun 4: 'NAVIGATION' kargo sandığını doğru hedef departmana yönlendir.",
             5: "Oyun 5: Kaydıracı 0'a çekerek merceği netleştir, doğru kavramı seç.",
             6: "Oyun 6: Oksijen sızıntısını durdurmak için kelimelere sırayla basarak boruya diz.",
@@ -447,7 +554,7 @@
             8: "Oyun 8: Periskop nişangâhında gramer hatası içeren baloncuğu patlat.",
             9: "Oyun 9: 'The Scientists' çoğul öznesine uygun fiil ağırlığını yerleştir.",
             10: "Oyun 10: Mors sinyalindeki eksik şimdiki zaman ekini (-ing) tamamla.",
-            11: "Oyun 11: Ses kaydını inceleyip acil kodun anlamını belirle.",
+            11: "Oyun 11: Telsiz ses kaydını dinleyip acil kodun anlamını belirle.",
             12: "Oyun 12: Biyo-akustik derin sualtı kaydını dinleyerek organizmayı tespit et.",
             13: "Oyun 13: Kaptanın acil durum telsiz emrini dinle ve talimatı onayla.",
             14: "Oyun 14: Sesli cümleyi dinle ve konuşmadaki ana vurgu kelimesini seç.",
@@ -469,6 +576,26 @@
             30: "Oyun 30: Büyük Final: Tüm 6 modülü tamamladın, yüzeye çıkış kolunu çek!"
         };
 
+        let customData = JSON.parse(localStorage.getItem('bathysphere_cms')) || {};
+
+        // BRİFİNG BAŞLATMA
+        function startExpedition() {
+            const name = document.getElementById('inputPilotName').value.trim();
+            pilot.name = name || "Kâşif Dalgıç";
+            pilot.role = document.getElementById('selectPilotRole').value;
+            pilot.score = 0;
+
+            document.getElementById('hudPilot').innerText = pilot.name;
+            document.getElementById('hudRole').innerText = pilot.role;
+            document.getElementById('hudScore').innerText = `${pilot.score} XP`;
+
+            document.getElementById('briefingScreen').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'block';
+
+            jumpTo(1);
+        }
+
+        // OYUNA ATLAYICI
         function jumpTo(n) {
             currentGame = n;
             for(let i=1; i<=30; i++) {
@@ -480,11 +607,40 @@
             const activeEl = document.getElementById(`game${n}`);
             if(activeEl) activeEl.style.display = 'block';
 
-            document.getElementById('stagePrompt').innerText = prompts[n];
+            // Yönergeyi yükle
+            const cData = customData[n] || {};
+            document.getElementById('stagePrompt').innerText = cData.prompt || defaultPrompts[n];
             document.getElementById('feedback').style.display = 'none';
+
+            // Özel Görsel/Ses varsa bağla
+            renderCustomMedia(n);
 
             if(n === 6) initPipeGame();
             if(n === 15) resetSwitches();
+        }
+
+        function renderCustomMedia(n) {
+            const box = document.getElementById('mediaBox');
+            const data = customData[n] || {};
+            box.innerHTML = "";
+            let hasMedia = false;
+
+            if(data.img) {
+                const img = document.createElement('img');
+                img.src = data.img;
+                box.appendChild(img);
+                hasMedia = true;
+            }
+            if(data.audio) {
+                const aud = document.createElement('audio');
+                aud.controls = true;
+                aud.src = data.audio;
+                aud.style.width = "80%";
+                aud.style.marginTop = "10px";
+                box.appendChild(aud);
+                hasMedia = true;
+            }
+            box.style.display = hasMedia ? "block" : "none";
         }
 
         function prevGame() { if(currentGame > 1) jumpTo(currentGame - 1); }
@@ -494,27 +650,144 @@
             const fb = document.getElementById('feedback');
             fb.style.display = 'block';
             if(isCor) {
+                pilot.score += 20;
+                document.getElementById('hudScore').innerText = `${pilot.score} XP`;
                 fb.style.background = "rgba(0, 245, 212, 0.2)";
                 fb.style.color = "var(--success-neon)";
-                fb.innerText = msg || "✓ Başarılı! Sistem telemetrisi doğrulandı.";
+                fb.innerText = msg || "✓ Doğrulama Başarılı: Telemetri eşleşti!";
             } else {
                 fb.style.background = "rgba(255, 0, 85, 0.2)";
                 fb.style.color = "var(--danger-neon)";
-                fb.innerText = msg || "✕ Hatalı analiz veya girdi, tekrar deneyin.";
+                fb.innerText = msg || "✕ Sinyal Karıştı: Hatalı eşleşme, tekrar dene.";
             }
         }
 
-        /* YAZMA KONTROLÜ (MODÜL 5) */
-        function checkWriting(gameNum, validAnswers) {
+        // DEBRIEFING & KARNE
+        function finishExpedition() {
+            document.getElementById('gameContainer').style.display = 'none';
+            document.getElementById('debriefScreen').style.display = 'block';
+
+            document.getElementById('repPilot').innerText = pilot.name;
+            document.getElementById('repRole').innerText = pilot.role;
+            document.getElementById('repScore').innerText = `${pilot.score} XP`;
+        }
+
+        function restartExpedition() {
+            document.getElementById('debriefScreen').style.display = 'none';
+            document.getElementById('briefingScreen').style.display = 'block';
+        }
+
+        // YAZMA KONTROLÜ
+        function checkWriting(gameNum, defaultValid) {
             const val = document.getElementById(`inputGame${gameNum}`).value.trim().toUpperCase();
-            if(validAnswers.includes(val)) {
+            const cData = customData[gameNum] || {};
+            const valids = cData.correct ? [cData.correct.trim().toUpperCase()] : defaultValid;
+
+            if(valids.includes(val)) {
                 showFeedback(true, `✓ Doğru Giriş: '${val}' telemetriye işlendi!`);
             } else {
-                showFeedback(false, `✕ Geçersiz Girdi: '${val || "Boş"}'. İstenen terimi kontrol edin.`);
+                showFeedback(false, `✕ Geçersiz Girdi: '${val || "Boş"}'. Doğru terimi girin.`);
             }
         }
 
-        /* DİĞER MODÜL FONKSİYONLARI */
+        // ÖĞRETMEN MASASI FONKSİYONLARI
+        function toggleTeacherDesk() {
+            const desk = document.getElementById('teacherDesk');
+            desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
+            if(desk.style.display === 'block') {
+                populateAdminSelect();
+                loadAdminForm();
+            }
+        }
+
+        function populateAdminSelect() {
+            const sel = document.getElementById('admGameSelect');
+            if(sel.children.length > 0) return;
+            for(let i=1; i<=30; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = `İstasyon ${i}: ${defaultPrompts[i].substring(0, 28)}...`;
+                sel.appendChild(opt);
+            }
+        }
+
+        let tempImgBase64 = "";
+        let tempAudioBase64 = "";
+
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => { tempImgBase64 = ev.target.result; };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleAudioUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => { tempAudioBase64 = ev.target.result; };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function loadAdminForm() {
+            const id = document.getElementById('admGameSelect').value;
+            const data = customData[id] || {};
+            document.getElementById('admPrompt').value = data.prompt || defaultPrompts[id];
+            document.getElementById('admCorrect').value = data.correct || "";
+            document.getElementById('admImgUrl').value = data.img || "";
+            document.getElementById('admAudioUrl').value = data.audio || "";
+            tempImgBase64 = "";
+            tempAudioBase64 = "";
+        }
+
+        function saveAdminGame() {
+            const id = document.getElementById('admGameSelect').value;
+            if(!customData[id]) customData[id] = {};
+
+            customData[id].prompt = document.getElementById('admPrompt').value;
+            customData[id].correct = document.getElementById('admCorrect').value;
+
+            const imgUrl = document.getElementById('admImgUrl').value.trim();
+            customData[id].img = tempImgBase64 || imgUrl || customData[id].img || "";
+
+            const audioUrl = document.getElementById('admAudioUrl').value.trim();
+            customData[id].audio = tempAudioBase64 || audioUrl || customData[id].audio || "";
+
+            localStorage.setItem('bathysphere_cms', JSON.stringify(customData));
+            alert(`İstasyon ${id} başarıyla güncellendi ve tarayıcıya kaydedildi!`);
+            jumpTo(id);
+        }
+
+        function exportDataJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(customData, null, 2));
+            const a = document.createElement('a');
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", "bathysphere_ders_plani.json");
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        function importDataJSON(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        customData = JSON.parse(ev.target.result);
+                        localStorage.setItem('bathysphere_cms', JSON.stringify(customData));
+                        alert("Ders planı başarıyla içe aktarıldı!");
+                        jumpTo(currentGame);
+                    } catch(err) { alert("Geçersiz JSON dosyası!"); }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        // ESKİ MEKANİK YARDIMCILARI
         function moveFener(e) {
             const rect = document.getElementById('fenerArea').getBoundingClientRect();
             document.getElementById('darkMask').style.background = `radial-gradient(circle 75px at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, transparent 0%, #030813 100%)`;
@@ -528,12 +801,12 @@
         }
         function checkValve() {
             const val = document.getElementById('valveSlider').value;
-            showFeedback(val > 120 && val < 240, val > 120 && val < 240 ? "✓ Vana kilitlendi!" : "✕ Yanlış seviye.");
+            showFeedback(val > 120 && val < 240, val > 120 && val < 240 ? "✓ Vana kilitlendi!" : "✕ Yanlış basınç derecesi.");
         }
         function adjustFocus(val) { document.getElementById('microLens').style.filter = `blur(${val}px)`; }
         function checkFocus(isCor) {
             if(document.getElementById('microSlider').value == 0) showFeedback(isCor);
-            else alert("Önce görüntüyü netleştirin (kaydıracı 0'a çekin)!");
+            else alert("Önce kaydıracı sıfıra çekip görüntüyü netleştirin!");
         }
 
         let userPipe = [];
@@ -623,8 +896,6 @@
             txt.style.color = "rgba(189, 0, 255, 0.08)";
             txt.style.textShadow = "none";
         }
-
-        jumpTo(1);
     </script>
 </body>
 </html>
