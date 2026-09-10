@@ -454,22 +454,22 @@
         <div id="gameContainer" style="display:none;">
 
             <div class="quick-nav-panel">
-                <div class="nav-section-title"><span>Module 1: Vocabulary & Salvage</span></div>
+                <div class="nav-section-title"><span>Module: Vocabulary & Salvage</span></div>
                 <div class="nav-buttons-row" id="rowM1"></div>
 
-                <div class="nav-section-title"><span>Module 2: Syntax & Structure</span></div>
+                <div class="nav-section-title"><span>Module: Syntax & Structure</span></div>
                 <div class="nav-buttons-row" id="rowM2"></div>
 
-                <div class="nav-section-title"><span>Module 3: Acoustic Signals</span></div>
+                <div class="nav-section-title"><span>Module: Acoustic Signals</span></div>
                 <div class="nav-buttons-row" id="rowM3"></div>
 
-                <div class="nav-section-title"><span>Module 4: Deep Sea Reading</span></div>
+                <div class="nav-section-title"><span>Module: Deep Sea Reading</span></div>
                 <div class="nav-buttons-row" id="rowM4"></div>
 
-                <div class="nav-section-title" style="color:var(--cyan-glow);"><span>Module 5: Cipher & Writing</span></div>
+                <div class="nav-section-title" style="color:var(--cyan-glow);"><span>Module: Cipher & Writing</span></div>
                 <div class="nav-buttons-row" id="rowM5"></div>
 
-                <div class="nav-section-title" style="color:var(--gold-glow);"><span>Module 6: Emergency Protocol</span></div>
+                <div class="nav-section-title" style="color:var(--gold-glow);"><span>Module: Emergency Protocol</span></div>
                 <div class="nav-buttons-row" id="rowM6"></div>
             </div>
 
@@ -504,7 +504,7 @@
 
                 <div id="game16" style="display:none;"><div class="uv-chamber" id="uvChamber" onmousemove="moveUV(event)" onmouseleave="hideUV()"><div class="uv-secret-text" id="uvText">-</div><div class="uv-torch-overlay" id="uvOverlay"></div></div><div id="g16Options"></div></div>
                 <div id="game17" style="display:none;"><div style="background:#111a28; border-left:4px solid var(--gold-glow); padding:12px; text-align:left; margin-bottom:12px;" id="g17Log">-</div><div id="g17Options"></div></div>
-                <div id="game18" style="display:none;"><div style="background:#071326; padding:12px; border:1px solid var(--gold-glow); margin-bottom:12px;" id="g18Desc">-</div><div id="g18Options"></div></div>
+                <div id="game18" style="display:none;"><div style="background:#071326; padding:12px; border-left:4px solid var(--gold-glow); margin-bottom:12px;" id="g18Desc">-</div><div id="g18Options"></div></div>
                 <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border:1px solid var(--cyan-glow); margin-bottom:12px; text-align:left;" id="g19Text">-</div><div id="g19Options"></div></div>
                 <div id="game20" style="display:none;"><div style="background:#050d1a; padding:12px; margin-bottom:12px;" id="g20Table">-</div><div id="g20Options"></div></div>
 
@@ -672,6 +672,39 @@
             30: { type: "final", prompt: "All 6 modules and 30 telemetry stations verified! Pull ascent lever:", title: "EXPEDITION ACCOMPLISHED!", desc: "All mission objectives completed. Ready to surface." }
         };
 
+        const customModuleNames = {
+            1: "Echo Wreckage Salvage",
+            2: "Abyssal Cable Link",
+            3: "Pressure Gauge Valve",
+            4: "Cargo Bay Sorting",
+            5: "Optical Specimen Lens",
+            6: "Oxygen Syntax Pipeline",
+            7: "Sub-Sonic Radio Tuner",
+            8: "Periscope Error Radar",
+            9: "Subject-Verb Hydro-Scale",
+            10: "Progressive Suffix Decoder",
+            11: "Acoustic Telegraph",
+            12: "Bio-Sonar Reverb",
+            13: "Captain's Command Log",
+            14: "Nucleus Stress Pitch",
+            15: "Sequence Safety Levers",
+            16: "UV Bioluminescence Lab",
+            17: "Volcanic Trench Vector",
+            18: "Hydrostatic Depth Zone",
+            19: "Viperfish Field Feed",
+            20: "Reactor Telemetry Board",
+            21: "Cardinal Compass Bearing",
+            22: "Abyssal Barometer Blank",
+            23: "Taxon Specimen Label",
+            24: "Hatch Security Override",
+            25: "Crew Readiness Seal",
+            26: "Mayday Distress Code",
+            27: "Life Support Routing",
+            28: "Airlock Decompression",
+            29: "Hull Integrity Verification",
+            30: "Ascent Hatch Protocol"
+        };
+
         let customEdited = JSON.parse(localStorage.getItem('bathysphere_cms_custom')) || {};
         let studentLogs = JSON.parse(localStorage.getItem('bathysphere_student_logs')) || [];
         
@@ -760,7 +793,8 @@
                 const btn = document.createElement('button');
                 btn.className = `jump-btn ${i === currentGame ? 'active' : ''}`;
                 btn.id = `btnJmp${i}`;
-                btn.innerText = `St. ${i}`;
+                const stationName = customModuleNames[i] || `Station ${i}`;
+                btn.innerText = `${i}. ${stationName}`;
                 btn.onclick = () => jumpTo(i);
                 document.getElementById(rows[modIdx]).appendChild(btn);
             }
@@ -1284,6 +1318,7 @@
             a.remove();
         }
 
+        // ÖĞRETMEN MASASI AÇILIR MENÜSÜ (TÜRKÇE İFADELER KALDIRILDI)
         function populateStationDropdown() {
             const sel = document.getElementById('admStationSelect');
             sel.innerHTML = "";
@@ -1291,7 +1326,7 @@
                 const opt = document.createElement('option');
                 opt.value = i;
                 const d = getActiveStationData(i);
-                opt.innerText = `Station ${i} (${d.type.toUpperCase()}) - ${(d.prompt || "").substring(0, 30)}...`;
+                opt.innerText = `Station ${i} - ${(d.prompt || "").substring(0, 45)}...`;
                 sel.appendChild(opt);
             }
             sel.value = currentGame;
