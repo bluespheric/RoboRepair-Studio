@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Research Lab // Modül 1 & 2 Entegre</title>
+    <title>Deep Sea Lab // Hızlı Test & Görev Seçici</title>
     <style>
         :root {
             --bg-abyss: #030813;
-            --panel-bg: rgba(13, 27, 42, 0.92);
+            --panel-bg: rgba(13, 27, 42, 0.94);
             --cyan-glow: #00f2fe;
             --cyan-dim: #0582ca;
             --gold-glow: #ffb703;
             --danger-neon: #ff0055;
             --success-neon: #00f5d4;
-            --border-hud: rgba(0, 242, 254, 0.3);
+            --border-hud: rgba(0, 242, 254, 0.35);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
@@ -54,10 +54,11 @@
             background: rgba(5, 130, 202, 0.15);
             color: var(--cyan-glow);
             border: 1px solid var(--cyan-glow);
-            padding: 8px 14px;
+            padding: 7px 14px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.85rem;
+            font-weight: 600;
             transition: 0.2s;
         }
         .hud-btn:hover { background: var(--cyan-glow); color: #000; }
@@ -68,51 +69,57 @@
             margin: 20px auto;
         }
 
-        /* MODÜL VE OYUN MENÜSÜ */
-        .mod-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        .mod-tab-btn {
-            padding: 8px 16px;
+        /* HIZLI GÖREV SEÇİCİ KONSOLU */
+        .quick-nav-panel {
             background: #060e1d;
-            border: 1px solid var(--border-hud);
-            color: #94a3b8;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .mod-tab-btn.active {
-            background: var(--cyan-glow);
-            color: #02050d;
-            border-color: var(--cyan-glow);
+            border: 2px solid var(--border-hud);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.15);
         }
 
-        .cartridges-bar {
+        .nav-section-title {
+            font-size: 0.8rem;
+            color: var(--gold-glow);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-buttons-row {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
         }
-        .cartridge-btn {
-            background: #0a1728;
+
+        .jump-btn {
+            background: #0d1e38;
             color: #94a3b8;
             border: 1px solid rgba(0, 242, 254, 0.2);
-            padding: 6px 12px;
+            padding: 7px 12px;
             border-radius: 6px;
             font-size: 0.8rem;
             cursor: pointer;
             white-space: nowrap;
+            transition: 0.2s;
+            font-weight: 600;
         }
-        .cartridge-btn.active {
-            background: rgba(0, 242, 254, 0.25);
-            color: var(--cyan-glow);
+        .jump-btn:hover { border-color: var(--cyan-glow); color: #fff; }
+        .jump-btn.active {
+            background: var(--cyan-glow);
+            color: #02050d;
             border-color: var(--cyan-glow);
-            font-weight: bold;
+            font-weight: 800;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
         }
 
+        /* OYUN KARTI */
         .cockpit-card {
             background: var(--panel-bg);
             border: 1px solid var(--border-hud);
@@ -123,21 +130,42 @@
         }
 
         .stage-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--cyan-glow);
             margin-bottom: 20px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-arrow-btn {
+            background: #081224;
+            color: var(--text-glow);
+            border: 1px solid var(--border-hud);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .nav-arrow-btn:hover { background: rgba(0, 242, 254, 0.2); }
+
+        /* GERİ BİLDİRİM */
         .feedback-banner {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 12px;
             border-radius: 8px;
             font-weight: bold;
             display: none;
         }
 
-        /* --- MODÜL 1 MEKANİKLERİ --- */
+        /* --- OYUN 1: FENER --- */
         .fener-area {
             position: relative;
             width: 100%;
@@ -149,7 +177,7 @@
         }
         .hidden-word {
             position: absolute;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #fff;
             padding: 10px;
@@ -164,32 +192,42 @@
             pointer-events: none;
         }
 
-        .drag-source {
-            display: inline-block;
+        /* --- OYUN 2 & 4: KABLO / KARGO --- */
+        .click-connect-area {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+        }
+        .source-card {
             background: #1e293b;
             border: 2px solid var(--gold-glow);
             color: var(--gold-glow);
-            padding: 12px 25px;
+            padding: 15px 25px;
             font-size: 1.1rem;
             font-weight: bold;
             border-radius: 8px;
-            cursor: grab;
-            margin-bottom: 25px;
         }
-        .drop-zones {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+        .target-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 50%;
         }
-        .drop-target {
+        .target-port-btn {
             background: #060e1d;
             border: 2px dashed var(--cyan-glow);
-            padding: 18px 10px;
+            color: #fff;
+            padding: 12px;
             border-radius: 8px;
             font-weight: bold;
+            cursor: pointer;
             transition: 0.2s;
         }
+        .target-port-btn:hover { background: rgba(0, 242, 254, 0.2); }
 
+        /* --- OYUN 3: VANA --- */
         .valve-wheel {
             width: 130px;
             height: 130px;
@@ -201,12 +239,13 @@
             justify-content: center;
             margin: 0 auto 15px auto;
         }
-        .valve-gauge { font-size: 1rem; font-weight: bold; color: var(--gold-glow); }
+        .valve-gauge { font-size: 0.95rem; font-weight: bold; color: var(--gold-glow); }
         .hud-slider { width: 80%; margin: 15px auto; display: block; }
 
+        /* --- OYUN 5: MİKROSKOP --- */
         .microscope-lens {
-            width: 160px;
-            height: 160px;
+            width: 150px;
+            height: 150px;
             border: 6px solid #3a506b;
             border-radius: 50%;
             margin: 0 auto 15px auto;
@@ -215,16 +254,14 @@
             justify-content: center;
             background: #fff;
             color: #000;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
             filter: blur(15px);
         }
 
-        /* --- MODÜL 2: SONAR GRAMER MEKANİKLERİ --- */
-
-        /* Oyun 6: Oksijen Boru Hattı */
+        /* --- OYUN 6: BORU DİZİLİMİ --- */
         .pipe-assembly {
-            min-height: 70px;
+            min-height: 65px;
             background: #060e1d;
             border: 2px dashed var(--border-hud);
             border-radius: 10px;
@@ -233,7 +270,7 @@
             justify-content: center;
             gap: 10px;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .word-capsules-pool {
             display: flex;
@@ -246,7 +283,7 @@
             background: #0e2744;
             color: #fff;
             border: 1px solid var(--cyan-glow);
-            padding: 10px 18px;
+            padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
@@ -254,35 +291,24 @@
         }
         .capsule:hover { background: var(--cyan-glow); color: #02050d; }
 
-        /* Oyun 7: Frekans Radyosu */
+        /* --- OYUN 7: RADYO --- */
         .radio-display {
             background: #040914;
             border: 2px solid var(--border-hud);
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
             margin-bottom: 15px;
         }
-        .freq-hz {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--cyan-glow);
-            letter-spacing: 2px;
-        }
-        .freq-signal-status {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            margin-top: 5px;
-        }
+        .freq-hz { font-size: 2rem; font-weight: 900; color: var(--cyan-glow); }
+        .freq-signal-status { font-size: 0.85rem; color: #94a3b8; margin-top: 5px; }
 
-        /* Oyun 8: Periskop Nişangâhı */
+        /* --- OYUN 8: PERİSKOP --- */
         .periscope-zone {
             width: 100%;
-            height: 240px;
+            height: 220px;
             background: radial-gradient(circle, #091a32 0%, #030813 90%);
             border: 2px solid var(--cyan-glow);
             border-radius: 12px;
-            position: relative;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: space-around;
@@ -290,20 +316,16 @@
         .bubble-target {
             background: rgba(0, 242, 254, 0.12);
             border: 2px solid var(--cyan-glow);
-            padding: 14px 20px;
+            padding: 12px 18px;
             border-radius: 30px;
             color: #fff;
             font-weight: bold;
             cursor: pointer;
             transition: 0.2s;
         }
-        .bubble-target:hover {
-            transform: scale(1.1);
-            background: rgba(255, 0, 85, 0.2);
-            border-color: var(--danger-neon);
-        }
+        .bubble-target:hover { transform: scale(1.08); border-color: var(--danger-neon); }
 
-        /* Oyun 9: Basınç Terazisi */
+        /* --- OYUN 9: TERAZİ --- */
         .scale-station {
             display: flex;
             justify-content: space-around;
@@ -311,189 +333,213 @@
             margin-bottom: 20px;
         }
         .scale-pan {
-            width: 220px;
+            width: 200px;
             background: #060e1d;
             border: 2px solid var(--border-hud);
             border-radius: 10px;
             padding: 15px;
-            min-height: 100px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
-        .pan-label { font-size: 0.8rem; color: #64748b; margin-bottom: 8px; }
 
-        /* Oyun 10: Mors Şifre Çözücü */
+        /* --- OYUN 10: MORS --- */
         .morse-screen {
             background: #060e1d;
             border: 1px solid var(--gold-glow);
             padding: 15px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-family: monospace;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--gold-glow);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         .action-btn {
             background: linear-gradient(135deg, var(--cyan-glow), #0582ca);
             color: #000;
             border: none;
-            padding: 10px 22px;
+            padding: 10px 20px;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
         }
-        .action-btn:hover { box-shadow: 0 0 15px rgba(0, 242, 254, 0.5); }
-
         .opt-btn {
             background: #081224;
             border: 1px solid var(--border-hud);
             color: #fff;
-            padding: 10px 16px;
-            margin: 5px;
+            padding: 9px 15px;
+            margin: 4px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
         }
-        .opt-btn:hover { background: rgba(0, 242, 254, 0.15); border-color: var(--cyan-glow); }
+        .opt-btn:hover { background: rgba(0, 242, 254, 0.2); border-color: var(--cyan-glow); }
     </style>
 </head>
 <body>
 
     <header>
-        <h2>BATHYSPHERE // MODÜL 1 & 2 ENTEGRE</h2>
+        <h2>BATHYSPHERE LABS // TEST & GELİŞTİRME MERKEZİ</h2>
         <button class="hud-btn" onclick="document.body.classList.toggle('inclusive-font')">Kapsayıcı Mod</button>
     </header>
 
     <main>
-        <!-- MODÜL DEĞİŞTİRİCİ -->
-        <div class="mod-tabs">
-            <button class="mod-tab-btn active" id="tabMod1" onclick="switchModule(1)">Modül 1: Kelime Hangârı</button>
-            <button class="mod-tab-btn" id="tabMod2" onclick="switchModule(2)">Modül 2: Sonar Gramer</button>
+        <!-- HIZLI GEÇİŞ PANELİ (DOĞRUDAN OYUN ATLAYICI) -->
+        <div class="quick-nav-panel">
+            <div class="nav-section-title">
+                <span>Modül 1: Kelime Hangârı</span>
+                <span style="color:#64748b;">(Donanım & Keşif)</span>
+            </div>
+            <div class="nav-buttons-row">
+                <button class="jump-btn active" id="btnJmp1" onclick="jumpTo(1)">1. Fener Kazıma</button>
+                <button class="jump-btn" id="btnJmp2" onclick="jumpTo(2)">2. Kablo Bağlantısı</button>
+                <button class="jump-btn" id="btnJmp3" onclick="jumpTo(3)">3. Basınç Valfi</button>
+                <button class="jump-btn" id="btnJmp4" onclick="jumpTo(4)">4. Kargo Ambarı</button>
+                <button class="jump-btn" id="btnJmp5" onclick="jumpTo(5)">5. Mikroskop Merceği</button>
+            </div>
+
+            <div class="nav-section-title" style="margin-top:10px;">
+                <span>Modül 2: Sonar Gramer</span>
+                <span style="color:#64748b;">(Cümle & Yapı)</span>
+            </div>
+            <div class="nav-buttons-row">
+                <button class="jump-btn" id="btnJmp6" onclick="jumpTo(6)">6. Oksijen Borusu</button>
+                <button class="jump-btn" id="btnJmp7" onclick="jumpTo(7)">7. Frekans Radyosu</button>
+                <button class="jump-btn" id="btnJmp8" onclick="jumpTo(8)">8. Periskop Nişangâhı</button>
+                <button class="jump-btn" id="btnJmp9" onclick="jumpTo(9)">9. Basınç Terazisi</button>
+                <button class="jump-btn" id="btnJmp10" onclick="jumpTo(10)">10. Mors Deşifresi</button>
+            </div>
         </div>
 
-        <!-- 10 OYUN KARTUŞ ÇUBUĞU -->
-        <div class="cartridges-bar" id="cartridgesBar"></div>
-
+        <!-- AKTİF OYUN KARTI -->
         <div class="cockpit-card">
             <div class="stage-title" id="stagePrompt">Yükleniyor...</div>
 
-            <!-- ===================== MODÜL 1 OYUNLARI ===================== -->
-            <!-- Oyun 1: Fener -->
+            <!-- OYUN 1 -->
             <div id="game1" style="display:none;">
                 <div class="fener-area" id="fenerArea" onmousemove="moveFener(event)">
-                    <div class="hidden-word" style="top:20%; left:10%;" onclick="checkFener(false)">Dümen Palası</div>
-                    <div class="hidden-word" style="top:50%; left:60%;" onclick="checkFener(true)">Pervane (PROPELLER)</div>
-                    <div class="hidden-word" style="top:80%; left:30%;" onclick="checkFener(false)">Gemi Çapası</div>
+                    <div class="hidden-word" style="top:25%; left:12%;" onclick="showFeedback(false)">Dümen Palası</div>
+                    <div class="hidden-word" style="top:50%; left:55%;" onclick="showFeedback(true, '✓ Doğru Parça: PROPELLER tespit edildi!')">Pervane (PROPELLER)</div>
+                    <div class="hidden-word" style="top:75%; left:28%;" onclick="showFeedback(false)">Gemi Çapası</div>
                     <div class="dark-mask" id="darkMask"></div>
                 </div>
             </div>
 
-            <!-- Oyun 2: Kablo Sürükleme -->
+            <!-- OYUN 2 -->
             <div id="game2" style="display:none;">
-                <div class="drag-source" draggable="true" ondragstart="dragStart(event)">🔌 ANCHOR KABLOSU</div>
-                <div class="drop-zones">
-                    <div class="drop-target" ondragover="allowDrop(event)" ondrop="dropWire(event, false)">Pusula Paneli</div>
-                    <div class="drop-target" ondragover="allowDrop(event)" ondrop="dropWire(event, true)">Demir / Çapa Terminali</div>
-                    <div class="drop-target" ondragover="allowDrop(event)" ondrop="dropWire(event, false)">Kazan Dairesi</div>
+                <div class="click-connect-area">
+                    <div class="source-card">⚡ Kopan Hat: ANCHOR</div>
+                    <div class="target-options-grid">
+                        <button class="target-port-btn" onclick="showFeedback(false)">➔ Pusula Paneli</button>
+                        <button class="target-port-btn" onclick="showFeedback(true, '✓ Devre tamamlandı: ANCHOR kablosu Çapa terminaline bağlandı!')">➔ Demir / Çapa Terminali</button>
+                        <button class="target-port-btn" onclick="showFeedback(false)">➔ Kazan Dairesi</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Oyun 3: Vana Çevirme -->
+            <!-- OYUN 3 -->
             <div id="game3" style="display:none;">
                 <div class="valve-wheel" id="valveWheel">
                     <div class="valve-gauge" id="valveText">KURTARMA FİLİKASI</div>
                 </div>
                 <input type="range" class="hud-slider" id="valveSlider" min="0" max="360" value="0" oninput="rotateValve(this.value)">
-                <button class="action-btn" onclick="checkValve()">Vanayı Kilitle</button>
+                <button class="action-btn" onclick="checkValve()">Vanayı Kilitle & Test Et</button>
             </div>
 
-            <!-- Oyun 4: Kargo Ayrıştırma -->
+            <!-- OYUN 4 -->
             <div id="game4" style="display:none;">
-                <div class="drag-source" draggable="true" ondragstart="dragStart(event)">📦 Kargo: NAVIGATION</div>
-                <div class="drop-zones">
-                    <div class="drop-target" ondragover="allowDrop(event)" ondrop="dropCargo(event, false)">Mutfak İkmali</div>
-                    <div class="drop-target" ondragover="allowDrop(event)" ondrop="dropCargo(event, false)">Makine Bakımı</div>
-                    <div class="drop-target" ondragover="allowDrop(event)" ondrop="dropCargo(event, true)">Seyir & Yön Bulma</div>
+                <div class="click-connect-area">
+                    <div class="source-card">📦 Kargo: NAVIGATION</div>
+                    <div class="target-options-grid">
+                        <button class="target-port-btn" onclick="showFeedback(false)">➔ Mutfak İkmali</button>
+                        <button class="target-port-btn" onclick="showFeedback(false)">➔ Makine Dairesi</button>
+                        <button class="target-port-btn" onclick="showFeedback(true, '✓ Kargo sevk edildi: Seyir ve rota birimine ulaştırıldı!')">➔ Seyir & Yön Bulma</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Oyun 5: Mikroskop Odaklama -->
+            <!-- OYUN 5 -->
             <div id="game5" style="display:none;">
                 <div class="microscope-lens" id="microLens">SPECIMEN</div>
                 <input type="range" class="hud-slider" id="microSlider" min="0" max="20" value="15" oninput="adjustFocus(this.value)">
-                <div style="margin-top:15px;">
+                <div>
                     <button class="opt-btn" onclick="checkFocus(false)">Hurda Metal</button>
                     <button class="opt-btn" onclick="checkFocus(true)">Numune / Örnek</button>
                     <button class="opt-btn" onclick="checkFocus(false)">Ölçüm Cihazı</button>
                 </div>
             </div>
 
-            <!-- ===================== MODÜL 2 OYUNLARI ===================== -->
-            <!-- Oyun 6: Oksijen Borusu Dizilimi -->
+            <!-- OYUN 6 -->
             <div id="game6" style="display:none;">
                 <div class="pipe-assembly" id="pipeLine">
-                    <span style="color:#64748b;" id="pipePlaceholder">Kapsülleri sırayla boruya yerleştir...</span>
+                    <span style="color:#64748b;" id="pipePlaceholder">Kapsüllere tıklayarak sırayla boruya yerleştir...</span>
                 </div>
                 <div class="word-capsules-pool" id="capsulesPool"></div>
-                <button class="action-btn" onclick="checkPipeAssembly()">Hattı Kaynat ve Onayla</button>
-                <button class="opt-btn" onclick="resetPipe()">Sıfırla</button>
+                <div style="margin-top:10px;">
+                    <button class="action-btn" onclick="checkPipeAssembly()">Hattı Kaynat & Kontrol Et</button>
+                    <button class="opt-btn" onclick="resetPipe()">Sıfırla</button>
+                </div>
             </div>
 
-            <!-- Oyun 7: Frekans Radyosu (Tense Ayarı) -->
+            <!-- OYUN 7 -->
             <div id="game7" style="display:none;">
                 <div class="radio-display">
-                    <div class="freq-hz" id="freqLabel">102.4 MHz</div>
-                    <div class="freq-signal-status" id="freqStatus">Statik Parazit: Zaman Dalga Boyunu Ayarla</div>
+                    <div class="freq-hz" id="freqLabel">90.0 MHz</div>
+                    <div class="freq-signal-status" id="freqStatus">Parazit: Şu anki zaman dalgasına (120 MHz) ayarla</div>
                 </div>
-                <input type="range" class="hud-slider" min="80" max="140" value="85" oninput="tuneRadio(this.value)">
+                <input type="range" class="hud-slider" min="80" max="140" value="90" oninput="tuneRadio(this.value)">
                 <button class="action-btn" onclick="checkRadioFreq()">Frekansa Kilitlen</button>
             </div>
 
-            <!-- Oyun 8: Periskop Nişangâhı -->
+            <!-- OYUN 8 -->
             <div id="game8" style="display:none;">
                 <div class="periscope-zone">
-                    <div class="bubble-target" onclick="shootBubble(false, 'The whale is bigger than...')">"The whale is bigger"</div>
-                    <div class="bubble-target" onclick="shootBubble(true, 'HATALI! more big olamaz -> bigger olmalı')">"The whale is more big"</div>
-                    <div class="bubble-target" onclick="shootBubble(false, 'The submarine was diving...')">"The submarine is diving"</div>
+                    <div class="bubble-target" onclick="shootBubble(false)">"The whale is bigger"</div>
+                    <div class="bubble-target" onclick="shootBubble(true)">"The whale is more big"</div>
+                    <div class="bubble-target" onclick="shootBubble(false)">"The submarine is diving"</div>
                 </div>
             </div>
 
-            <!-- Oyun 9: Basınç Terazisi (Özne / Fiil Uyumu) -->
+            <!-- OYUN 9 -->
             <div id="game9" style="display:none;">
                 <div class="scale-station">
                     <div class="scale-pan">
-                        <div class="pan-label">SOL KÜFE (ÖZNE)</div>
-                        <div style="font-size:1.2rem; font-weight:bold; color:var(--cyan-glow);">"The Scientists..."</div>
+                        <div style="font-size:0.75rem; color:#64748b;">ÖZNE (ÇOĞUL)</div>
+                        <div style="font-size:1.1rem; font-weight:bold; color:var(--cyan-glow);">"The Scientists..."</div>
                     </div>
                     <div style="font-size:1.8rem; color:var(--gold-glow);">⚖️</div>
-                    <div class="scale-pan" id="rightScalePan">
-                        <div class="pan-label">SAĞ KÜFE (YÜKLEM)</div>
-                        <div id="panVerbDisplay" style="color:#64748b;">Ağırlık Kapsülü Seç</div>
+                    <div class="scale-pan">
+                        <div style="font-size:0.75rem; color:#64748b;">YÜKLEM</div>
+                        <div id="panVerbDisplay" style="color:#64748b; font-weight:bold;">Seçim Yapılmadı</div>
                     </div>
                 </div>
                 <div>
-                    <button class="opt-btn" onclick="selectScaleWeight('discovers', false)">...discovers (Tekil Fiil)</button>
-                    <button class="opt-btn" onclick="selectScaleWeight('discover', true)">...discover (Çoğul Fiil)</button>
+                    <button class="opt-btn" onclick="selectScaleWeight('discovers', false)">...discovers (Hatalı Tekil Fiil)</button>
+                    <button class="opt-btn" onclick="selectScaleWeight('discover', true)">...discover (Uyumlu Çoğul Fiil)</button>
                 </div>
             </div>
 
-            <!-- Oyun 10: Mors Şifre Çözücü -->
+            <!-- OYUN 10 -->
             <div id="game10" style="display:none;">
-                <div class="morse-screen">RADYO TELSİZ SİNYALİ: "We are div[ ? ] deeper..."</div>
-                <div style="margin-bottom:15px; color:#94a3b8;">Present Continuous eki olan eksik sinyali seçerek mesajı tamamla:</div>
+                <div class="morse-screen">TELSİZ: "The research sub is div[ ? ] right now."</div>
                 <div>
-                    <button class="opt-btn" onclick="checkMorse('-ed', false)">-ed (Geçmiş Zaman)</button>
-                    <button class="opt-btn" onclick="checkMorse('-ing', true)">-ing (Şimdiki Zaman Eki)</button>
-                    <button class="opt-btn" onclick="checkMorse('-s', false)">-s (Geniş Zaman Eki)</button>
+                    <button class="opt-btn" onclick="showFeedback(false)">-ed (Geçmiş)</button>
+                    <button class="opt-btn" onclick="showFeedback(true, '✓ Doğru Ek: diving eylemi şimdiki zaman kuralını sağladı!')">-ing (Şimdiki Zaman)</button>
+                    <button class="opt-btn" onclick="showFeedback(false)">-s (Geniş Zaman)</button>
                 </div>
             </div>
 
             <div class="feedback-banner" id="feedback"></div>
+
+            <!-- ÖNCEKİ / SONRAKİ MANUEL NAVİGASYON -->
+            <div class="bottom-nav">
+                <button class="nav-arrow-btn" onclick="prevGame()">⬅ Önceki Görev</button>
+                <button class="nav-arrow-btn" onclick="nextGame()">Sonraki Görev ➡</button>
+            </div>
         </div>
     </main>
 
@@ -505,7 +551,7 @@
                 const gain = audioCtx.createGain();
                 osc.type = type;
                 osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.09, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
@@ -514,50 +560,28 @@
             } catch(e){}
         }
 
-        let activeMod = 1;
-        let activeGame = 1;
+        let currentGame = 1;
 
         const prompts = {
-            1: "Karanlık batıkta feneri gezdir, 'PROPELLER' parçasını bul ve tıkla.",
-            2: "Kopan 'ANCHOR' kablosunu sürükleyerek doğru terminale tak.",
-            3: "Vanayı çevirerek ibreyi 'SUBMARINE' (Denizaltı Gemisi) konumuna getir ve kilitle.",
-            4: "Banttan gelen 'NAVIGATION' sandığını doğru ambar kapağına sürükle.",
-            5: "Merceği netleştir (kaydıracı sıfırla) ve görünen kelimenin karşılığını seç.",
-            6: "Oksijen sızıntısını durdurmak için kelimeleri doğru sıraya diz: [The] [submarine] [is] [diving]",
-            7: "Telsiz dalgasını ayarla: 'Şu an gerçekleşen' (Present Continuous) 120.0 MHz sinyaline kilitlen.",
-            8: "Gramer hatası içeren sualtı balonunu periskopla hedef alıp patlat!",
-            9: "'The scientists' öznesi çoğuldur. Teraziyi dengelemek için uygun fiil ağırlığını yerleştir.",
-            10: "Mors sinyalindeki eksik eki tamamlayarak kaptan mesajını çöz."
+            1: "Oyun 1: Feneri karanlık batıkta gezdir, 'PROPELLER' yazısını bulup tıkla.",
+            2: "Oyun 2: Kopan 'ANCHOR' kablosunu doğru terminal portuna tıkla ve bağla.",
+            3: "Oyun 3: Vanayı çevirip göstergeyi 'SUBMARINE' (Denizaltı) seviyesine getir ve kilitle.",
+            4: "Oyun 4: 'NAVIGATION' kargo sandığını doğru hedef departmana yönlendir.",
+            5: "Oyun 5: Kaydıracı 0'a çekerek merceği netleştir, ardından doğru kavramı seç.",
+            6: "Oyun 6: Oksijen sızıntısını durdurmak için kelimelere sırayla basarak boruya diz.",
+            7: "Oyun 7: Frekans slider'ını 120.0 MHz seviyesine getirip sinyale kilitlen.",
+            8: "Oyun 8: Periskop nişangâhında gramer hatası içeren baloncuğu patlat.",
+            9: "Oyun 9: 'The Scientists' çoğul öznesine uygun fiil ağırlığını yerleştir.",
+            10: "Oyun 10: Mors sinyalindeki eksik şimdiki zaman ekini (-ing) tamamla."
         };
 
-        function renderCartridges() {
-            const bar = document.getElementById('cartridgesBar');
-            bar.innerHTML = "";
-            const start = activeMod === 1 ? 1 : 6;
-            const end = activeMod === 1 ? 5 : 10;
-
-            for (let i = start; i <= end; i++) {
-                const btn = document.createElement('button');
-                btn.className = `cartridge-btn ${i === activeGame ? 'active' : ''}`;
-                btn.innerText = `Oyun ${i}`;
-                btn.onclick = () => loadGame(i);
-                bar.appendChild(btn);
-            }
-        }
-
-        function switchModule(modId) {
-            activeMod = modId;
-            document.getElementById('tabMod1').classList.toggle('active', modId === 1);
-            document.getElementById('tabMod2').classList.toggle('active', modId === 2);
-            loadGame(modId === 1 ? 1 : 6);
-        }
-
-        function loadGame(n) {
-            activeGame = n;
-            renderCartridges();
+        function jumpTo(n) {
+            currentGame = n;
             for(let i=1; i<=10; i++) {
-                const el = document.getElementById(`game${i}`);
-                if(el) el.style.display = 'none';
+                const btn = document.getElementById(`btnJmp${i}`);
+                if(btn) btn.classList.toggle('active', i === n);
+                const g = document.getElementById(`game${i}`);
+                if(g) g.style.display = 'none';
             }
             const activeEl = document.getElementById(`game${n}`);
             if(activeEl) activeEl.style.display = 'block';
@@ -568,23 +592,26 @@
             if(n === 6) initPipeGame();
         }
 
-        function showFeedback(isCorrect, customMsg) {
+        function prevGame() { if(currentGame > 1) jumpTo(currentGame - 1); }
+        function nextGame() { if(currentGame < 10) jumpTo(currentGame + 1); }
+
+        function showFeedback(isCor, msg) {
             const fb = document.getElementById('feedback');
             fb.style.display = 'block';
-            if(isCorrect) {
+            if(isCor) {
                 fb.style.background = "rgba(0, 245, 212, 0.2)";
                 fb.style.color = "var(--success-neon)";
-                fb.innerText = customMsg || "✓ Başarılı! Sistem telemetrisi doğrulandı.";
+                fb.innerText = msg || "✓ Başarılı! Sistem telemetrisi doğrulandı.";
                 playSfx(750, 'sine');
             } else {
                 fb.style.background = "rgba(255, 0, 85, 0.2)";
                 fb.style.color = "var(--danger-neon)";
-                fb.innerText = customMsg || "✕ Hatalı eşleşme veya parazit, tekrar dene.";
+                fb.innerText = msg || "✕ Hatalı eşleşme, tekrar dene.";
                 playSfx(180, 'sawtooth');
             }
         }
 
-        /* --- MODÜL 1 FONKSİYONLARI --- */
+        // Fener
         function moveFener(e) {
             const area = document.getElementById('fenerArea');
             const rect = area.getBoundingClientRect();
@@ -592,105 +619,93 @@
             const y = e.clientY - rect.top;
             document.getElementById('darkMask').style.background = `radial-gradient(circle 75px at ${x}px ${y}px, transparent 0%, #030813 100%)`;
         }
-        function checkFener(isCor) { showFeedback(isCor); }
-        function dragStart(e) { e.dataTransfer.setData("text", "dragged"); }
-        function allowDrop(e) { e.preventDefault(); }
-        function dropWire(e, isCor) { e.preventDefault(); showFeedback(isCor); }
-        function dropCargo(e, isCor) { e.preventDefault(); showFeedback(isCor); }
+
+        // Vana
         function rotateValve(val) {
             document.getElementById('valveWheel').style.transform = `rotate(${val}deg)`;
             let txt = "KURTARMA FİLİKASI";
-            if(val > 120 && val < 240) txt = "DENİZALTI GEMİSİ (SUBMARINE)";
+            if(val > 120 && val < 240) txt = "DENİZALTI (SUBMARINE)";
             if(val >= 240) txt = "YELKENLİ SONDA";
             document.getElementById('valveText').innerText = txt;
         }
         function checkValve() {
             const val = document.getElementById('valveSlider').value;
-            showFeedback(val > 120 && val < 240);
-        }
-        function adjustFocus(val) { document.getElementById('microLens').style.filter = `blur(${val}px)`; }
-        function checkFocus(isCor) {
-            const blurVal = document.getElementById('microSlider').value;
-            if(blurVal == 0) showFeedback(isCor);
-            else alert("Önce kaydıracı sıfıra getirip merceği netleştirmelisin!");
+            showFeedback(val > 120 && val < 240, val > 120 && val < 240 ? "✓ Vana kilitlendi: Basınç dengelendi!" : "✕ Yanlış basınç derecesi.");
         }
 
-        /* --- MODÜL 2 FONKSİYONLARI --- */
-        // Oyun 6: Boru Dizilimi
-        let userPipeWords = [];
-        const correctPipeOrder = ["The", "submarine", "is", "diving"];
+        // Mikroskop
+        function adjustFocus(val) { document.getElementById('microLens').style.filter = `blur(${val}px)`; }
+        function checkFocus(isCor) {
+            if(document.getElementById('microSlider').value == 0) showFeedback(isCor);
+            else alert("Önce kaydıracı en sola (0) çekip görüntüyü netleştirmelisin!");
+        }
+
+        // Boru Dizilimi
+        let userPipe = [];
+        const correctPipe = ["The", "submarine", "is", "diving"];
         function initPipeGame() {
             resetPipe();
             const pool = document.getElementById('capsulesPool');
             pool.innerHTML = "";
-            const words = ["is", "The", "diving", "submarine"];
-            words.forEach(w => {
+            ["is", "The", "diving", "submarine"].forEach(w => {
                 const c = document.createElement('div');
                 c.className = 'capsule';
                 c.innerText = w;
-                c.onclick = () => addWordToPipe(w, c);
+                c.onclick = () => {
+                    userPipe.push(w);
+                    c.style.display = 'none';
+                    document.getElementById('pipePlaceholder').style.display = 'none';
+                    const cap = document.createElement('div');
+                    cap.className = 'capsule';
+                    cap.innerText = w;
+                    document.getElementById('pipeLine').appendChild(cap);
+                    playSfx(420, 'triangle');
+                };
                 pool.appendChild(c);
             });
         }
-        function addWordToPipe(w, el) {
-            userPipeWords.push(w);
-            el.style.display = 'none';
-            document.getElementById('pipePlaceholder').style.display = 'none';
-            const cap = document.createElement('div');
-            cap.className = 'capsule';
-            cap.innerText = w;
-            document.getElementById('pipeLine').appendChild(cap);
-            playSfx(400, 'triangle');
-        }
         function resetPipe() {
-            userPipeWords = [];
-            const line = document.getElementById('pipeLine');
-            line.innerHTML = '<span style="color:#64748b;" id="pipePlaceholder">Kapsülleri sırayla boruya yerleştir...</span>';
+            userPipe = [];
+            document.getElementById('pipeLine').innerHTML = '<span style="color:#64748b;" id="pipePlaceholder">Kapsüllere tıklayarak sırayla boruya yerleştir...</span>';
             const pool = document.getElementById('capsulesPool');
             Array.from(pool.children).forEach(c => c.style.display = 'inline-block');
         }
         function checkPipeAssembly() {
-            const isMatch = JSON.stringify(userPipeWords) === JSON.stringify(correctPipeOrder);
-            showFeedback(isMatch, isMatch ? "✓ Oksijen hattı bağlandı: Cümle dizilimi kusursuz!" : "✕ Gaz sızıntısı: Kelime dizilim sırası hatalı.");
+            const isMatch = JSON.stringify(userPipe) === JSON.stringify(correctPipe);
+            showFeedback(isMatch, isMatch ? "✓ Boru hattı kenetlendi: Sözdizimi doğru!" : "✕ Gaz sızıntısı: Kelimelerin sırası hatalı.");
         }
 
-        // Oyun 7: Frekans Radyosu
-        let tunedFreq = 85;
+        // Radyo
+        let tuned = 90;
         function tuneRadio(val) {
-            tunedFreq = val;
+            tuned = val;
             document.getElementById('freqLabel').innerText = `${val}.0 MHz`;
-            const status = document.getElementById('freqStatus');
+            const st = document.getElementById('freqStatus');
             if(val >= 118 && val <= 122) {
-                status.innerText = "⚡ TEMİZ SİNYAL: Present Continuous Dalgası Yakalandı!";
-                status.style.color = "var(--success-neon)";
+                st.innerText = "⚡ TEMİZ FREKANS: Şimdiki Zaman Sinyali!";
+                st.style.color = "var(--success-neon)";
             } else {
-                status.innerText = "Statik Parazit: Zaman Dalga Boyunu Ayarla";
-                status.style.color = "#94a3b8";
+                st.innerText = "Parazit: Şu anki zaman dalgasına (120 MHz) ayarla";
+                st.style.color = "#94a3b8";
             }
         }
         function checkRadioFreq() {
-            showFeedback(tunedFreq >= 118 && tunedFreq <= 122, tunedFreq >= 118 && tunedFreq <= 122 ? "✓ Frekansa kilitlenildi, mesaj netleştirildi!" : "✕ Yanlış frekans bandı, parazit devam ediyor.");
+            showFeedback(tuned >= 118 && tuned <= 122, tuned >= 118 && tuned <= 122 ? "✓ Frekans yakalandı!" : "✕ Statik parazit devam ediyor.");
         }
 
-        // Oyun 8: Periskop
-        function shootBubble(isHata, msg) {
-            showFeedback(isHata, isHata ? `✓ Tam isabet! Hatalı balon imha edildi: ${msg}` : "✕ Dikkat! Doğru cümleyi vurdun, sadece hatalı olanı hedef almalısın.");
+        // Periskop
+        function shootBubble(isHata) {
+            showFeedback(isHata, isHata ? "✓ Tam isabet! 'more big' hatalı kuralı imha edildi (Doğrusu: bigger)." : "✕ Dikkat! Doğru cümleyi vurdun, sadece hatalı olanı hedef al.");
         }
 
-        // Oyun 9: Basınç Terazisi
-        function selectScaleWeight(verb, isCor) {
-            document.getElementById('panVerbDisplay').innerText = `...${verb}`;
+        // Terazi
+        function selectScaleWeight(v, isCor) {
+            document.getElementById('panVerbDisplay').innerText = `...${v}`;
             document.getElementById('panVerbDisplay').style.color = isCor ? "var(--success-neon)" : "var(--danger-neon)";
-            showFeedback(isCor, isCor ? "✓ Terazi dengelendi: Çoğul özne (Scientists) çoğul fiil (discover) ile eşleşti." : "✕ Basınç dengesi bozuldu: Çoğul özneye -s takılı tekil fiil getirilemez.");
+            showFeedback(isCor, isCor ? "✓ Terazi dengede: Çoğul özne (Scientists) + Çoğul fiil (discover)." : "✕ Denge bozuldu: Çoğul özneye tekil fiil getirilemez.");
         }
 
-        // Oyun 10: Mors Eki
-        function checkMorse(suffix, isCor) {
-            showFeedback(isCor, isCor ? "✓ Mors sinyali tamamlandı: 'diving' eylemi şimdiki zaman kuralına bağlandı." : "✕ Yanlış ek! Cümlede 'are' yardımcı fiili varken uygun ek seçilmeli.");
-        }
-
-        // Başlangıç yüklemesi
-        switchModule(1);
+        jumpTo(1);
     </script>
 </body>
 </html>
