@@ -106,7 +106,6 @@
             outline: none;
         }
 
-        /* 30 OYUN KONSOLU */
         .quick-nav-panel {
             background: #060e1d;
             border: 2px solid var(--border-hud);
@@ -212,7 +211,6 @@
 
         .hud-slider { width: 80%; margin: 15px auto; display: block; }
 
-        /* YAZMA KUTULARI */
         .writing-box {
             background: #060e1d;
             border: 2px solid var(--border-hud);
@@ -238,7 +236,6 @@
             outline: none;
         }
 
-        /* ÇIKIŞ RAPORU */
         .debrief-table {
             width: 100%;
             max-width: 550px;
@@ -256,7 +253,7 @@
             font-size: 0.9rem;
         }
 
-        /* ÖĞRETMEN MASASI (H5P TARZI FORM YAPISI) */
+        /* ÖĞRETMEN MASASI & PLACEHOLDER STİLLERİ */
         .teacher-desk {
             background: #060e1d;
             border: 2px solid var(--gold-glow);
@@ -295,6 +292,10 @@
             font-size: 0.85rem;
             font-family: inherit;
         }
+        .teacher-group input::placeholder, .teacher-group textarea::placeholder {
+            color: rgba(148, 163, 184, 0.45);
+            font-style: italic;
+        }
         .teacher-group textarea { resize: vertical; min-height: 60px; }
 
         .teacher-actions {
@@ -304,7 +305,6 @@
             flex-wrap: wrap;
         }
 
-        /* MEKANİKLER */
         .fener-area { position: relative; width: 100%; height: 200px; background: #02050d; border: 2px dashed var(--border-hud); overflow: hidden; cursor: crosshair; }
         .hidden-word { position: absolute; font-size: 1.3rem; font-weight: bold; color: #fff; padding: 10px; cursor: pointer; z-index: 1; }
         .dark-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2; pointer-events: none; }
@@ -338,7 +338,6 @@
 
     <main>
 
-        <!-- 1. GİRİŞ BRİFİNGİ -->
         <div class="cockpit-card" id="briefingScreen">
             <div style="padding:20px 10px;">
                 <h2 style="color:var(--cyan-glow); margin-bottom:12px;">KÂŞİF GİRİŞ BRİFİNGİ & DALIŞ PROTOKOLÜ</h2>
@@ -355,7 +354,6 @@
             </div>
         </div>
 
-        <!-- 2. AKTİF OYUN KONSOLU & SAHNE -->
         <div id="gameContainer" style="display:none;">
 
             <div class="quick-nav-panel">
@@ -389,43 +387,36 @@
 
                 <div class="custom-media-box" id="mediaBox" style="display:none;"></div>
 
-                <!-- DİNAMİK MEKANİK ALANLARI -->
-                <!-- M1: Mekanikler -->
                 <div id="game1" style="display:none;"><div class="fener-area" id="fenerArea" onmousemove="moveFener(event)"><div class="hidden-word" id="g1W1" style="top:25%; left:12%;"></div><div class="hidden-word" id="g1W2" style="top:50%; left:55%;"></div><div class="hidden-word" id="g1W3" style="top:75%; left:28%;"></div><div class="dark-mask" id="darkMask"></div></div></div>
                 <div id="game2" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;" id="g2Source"></div><div id="g2Options"></div></div></div>
                 <div id="game3" style="display:none;"><div class="valve-wheel" id="valveWheel">-</div><input type="range" class="hud-slider" id="valveSlider" min="0" max="360" value="0" oninput="rotateValve(this.value)"><button class="action-btn" onclick="checkValve()">Vanayı Kilitle</button></div>
                 <div id="game4" style="display:none;"><div style="padding:15px;"><div style="color:var(--gold-glow); font-weight:bold; font-size:1.2rem; margin-bottom:15px;" id="g4Cargo"></div><div id="g4Options"></div></div></div>
                 <div id="game5" style="display:none;"><div class="microscope-lens" id="microLens">SPECIMEN</div><input type="range" class="hud-slider" id="microSlider" min="0" max="20" value="15" oninput="adjustFocus(this.value)"><div id="g5Options" style="margin-top:10px;"></div></div>
 
-                <!-- M2: Gramer -->
                 <div id="game6" style="display:none;"><div class="pipe-assembly" id="pipeLine"><span style="color:#64748b;" id="pipePlaceholder">Kapsülleri sırayla boruya yerleştir...</span></div><div id="capsulesPool"></div><div style="margin-top:10px;"><button class="action-btn" onclick="checkPipeAssembly()">Hattı Kaynat</button><button class="opt-btn" onclick="resetPipe()">Sıfırla</button></div></div>
                 <div id="game7" style="display:none;"><div style="background:#040914; padding:12px; border-radius:8px; margin-bottom:12px;"><div style="font-size:1.8rem; font-weight:bold; color:var(--cyan-glow);" id="freqLabel">90.0 MHz</div><div id="freqStatus" style="font-size:0.85rem; color:#94a3b8;">Frekansı Ayarla</div></div><input type="range" class="hud-slider" min="80" max="140" value="90" oninput="tuneRadio(this.value)"><button class="action-btn" onclick="checkRadioFreq()">Frekansa Kilitlen</button></div>
                 <div id="game8" style="display:none;"><div class="periscope-zone" id="g8Bubbles"></div></div>
                 <div id="game9" style="display:none;"><div class="scale-station"><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">SOL KÜFE (ÖZNE)</div><div style="font-size:1.1rem; font-weight:bold; color:var(--cyan-glow);" id="g9Subject">-</div></div><div style="font-size:1.8rem; color:var(--gold-glow);">⚖️</div><div class="scale-pan"><div style="font-size:0.75rem; color:#64748b;">SAĞ KÜFE (YÜKLEM)</div><div id="panVerbDisplay" style="color:#64748b; font-weight:bold;">Seçilmedi</div></div></div><div id="g9Options"></div></div>
                 <div id="game10" style="display:none;"><div style="background:#060e1d; border:1px solid var(--gold-glow); padding:12px; border-radius:6px; margin-bottom:12px; font-family:monospace; color:var(--gold-glow);" id="g10Prompt">-</div><div id="g10Options"></div></div>
 
-                <!-- M3: Dinleme -->
                 <div id="game11" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG11" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g11Trans">-</div></div><div id="g11Options"></div></div>
                 <div id="game12" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG12" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g12Trans">-</div></div><div id="g12Options"></div></div>
                 <div id="game13" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG13" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g13Trans">-</div></div><div id="g13Options"></div></div>
                 <div id="game14" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG14" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g14Trans">-</div></div><div id="g14Options"></div></div>
                 <div id="game15" style="display:none;"><div style="background:#050d1a; padding:15px; border-radius:8px; margin-bottom:15px;"><audio id="audioG15" controls style="width:80%;"></audio><div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="g15Trans">-</div></div><div class="switches-row" id="g15Switches"></div><button class="opt-btn" onclick="resetSwitches()">Şalterleri Sıfırla</button></div>
 
-                <!-- M4: Okuma -->
                 <div id="game16" style="display:none;"><div class="uv-chamber" id="uvChamber" onmousemove="moveUV(event)" onmouseleave="hideUV()"><div class="uv-secret-text" id="uvText">-</div><div class="uv-torch-overlay" id="uvOverlay"></div></div><div id="g16Options"></div></div>
                 <div id="game17" style="display:none;"><div style="background:#111a28; border-left:4px solid var(--gold-glow); padding:12px; text-align:left; margin-bottom:12px;" id="g17Log">-</div><div id="g17Options"></div></div>
                 <div id="game18" style="display:none;"><div style="background:#071326; padding:12px; border:1px solid var(--gold-glow); margin-bottom:12px;" id="g18Desc">-</div><div id="g18Options"></div></div>
                 <div id="game19" style="display:none;"><div style="background:#08172e; padding:12px; border:1px solid var(--cyan-glow); margin-bottom:12px; text-align:left;" id="g19Text">-</div><div id="g19Options"></div></div>
                 <div id="game20" style="display:none;"><div style="background:#050d1a; padding:12px; margin-bottom:12px;" id="g20Table">-</div><div id="g20Options"></div></div>
 
-                <!-- M5: Yazma (21-25) -->
                 <div id="game21" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g21Hint">-</div><div style="font-size:1.4rem; color:var(--gold-glow); font-weight:bold;" id="g21Display">-</div><input type="text" class="hud-text-input" id="inputGame21" placeholder="YAZINIZ..."><button class="action-btn" onclick="checkWriting(21)">Kaydet</button></div></div>
                 <div id="game22" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g22Hint">-</div><div style="font-size:1.1rem; color:#fff; font-weight:bold;" id="g22Display">-</div><input type="text" class="hud-text-input" id="inputGame22" placeholder="YAZINIZ..."><button class="action-btn" onclick="checkWriting(22)">İlet</button></div></div>
                 <div id="game23" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g23Hint">-</div><div style="font-size:1.5rem;" id="g23Display">-</div><input type="text" class="hud-text-input" id="inputGame23" placeholder="YAZINIZ..."><button class="action-btn" onclick="checkWriting(23)">Mühürle</button></div></div>
                 <div id="game24" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g24Hint">-</div><div style="font-size:1.2rem; color:var(--danger-neon); font-weight:bold;" id="g24Display">-</div><input type="text" class="hud-text-input" id="inputGame24" placeholder="KODU GİRİNİZ..."><button class="action-btn" onclick="checkWriting(24)">Kilidi Aç</button></div></div>
                 <div id="game25" style="display:none;"><div class="writing-box"><div style="font-size:0.9rem; color:#94a3b8;" id="g25Hint">-</div><div style="font-size:1.1rem; color:#fff;" id="g25Display">-</div><input type="text" class="hud-text-input" id="inputGame25" placeholder="YAZINIZ..."><button class="action-btn" onclick="checkWriting(25)">İmzala</button></div></div>
 
-                <!-- M6: Capstone / Final (26-30) -->
                 <div id="game26" style="display:none;"><div style="background:#050d1a; border:2px solid var(--gold-glow); padding:15px; border-radius:8px; margin-bottom:15px;" id="g26Desc">-</div><div id="g26Options"></div></div>
                 <div id="game27" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px;" id="g27Desc">-</div><div id="g27Options"></div></div>
                 <div id="game28" style="display:none;"><div style="background:#071326; border:1px solid var(--border-hud); padding:15px; border-radius:8px; margin-bottom:15px;" id="g28Desc">-</div><div id="g28Options"></div></div>
@@ -441,7 +432,6 @@
             </div>
         </div>
 
-        <!-- 3. GÖREV SONU DEBRIEFING & KARNE -->
         <div class="cockpit-card" id="debriefScreen" style="display:none;">
             <h2 style="color:var(--cyan-glow); margin-bottom:10px;">SEFER SEYİR DEFTERİ // RESMİ KARNE</h2>
             <p style="color:#94a3b8; font-size:0.9rem;">Dalış simülasyonu başarıyla kaydedildi. Öğrenci performans telemetrisi:</p>
@@ -457,24 +447,23 @@
             <button class="action-btn" onclick="restartExpedition()">YENİ DALIŞ BAŞLAT 🔄</button>
         </div>
 
-        <!-- 4. ÖĞRETMEN MASASI (DİNAMİK H5P FORM CMS) -->
         <div class="teacher-desk" id="teacherDesk">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 style="color:var(--gold-glow);">ÖĞRETMEN MASASI // H5P TARZI İÇERİK EDİTÖRÜ</h3>
                 <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Kapat</button>
             </div>
-            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">İstasyonu seçtiğinizde, o görevin mekaniğine özel şablon kutuları otomatik açılır. Girilen her kelime canlı oyuna anında işlenir.</p>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Kutular silinmek zorunda kalmamanız için temiz gelir; gri yazılar sadece kılavuzdur. Doğrudan yazmaya başlayabilirsiniz.</p>
 
             <div style="margin-top:15px;">
                 <label style="font-size:0.85rem; color:var(--cyan-glow); font-weight:bold;">DÜZENLENECEK İSTASYON:</label>
                 <select id="admStationSelect" style="width:100%; padding:10px; background:#0d1e38; color:#fff; border:1px solid var(--border-hud); border-radius:6px; margin-top:5px;" onchange="renderTeacherForm()"></select>
             </div>
 
-            <!-- DİNAMİK FORM ALANI (H5P TİPİ) -->
             <div id="teacherDynamicFields" class="teacher-form-section"></div>
 
             <div class="teacher-actions">
                 <button class="action-btn" onclick="saveCurrentStation()">Bu İstasyonu Kaydet & Canlıya Al 💾</button>
+                <button class="hud-btn" style="border-color:#ff9f1c; color:#ff9f1c;" onclick="clearCurrentFormInputs()">Kutuları Temizle (Boş Şablon) 🧹</button>
                 <button class="hud-btn" onclick="exportJSON()">Ders Paketini İndir (JSON)</button>
                 <input type="file" id="importJsonFile" accept=".json" style="display:none;" onchange="importJSON(event)">
                 <button class="hud-btn" onclick="document.getElementById('importJsonFile').click()">Ders Paketi Yükle (JSON)</button>
@@ -485,7 +474,6 @@
     </main>
 
     <script>
-        // 30 İSTASYONUN VARSAYILAN BOŞ/ÖRNEK VERİ HAVUZU
         const defaultStations = {
             1: { type: "fener", prompt: "Feneri karanlık batıkta gezdir, gizli hedef parçayı tespit et ve tıkla:", target: "PROPELLER", decoys: ["DÜMEN", "ÇAPA"] },
             2: { type: "kablo", prompt: "Kopan elektrik kablosunu doğru sisteme bağla:", source: "⚡ KABLO: ANCHOR", correct: "Demir / Çapa Terminali", distractors: ["Pusula Paneli", "Kazan Dairesi"] },
@@ -519,12 +507,16 @@
             30: { type: "final", prompt: "Tüm 6 modülü ve 30 araştırma istasyonunu tamamladın! Yüzeye çıkış kolunu çek:", title: "TÜM 6 MODÜL TAMAMLANDI!", desc: "Tüm telemetri onaylandı, yüzeye çıkışa hazırsın." }
         };
 
-        // CMS VERİSİ
-        let stations = JSON.parse(localStorage.getItem('bathysphere_cms_v2')) || defaultStations;
+        let customEdited = JSON.parse(localStorage.getItem('bathysphere_cms_custom')) || {};
         let pilot = { name: "Kâşif", role: "Sualtı Mühendisi", score: 0 };
         let currentGame = 1;
 
-        // BRİFİNG
+        function getActiveStationData(id) {
+            const def = defaultStations[id];
+            const cust = customEdited[id] || {};
+            return { ...def, ...cust };
+        }
+
         function startExpedition() {
             const name = document.getElementById('inputPilotName').value.trim();
             pilot.name = name || "Kâşif Dalgıç";
@@ -542,7 +534,6 @@
             jumpTo(1);
         }
 
-        // HIZLI MENÜ RENDER
         function renderQuickNav() {
             const rows = { 1: 'rowM1', 2: 'rowM2', 3: 'rowM3', 4: 'rowM4', 5: 'rowM5', 6: 'rowM6' };
             for(let r in rows) document.getElementById(rows[r]).innerHTML = "";
@@ -558,7 +549,6 @@
             }
         }
 
-        // İSTASYON ÇAĞIRICI & DİNAMİK RENDER MOTORU
         function jumpTo(n) {
             currentGame = n;
             for(let i=1; i<=30; i++) {
@@ -568,11 +558,10 @@
                 if(g) g.style.display = 'none';
             }
 
-            const data = stations[n] || defaultStations[n];
+            const data = getActiveStationData(n);
             document.getElementById('stagePrompt').innerText = data.prompt || "";
             document.getElementById('feedback').style.display = 'none';
 
-            // Medya
             const mediaBox = document.getElementById('mediaBox');
             mediaBox.innerHTML = "";
             let hasMed = false;
@@ -592,24 +581,22 @@
             }
             mediaBox.style.display = hasMed ? "block" : "none";
 
-            // Mekanik sahnesi
             const stage = document.getElementById(`game${n}`);
             if(stage) stage.style.display = 'block';
 
-            // MEKANİĞE ÖZEL İÇERİKLERİ CANLI YERLEŞTİR (CMS ENTEGRASYONU)
             if(data.type === "fener") {
-                document.getElementById('g1W1').innerText = data.decoys[0] || "DÜMEN";
+                document.getElementById('g1W1').innerText = (data.decoys && data.decoys[0]) || "DÜMEN";
                 document.getElementById('g1W1').onclick = () => showFeedback(false);
                 document.getElementById('g1W2').innerText = data.target || "PROPELLER";
                 document.getElementById('g1W2').onclick = () => showFeedback(true, `✓ Doğru hedef '${data.target}' bulundu!`);
-                document.getElementById('g1W3').innerText = data.decoys[1] || "ÇAPA";
+                document.getElementById('g1W3').innerText = (data.decoys && data.decoys[1]) || "ÇAPA";
                 document.getElementById('g1W3').onclick = () => showFeedback(false);
             }
             else if(data.type === "kablo") {
                 document.getElementById('g2Source').innerText = data.source;
                 const optBox = document.getElementById('g2Options');
                 optBox.innerHTML = "";
-                const all = [data.correct, ...data.distractors].sort(() => Math.random() - 0.5);
+                const all = [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5);
                 all.forEach(opt => {
                     const btn = document.createElement('button');
                     btn.className = 'opt-btn';
@@ -619,13 +606,13 @@
                 });
             }
             else if(data.type === "vana") {
-                document.getElementById('valveWheel').innerText = data.choices[0] || "FİLİKA";
+                document.getElementById('valveWheel').innerText = (data.choices && data.choices[0]) || "FİLİKA";
             }
             else if(data.type === "kargo") {
                 document.getElementById('g4Cargo').innerText = data.cargo;
                 const optBox = document.getElementById('g4Options');
                 optBox.innerHTML = "";
-                const all = [data.correct, ...data.distractors].sort(() => Math.random() - 0.5);
+                const all = [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5);
                 all.forEach(opt => {
                     const btn = document.createElement('button');
                     btn.className = 'opt-btn';
@@ -638,7 +625,7 @@
                 document.getElementById('microLens').innerText = data.label;
                 const optBox = document.getElementById('g5Options');
                 optBox.innerHTML = "";
-                const all = [data.correct, ...data.distractors].sort(() => Math.random() - 0.5);
+                const all = [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5);
                 all.forEach(opt => {
                     const btn = document.createElement('button');
                     btn.className = 'opt-btn';
@@ -684,7 +671,7 @@
                 document.getElementById('g10Prompt').innerText = data.text;
                 const box = document.getElementById('g10Options');
                 box.innerHTML = "";
-                [data.correct, ...data.distractors].sort(() => Math.random() - 0.5).forEach(opt => {
+                [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5).forEach(opt => {
                     const b = document.createElement('button');
                     b.className = 'opt-btn';
                     b.innerText = opt;
@@ -698,7 +685,7 @@
                 document.getElementById(`g${n}Trans`).innerText = `Transkript: ${data.trans || "Ses kaydını dinleyiniz."}`;
                 const box = document.getElementById(`g${n}Options`);
                 box.innerHTML = "";
-                [data.correct, ...data.distractors].sort(() => Math.random() - 0.5).forEach(opt => {
+                [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5).forEach(opt => {
                     const b = document.createElement('button');
                     b.className = 'opt-btn';
                     b.innerText = opt;
@@ -716,7 +703,7 @@
                 document.getElementById('uvText').innerText = `"${data.text}"`;
                 const box = document.getElementById('g16Options');
                 box.innerHTML = "";
-                [data.correct, ...data.distractors].sort(() => Math.random() - 0.5).forEach(opt => {
+                [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5).forEach(opt => {
                     const b = document.createElement('button');
                     b.className = 'opt-btn';
                     b.innerText = opt;
@@ -729,7 +716,7 @@
                 if(logEl) logEl.innerText = data.log || "";
                 const box = document.getElementById(`g${n}Options`);
                 box.innerHTML = "";
-                [data.correct, ...data.distractors].sort(() => Math.random() - 0.5).forEach(opt => {
+                [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5).forEach(opt => {
                     const b = document.createElement('button');
                     b.className = 'opt-btn';
                     b.innerText = opt;
@@ -741,7 +728,7 @@
                 document.getElementById('g20Table').innerText = data.tableHtml;
                 const box = document.getElementById('g20Options');
                 box.innerHTML = "";
-                [data.correct, ...data.distractors].sort(() => Math.random() - 0.5).forEach(opt => {
+                [data.correct, ...(data.distractors || [])].sort(() => Math.random() - 0.5).forEach(opt => {
                     const b = document.createElement('button');
                     b.className = 'opt-btn';
                     b.innerText = opt;
@@ -779,10 +766,9 @@
             }
         }
 
-        // YAZMA GÖREVLERİ KONTROLÜ
         function checkWriting(n) {
             const val = document.getElementById(`inputGame${n}`).value.trim().toUpperCase();
-            const data = stations[n];
+            const data = getActiveStationData(n);
             const accepted = (data.answers || "").split(',').map(s => s.trim().toUpperCase());
             if(accepted.includes(val)) {
                 showFeedback(true, `✓ Doğru Giriş: '${val}' sisteme işlendi!`);
@@ -791,7 +777,6 @@
             }
         }
 
-        // DEBRIEFING
         function finishExpedition() {
             document.getElementById('gameContainer').style.display = 'none';
             document.getElementById('debriefScreen').style.display = 'block';
@@ -804,28 +789,26 @@
             document.getElementById('briefingScreen').style.display = 'block';
         }
 
-        // MEKANİK YARDIMCILARI
         function moveFener(e) {
             const rect = document.getElementById('fenerArea').getBoundingClientRect();
             document.getElementById('darkMask').style.background = `radial-gradient(circle 75px at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, transparent 0%, #030813 100%)`;
         }
         function rotateValve(val) {
             document.getElementById('valveWheel').style.transform = `rotate(${val}deg)`;
-            const data = stations[3] || defaultStations[3];
-            let txt = data.choices[0] || "FİLİKA";
-            if(val > 120 && val < 240) txt = data.choices[1] || "SUBMARINE";
-            if(val >= 240) txt = data.choices[2] || "SONDA";
+            const data = getActiveStationData(3);
+            let txt = (data.choices && data.choices[0]) || "FİLİKA";
+            if(val > 120 && val < 240) txt = (data.choices && data.choices[1]) || "SUBMARINE";
+            if(val >= 240) txt = (data.choices && data.choices[2]) || "SONDA";
             document.getElementById('valveWheel').innerText = txt;
         }
         function checkValve() {
             const val = document.getElementById('valveSlider').value;
-            const data = stations[3] || defaultStations[3];
+            const data = getActiveStationData(3);
             const isCor = (val > 120 && val < 240);
             showFeedback(isCor, isCor ? `✓ Vana kilitlendi: '${data.targetVal}' dengelendi!` : "✕ Hatalı basınç derecesi.");
         }
         function adjustFocus(val) { document.getElementById('microLens').style.filter = `blur(${val}px)`; }
 
-        // Boru mekaniği
         let userPipe = [];
         let targetSentenceWords = [];
         function initPipeGame(sentenceStr) {
@@ -850,19 +833,18 @@
                 pool.appendChild(c);
             });
         }
-        function resetPipe() { initPipeGame(stations[6].sentence); }
+        function resetPipe() { initPipeGame(getActiveStationData(6).sentence); }
         function checkPipeAssembly() {
             const isMatch = JSON.stringify(userPipe) === JSON.stringify(targetSentenceWords);
             showFeedback(isMatch, isMatch ? "✓ Boru hattı kenetlendi: Cümle dizilimi doğru!" : "✕ Gaz sızıntısı: Kelime sırası hatalı.");
         }
 
-        // Radyo
         let curFreq = 90;
         function tuneRadio(v) {
             curFreq = v;
             document.getElementById('freqLabel').innerText = `${v}.0 MHz`;
             const st = document.getElementById('freqStatus');
-            const target = stations[7].targetFreq || 120;
+            const target = getActiveStationData(7).targetFreq || 120;
             if(Math.abs(v - target) <= 2) {
                 st.innerText = "⚡ TEMİZ SİNYAL: Frekans Yakalandı!";
                 st.style.color = "var(--success-neon)";
@@ -872,12 +854,11 @@
             }
         }
         function checkRadioFreq() {
-            const target = stations[7].targetFreq || 120;
+            const target = getActiveStationData(7).targetFreq || 120;
             const isCor = Math.abs(curFreq - target) <= 2;
             showFeedback(isCor, isCor ? "✓ Frekansa kilitlenildi!" : "✕ Parazit devam ediyor.");
         }
 
-        // Şalterler
         let userSwitches = [];
         let targetSwitchOrder = [];
         function initSwitches(orderStr) {
@@ -910,7 +891,6 @@
             });
         }
 
-        // UV
         function moveUV(e) {
             const rect = document.getElementById('uvChamber').getBoundingClientRect();
             const overlay = document.getElementById('uvOverlay');
@@ -929,7 +909,7 @@
         }
 
         // ==========================================
-        // ÖĞRETMEN MASASI (H5P TARZI DİNAMİK FORM ALTYAPISI)
+        // ÖĞRETMEN MASASI (PLACEHOLDER & SIFIRLAMA DESTEKLİ)
         // ==========================================
         function toggleTeacherDesk() {
             const desk = document.getElementById('teacherDesk');
@@ -946,7 +926,7 @@
             for(let i=1; i<=30; i++) {
                 const opt = document.createElement('option');
                 opt.value = i;
-                const d = stations[i] || defaultStations[i];
+                const d = getActiveStationData(i);
                 opt.innerText = `${i}. İstasyon (${d.type.toUpperCase()}) - ${(d.prompt || "").substring(0, 30)}...`;
                 sel.appendChild(opt);
             }
@@ -956,93 +936,92 @@
         let tempImg = "";
         let tempAudio = "";
 
-        // H5P MANTIĞI: Seçilen mekaniğe göre dinamik kutucuklar üret
         function renderTeacherForm() {
             const id = document.getElementById('admStationSelect').value;
-            const data = stations[id] || defaultStations[id];
+            const def = defaultStations[id];
+            const cust = customEdited[id] || {};
             const container = document.getElementById('teacherDynamicFields');
             container.innerHTML = "";
 
-            tempImg = data.customImg || "";
-            tempAudio = data.customAudio || "";
+            tempImg = cust.customImg || "";
+            tempAudio = cust.customAudio || "";
 
-            // Ortak: Soru / Görev Yönergesi
-            addFormField(container, "Görev Yönergesi (Soru Metni):", "text", "adm_prompt", data.prompt || "");
+            addFormField(container, "Görev Yönergesi (Soru Metni):", "text", "adm_prompt", cust.prompt, def.prompt);
 
-            // MEKANİĞE ÖZEL KUTULAR
-            if(data.type === "fener") {
-                addFormField(container, "Karanlıkta Bulunacak Hedef Kelime:", "text", "adm_target", data.target || "");
-                addFormField(container, "Çeldirici Yanıltıcı Kelimeler (Virgülle ayırın):", "text", "adm_decoys", (data.decoys || []).join(', '));
+            if(def.type === "fener") {
+                addFormField(container, "Karanlıkta Bulunacak Hedef Kelime:", "text", "adm_target", cust.target, def.target);
+                addFormField(container, "Çeldirici Yanıltıcı Kelimeler (Virgülle):", "text", "adm_decoys", cust.decoys ? cust.decoys.join(', ') : "", (def.decoys || []).join(', '));
             }
-            else if(data.type === "kablo" || data.type === "kargo") {
-                addFormField(container, "Kablo / Kargo Kaynak Etiketi:", "text", "adm_source", data.source || data.cargo || "");
-                addFormField(container, "Doğru Hedef Terminal / Departman:", "text", "adm_correct", data.correct || "");
-                addFormField(container, "Yanlış Hedefler (Virgülle ayırın):", "text", "adm_distractors", (data.distractors || []).join(', '));
+            else if(def.type === "kablo" || def.type === "kargo") {
+                addFormField(container, "Kablo / Kargo Kaynak Etiketi:", "text", "adm_source", cust.source || cust.cargo, def.source || def.cargo);
+                addFormField(container, "Doğru Hedef Terminal / Departman:", "text", "adm_correct", cust.correct, def.correct);
+                addFormField(container, "Yanlış Hedefler (Virgülle ayırın):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
-            else if(data.type === "vana") {
-                addFormField(container, "Hedef Kilitlenecek Kelime:", "text", "adm_targetVal", data.targetVal || "");
-                addFormField(container, "Gösterge Aşamaları (Virgülle 3 kelime):", "text", "adm_choices", (data.choices || []).join(', '));
+            else if(def.type === "vana") {
+                addFormField(container, "Hedef Kilitlenecek Kelime:", "text", "adm_targetVal", cust.targetVal, def.targetVal);
+                addFormField(container, "Gösterge Aşamaları (Virgülle 3 kelime):", "text", "adm_choices", cust.choices ? cust.choices.join(', ') : "", (def.choices || []).join(', '));
             }
-            else if(data.type === "mikroskop") {
-                addFormField(container, "Mercek Üstündeki Yazı:", "text", "adm_label", data.label || "");
-                addFormField(container, "Doğru Tanım:", "text", "adm_correct", data.correct || "");
-                addFormField(container, "Yanlış Tanımlar (Virgülle ayırın):", "text", "adm_distractors", (data.distractors || []).join(', '));
+            else if(def.type === "mikroskop") {
+                addFormField(container, "Mercek Üstündeki Yazı:", "text", "adm_label", cust.label, def.label);
+                addFormField(container, "Doğru Tanım:", "text", "adm_correct", cust.correct, def.correct);
+                addFormField(container, "Yanlış Tanımlar (Virgülle ayırın):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
-            else if(data.type === "boru") {
-                addFormField(container, "Öğrencinin Dizeceği Cümle (Kelimeleri virgülle ayırın):", "text", "adm_sentence", data.sentence || "");
+            else if(def.type === "boru") {
+                addFormField(container, "Öğrencinin Dizeceği Cümle (Virgülle kelimeler):", "text", "adm_sentence", cust.sentence, def.sentence);
             }
-            else if(data.type === "radyo") {
-                addFormField(container, "Kilitlenecek Hedef Frekans (MHz):", "number", "adm_targetFreq", data.targetFreq || 120);
+            else if(def.type === "radyo") {
+                addFormField(container, "Kilitlenecek Hedef Frekans (MHz):", "number", "adm_targetFreq", cust.targetFreq, def.targetFreq);
             }
-            else if(data.type === "periskop") {
-                addFormField(container, "Patlatılacak Hatalı Cümle:", "text", "adm_correctErr", data.correctErr || "");
-                addFormField(container, "Doğru Cümleler (Virgülle 2 cümle):", "text", "adm_normals", (data.normals || []).join(', '));
+            else if(def.type === "periskop") {
+                addFormField(container, "Patlatılacak Hatalı Cümle:", "text", "adm_correctErr", cust.correctErr, def.correctErr);
+                addFormField(container, "Doğru Cümleler (Virgülle 2 cümle):", "text", "adm_normals", cust.normals ? cust.normals.join(', ') : "", (def.normals || []).join(', '));
             }
-            else if(data.type === "terazi") {
-                addFormField(container, "Sol Küfe (Özne / Soru Parçası):", "text", "adm_subject", data.subject || "");
-                addFormField(container, "Doğru Dengelenecek Fiil:", "text", "adm_correct", data.correct || "");
-                addFormField(container, "Hatalı Çeldirici Fiil:", "text", "adm_distractor", data.distractor || "");
+            else if(def.type === "terazi") {
+                addFormField(container, "Sol Küfe (Özne / Cümle Başı):", "text", "adm_subject", cust.subject, def.subject);
+                addFormField(container, "Doğru Dengelenecek Fiil:", "text", "adm_correct", cust.correct, def.correct);
+                addFormField(container, "Hatalı Çeldirici Fiil:", "text", "adm_distractor", cust.distractor, def.distractor);
             }
-            else if(data.type === "mors" || data.type === "ses_sik" || data.type === "okuma_sik" || data.type === "tablo" || data.type === "uv") {
-                if(data.log !== undefined) addFormField(container, "Okuma Metni / Seyir Defteri Paragrafı:", "textarea", "adm_log", data.log);
-                if(data.text !== undefined) addFormField(container, "Görüntülenecek Metin:", "textarea", "adm_text", data.text);
-                if(data.tableHtml !== undefined) addFormField(container, "Tablo İçeriği / Veri Metni:", "text", "adm_tableHtml", data.tableHtml);
-                if(data.trans !== undefined) addFormField(container, "Ses Transkripti / İpucu:", "text", "adm_trans", data.trans);
+            else if(def.type === "mors" || def.type === "ses_sik" || def.type === "okuma_sik" || def.type === "tablo" || def.type === "uv") {
+                if(def.log !== undefined) addFormField(container, "Okuma Metni / Seyir Defteri Paragrafı:", "textarea", "adm_log", cust.log, def.log);
+                if(def.text !== undefined) addFormField(container, "Görüntülenecek Metin:", "textarea", "adm_text", cust.text, def.text);
+                if(def.tableHtml !== undefined) addFormField(container, "Tablo / Veri Metni:", "text", "adm_tableHtml", cust.tableHtml, def.tableHtml);
+                if(def.trans !== undefined) addFormField(container, "Ses Transkripti / İpucu:", "text", "adm_trans", cust.trans, def.trans);
 
-                addFormField(container, "Doğru Şık:", "text", "adm_correct", data.correct || "");
-                addFormField(container, "Yanlış Şıklar (Virgülle ayırın):", "text", "adm_distractors", (data.distractors || []).join(', '));
+                addFormField(container, "Doğru Şık:", "text", "adm_correct", cust.correct, def.correct);
+                addFormField(container, "Yanlış Şıklar (Virgülle ayırın):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
-            else if(data.type === "salter") {
-                addFormField(container, "Ses Transkripti / İpucu:", "text", "adm_trans", data.trans || "");
-                addFormField(container, "İndirilecek Şalter Sırası (Virgülle ayırın):", "text", "adm_order", data.order || "");
+            else if(def.type === "salter") {
+                addFormField(container, "Ses Transkripti / İpucu:", "text", "adm_trans", cust.trans, def.trans);
+                addFormField(container, "İndirilecek Şalter Sırası (Virgülle):", "text", "adm_order", cust.order, def.order);
             }
-            else if(data.type === "yazma") {
-                addFormField(container, "Yazma İpucu / Başlık:", "text", "adm_hint", data.hint || "");
-                addFormField(container, "Ekranda Görünen Gösterge / Cümle:", "text", "adm_display", data.display || "");
-                addFormField(container, "Doğru Kabul Edilecek Cevaplar (Virgülle ayırın):", "text", "adm_answers", data.answers || "");
+            else if(def.type === "yazma") {
+                addFormField(container, "Yazma İpucu / Başlık:", "text", "adm_hint", cust.hint, def.hint);
+                addFormField(container, "Ekranda Görünen Gösterge / Cümle:", "text", "adm_display", cust.display, def.display);
+                addFormField(container, "Kabul Edilecek Cevaplar (Virgülle):", "text", "adm_answers", cust.answers, def.answers);
             }
-            else if(data.type === "final") {
-                addFormField(container, "Final Başlığı:", "text", "adm_title", data.title || "");
-                addFormField(container, "Final Kutlama Metni:", "textarea", "adm_desc", data.desc || "");
+            else if(def.type === "final") {
+                addFormField(container, "Final Başlığı:", "text", "adm_title", cust.title, def.title);
+                addFormField(container, "Final Kutlama Metni:", "textarea", "adm_desc", cust.desc, def.desc);
             }
 
-            // Ortak: Medya Yükleyicileri
-            addMediaField(container, "Görsel Dosyası Yükle (JPG/PNG):", "image/*", (b64) => { tempImg = b64; }, data.customImg);
-            addMediaField(container, "Ses Dosyası Yükle (MP3/WAV):", "audio/*", (b64) => { tempAudio = b64; }, data.customAudio);
+            addMediaField(container, "Görsel Dosyası Yükle (JPG/PNG):", "image/*", (b64) => { tempImg = b64; }, cust.customImg || def.customImg);
+            addMediaField(container, "Ses Dosyası Yükle (MP3/WAV):", "audio/*", (b64) => { tempAudio = b64; }, cust.customAudio || def.customAudio);
         }
 
-        function addFormField(container, labelText, type, id, val) {
+        function addFormField(container, labelText, type, id, userVal, placeholderVal) {
             const grp = document.createElement('div');
             grp.className = 'teacher-group';
             grp.innerHTML = `<label>${labelText}</label>`;
             let input;
             if(type === "textarea") {
                 input = document.createElement('textarea');
-                input.value = val || "";
+                input.value = userVal !== undefined ? userVal : "";
+                input.placeholder = `Örn: ${placeholderVal || ""}`;
             } else {
                 input = document.createElement('input');
                 input.type = type;
-                input.value = val || "";
+                input.value = userVal !== undefined ? userVal : "";
+                input.placeholder = `Örn: ${placeholderVal || ""}`;
             }
             input.id = id;
             grp.appendChild(input);
@@ -1064,81 +1043,116 @@
             container.appendChild(grp);
         }
 
-        // KAYDETME
+        function clearCurrentFormInputs() {
+            const container = document.getElementById('teacherDynamicFields');
+            container.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(el => el.value = "");
+            tempImg = "";
+            tempAudio = "";
+            alert("Kutular temizlendi! Kendi içeriğinizi yazıp 'Bu İstasyonu Kaydet'e basabilirsiniz.");
+        }
+
         function saveCurrentStation() {
             const id = document.getElementById('admStationSelect').value;
-            const data = stations[id] || defaultStations[id];
+            const def = defaultStations[id];
+            const data = {};
 
-            data.prompt = document.getElementById('adm_prompt').value;
-            data.customImg = tempImg;
-            data.customAudio = tempAudio;
+            const promptVal = document.getElementById('adm_prompt').value.trim();
+            if(promptVal) data.prompt = promptVal;
 
-            // Mekaniğe özel alanları topla
-            if(data.type === "fener") {
-                data.target = document.getElementById('adm_target').value.trim();
-                data.decoys = document.getElementById('adm_decoys').value.split(',').map(s => s.trim());
+            if(tempImg) data.customImg = tempImg;
+            if(tempAudio) data.customAudio = tempAudio;
+
+            if(def.type === "fener") {
+                const t = document.getElementById('adm_target').value.trim();
+                const d = document.getElementById('adm_decoys').value.trim();
+                if(t) data.target = t;
+                if(d) data.decoys = d.split(',').map(s => s.trim());
             }
-            else if(data.type === "kablo" || data.type === "kargo") {
-                if(data.source !== undefined) data.source = document.getElementById('adm_source').value;
-                if(data.cargo !== undefined) data.cargo = document.getElementById('adm_source').value;
-                data.correct = document.getElementById('adm_correct').value.trim();
-                data.distractors = document.getElementById('adm_distractors').value.split(',').map(s => s.trim());
+            else if(def.type === "kablo" || def.type === "kargo") {
+                const s = document.getElementById('adm_source').value.trim();
+                const c = document.getElementById('adm_correct').value.trim();
+                const dis = document.getElementById('adm_distractors').value.trim();
+                if(s) { if(def.source) data.source = s; else data.cargo = s; }
+                if(c) data.correct = c;
+                if(dis) data.distractors = dis.split(',').map(x => x.trim());
             }
-            else if(data.type === "vana") {
-                data.targetVal = document.getElementById('adm_targetVal').value.trim();
-                data.choices = document.getElementById('adm_choices').value.split(',').map(s => s.trim());
+            else if(def.type === "vana") {
+                const t = document.getElementById('adm_targetVal').value.trim();
+                const ch = document.getElementById('adm_choices').value.trim();
+                if(t) data.targetVal = t;
+                if(ch) data.choices = ch.split(',').map(x => x.trim());
             }
-            else if(data.type === "mikroskop") {
-                data.label = document.getElementById('adm_label').value.trim();
-                data.correct = document.getElementById('adm_correct').value.trim();
-                data.distractors = document.getElementById('adm_distractors').value.split(',').map(s => s.trim());
+            else if(def.type === "mikroskop") {
+                const l = document.getElementById('adm_label').value.trim();
+                const c = document.getElementById('adm_correct').value.trim();
+                const dis = document.getElementById('adm_distractors').value.trim();
+                if(l) data.label = l;
+                if(c) data.correct = c;
+                if(dis) data.distractors = dis.split(',').map(x => x.trim());
             }
-            else if(data.type === "boru") {
-                data.sentence = document.getElementById('adm_sentence').value.trim();
+            else if(def.type === "boru") {
+                const sent = document.getElementById('adm_sentence').value.trim();
+                if(sent) data.sentence = sent;
             }
-            else if(data.type === "radyo") {
-                data.targetFreq = parseInt(document.getElementById('adm_targetFreq').value);
+            else if(def.type === "radyo") {
+                const rf = document.getElementById('adm_targetFreq').value.trim();
+                if(rf) data.targetFreq = parseInt(rf);
             }
-            else if(data.type === "periskop") {
-                data.correctErr = document.getElementById('adm_correctErr').value.trim();
-                data.normals = document.getElementById('adm_normals').value.split(',').map(s => s.trim());
+            else if(def.type === "periskop") {
+                const err = document.getElementById('adm_correctErr').value.trim();
+                const norm = document.getElementById('adm_normals').value.trim();
+                if(err) data.correctErr = err;
+                if(norm) data.normals = norm.split(',').map(x => x.trim());
             }
-            else if(data.type === "terazi") {
-                data.subject = document.getElementById('adm_subject').value.trim();
-                data.correct = document.getElementById('adm_correct').value.trim();
-                data.distractor = document.getElementById('adm_distractor').value.trim();
+            else if(def.type === "terazi") {
+                const sub = document.getElementById('adm_subject').value.trim();
+                const cor = document.getElementById('adm_correct').value.trim();
+                const dis = document.getElementById('adm_distractor').value.trim();
+                if(sub) data.subject = sub;
+                if(cor) data.correct = cor;
+                if(dis) data.distractor = dis;
             }
-            else if(data.type === "mors" || data.type === "ses_sik" || data.type === "okuma_sik" || data.type === "tablo" || data.type === "uv") {
-                if(document.getElementById('adm_log')) data.log = document.getElementById('adm_log').value;
-                if(document.getElementById('adm_text')) data.text = document.getElementById('adm_text').value;
-                if(document.getElementById('adm_tableHtml')) data.tableHtml = document.getElementById('adm_tableHtml').value;
-                if(document.getElementById('adm_trans')) data.trans = document.getElementById('adm_trans').value;
-                data.correct = document.getElementById('adm_correct').value.trim();
-                data.distractors = document.getElementById('adm_distractors').value.split(',').map(s => s.trim());
+            else if(def.type === "mors" || def.type === "ses_sik" || def.type === "okuma_sik" || def.type === "tablo" || def.type === "uv") {
+                if(document.getElementById('adm_log')) { const v = document.getElementById('adm_log').value.trim(); if(v) data.log = v; }
+                if(document.getElementById('adm_text')) { const v = document.getElementById('adm_text').value.trim(); if(v) data.text = v; }
+                if(document.getElementById('adm_tableHtml')) { const v = document.getElementById('adm_tableHtml').value.trim(); if(v) data.tableHtml = v; }
+                if(document.getElementById('adm_trans')) { const v = document.getElementById('adm_trans').value.trim(); if(v) data.trans = v; }
+                const c = document.getElementById('adm_correct').value.trim();
+                const dis = document.getElementById('adm_distractors').value.trim();
+                if(c) data.correct = c;
+                if(dis) data.distractors = dis.split(',').map(x => x.trim());
             }
-            else if(data.type === "salter") {
-                data.trans = document.getElementById('adm_trans').value;
-                data.order = document.getElementById('adm_order').value.trim();
+            else if(def.type === "salter") {
+                const tr = document.getElementById('adm_trans').value.trim();
+                const ord = document.getElementById('adm_order').value.trim();
+                if(tr) data.trans = tr;
+                if(ord) data.order = ord;
             }
-            else if(data.type === "yazma") {
-                data.hint = document.getElementById('adm_hint').value;
-                data.display = document.getElementById('adm_display').value;
-                data.answers = document.getElementById('adm_answers').value.trim();
+            else if(def.type === "yazma") {
+                const h = document.getElementById('adm_hint').value.trim();
+                const d = document.getElementById('adm_display').value.trim();
+                const a = document.getElementById('adm_answers').value.trim();
+                if(h) data.hint = h;
+                if(d) data.display = d;
+                if(a) data.answers = a;
             }
-            else if(data.type === "final") {
-                data.title = document.getElementById('adm_title').value;
-                data.desc = document.getElementById('adm_desc').value;
+            else if(def.type === "final") {
+                const t = document.getElementById('adm_title').value.trim();
+                const ds = document.getElementById('adm_desc').value.trim();
+                if(t) data.title = t;
+                if(ds) data.desc = ds;
             }
 
-            stations[id] = data;
-            localStorage.setItem('bathysphere_cms_v2', JSON.stringify(stations));
+            customEdited[id] = data;
+            localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
             alert(`İstasyon ${id} başarıyla güncellendi ve kaydedildi!`);
             jumpTo(id);
         }
 
-        // JSON DIŞA/İÇE AKTARMA
         function exportJSON() {
-            const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(stations, null, 2));
+            const fullExport = {};
+            for(let i=1; i<=30; i++) fullExport[i] = getActiveStationData(i);
+            const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullExport, null, 2));
             const a = document.createElement('a');
             a.href = str;
             a.download = "bathysphere_ders_paketi.json";
@@ -1153,8 +1167,8 @@
                 const r = new FileReader();
                 r.onload = (ev) => {
                     try {
-                        stations = JSON.parse(ev.target.result);
-                        localStorage.setItem('bathysphere_cms_v2', JSON.stringify(stations));
+                        customEdited = JSON.parse(ev.target.result);
+                        localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
                         alert("Ders paketi başarıyla yüklendi!");
                         jumpTo(currentGame);
                         renderTeacherForm();
@@ -1165,9 +1179,9 @@
         }
 
         function resetToFactoryDefaults() {
-            if(confirm("Tüm istasyonlar varsayılan boş şablona döndürülsün mü?")) {
-                localStorage.removeItem('bathysphere_cms_v2');
-                stations = JSON.parse(JSON.stringify(defaultStations));
+            if(confirm("Yaptığınız tüm özelleştirmeler silinip orijinal şablona dönülsün mü?")) {
+                localStorage.removeItem('bathysphere_cms_custom');
+                customEdited = {};
                 alert("Sistem sıfırlandı!");
                 jumpTo(1);
                 renderTeacherForm();
