@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Lab // Bathysphere 2.0 (AI Mission Generator & CMS)</title>
+    <title>Deep Sea Lab // Bathysphere (AI Mission Generator & CMS)</title>
     <style>
         :root {
             --bg-abyss: #030813;
@@ -312,26 +312,20 @@
 
         /* AI MISSION GENERATOR BOX */
         .ai-generator-panel {
-            background: linear-gradient(135deg, rgba(189, 0, 255, 0.12) 0%, rgba(0, 242, 254, 0.08) 100%);
-            border: 2px solid var(--uv-glow);
+            background: rgba(0, 242, 254, 0.05);
+            border: 2px solid var(--cyan-glow);
             border-radius: 10px;
             padding: 16px;
             margin-bottom: 20px;
         }
         .ai-panel-title {
-            color: #e879f9;
+            color: var(--cyan-glow);
             font-size: 0.95rem;
             font-weight: bold;
             margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-        .ai-flex-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 10px;
         }
 
         .teacher-form-section {
@@ -362,10 +356,6 @@
             border-radius: 6px;
             font-size: 0.85rem;
             font-family: inherit;
-        }
-        .teacher-group input::placeholder, .teacher-group textarea::placeholder {
-            color: rgba(148, 163, 184, 0.45);
-            font-style: italic;
         }
         .teacher-actions {
             display: flex;
@@ -620,17 +610,25 @@
             </div>
             <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, generate AI missions with Gemini, and view student analytics.</p>
 
-            <!-- 🤖 AI MISSION GENERATOR -->
+            <!-- 🤖 AI MISSION GENERATOR (Multimodal & Detailed Text/File Support) -->
             <div class="ai-generator-panel">
-                <div class="ai-panel-title">🤖 GEMINI AI MISSION GENERATOR (Web 3.0 / Procedural)</div>
-                <div style="font-size:0.8rem; color:#cbd5e1;">Enter your target English topic and let Gemini AI write all 30 stations instantly!</div>
+                <div class="ai-panel-title">🤖 AI MISSION GENERATOR (Syllabus & Document Analyzer)</div>
+                <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:10px;">Paste curriculum objectives, target vocabulary lists, or upload book pages/documents for AI processing.</div>
                 
-                <div class="ai-flex-row">
-                    <input type="password" id="geminiApiKey" placeholder="Paste Gemini API Key..." style="flex:1; min-width:200px; padding:8px 12px; background:#071226; color:#fff; border:1px solid var(--uv-glow); border-radius:6px; font-size:0.85rem;">
-                    <input type="text" id="aiTopicInput" placeholder="e.g. Past Simple vs Continuous, B1 Level" style="flex:2; min-width:250px; padding:8px 12px; background:#071226; color:#fff; border:1px solid var(--cyan-glow); border-radius:6px; font-size:0.85rem;">
-                    <button class="action-btn" id="btnGenerateAI" onclick="generateMissionWithGemini()" style="background:linear-gradient(135deg, var(--uv-glow), #3b82f6); color:#fff;">Generate Mission ⚡</button>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <input type="password" id="geminiApiKey" placeholder="Paste Gemini API Key..." style="width:100%; padding:8px 12px; background:#071226; color:#fff; border:1px solid var(--cyan-glow); border-radius:6px; font-size:0.85rem;">
+                    
+                    <textarea id="aiTopicInput" rows="3" placeholder="Paste lesson objectives, vocabulary list, or detailed curriculum notes here..." style="width:100%; padding:10px; background:#071226; color:#fff; border:1px solid var(--cyan-glow); border-radius:6px; font-size:0.85rem; font-family:inherit;"></textarea>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <label style="font-size:0.8rem; color:var(--gold-glow); font-weight:bold;">Upload Document / Book Page Photo:</label>
+                            <input type="file" id="aiDocFile" accept="image/*,.pdf" style="font-size:0.8rem; color:#94a3b8;">
+                        </div>
+                        <button class="action-btn" id="btnGenerateAI" onclick="generateMissionWithGemini()" style="background:linear-gradient(135deg, var(--cyan-glow), #3b82f6); color:#000;">Generate Mission ⚡</button>
+                    </div>
                 </div>
-                <div id="aiLoadingStatus" style="font-size:0.8rem; color:var(--cyan-glow); margin-top:8px; display:none;">🤖 Gemini is generating your deep sea lesson package... Please wait!</div>
+                <div id="aiLoadingStatus" style="font-size:0.8rem; color:var(--cyan-glow); margin-top:8px; display:none;">🤖 Gemini is analyzing your documents and generating 30 deep sea stations... Please wait!</div>
             </div>
 
             <div style="margin-top:15px; display: flex; gap: 10px; align-items: center; justify-content: space-between;">
@@ -711,51 +709,18 @@
         };
 
         const customModuleNames = {
-            1: "Echo Wreckage Salvage",
-            2: "Abyssal Cable Link",
-            3: "Pressure Gauge Valve",
-            4: "Cargo Bay Sorting",
-            5: "Optical Specimen Lens",
-            6: "Oxygen Syntax Pipeline",
-            7: "Sub-Sonic Radio Tuner",
-            8: "Periscope Error Radar",
-            9: "Subject-Verb Hydro-Scale",
-            10: "Progressive Suffix Decoder",
-            11: "Acoustic Telegraph",
-            12: "Bio-Sonar Reverb",
-            13: "Captain's Command Log",
-            14: "Nucleus Stress Pitch",
-            15: "Sequence Safety Levers",
-            16: "UV Bioluminescence Lab",
-            17: "Volcanic Trench Vector",
-            18: "Hydrostatic Depth Zone",
-            19: "Viperfish Field Feed",
-            20: "Reactor Telemetry Board",
-            21: "Cardinal Compass Bearing",
-            22: "Abyssal Barometer Blank",
-            23: "Taxon Specimen Label",
-            24: "Hatch Security Override",
-            25: "Crew Readiness Seal",
-            26: "Mayday Distress Code",
-            27: "Life Support Routing",
-            28: "Airlock Decompression",
-            29: "Hull Integrity Verification",
-            30: "Ascent Hatch Protocol"
+            1: "Echo Wreckage Salvage", 2: "Abyssal Cable Link", 3: "Pressure Gauge Valve", 4: "Cargo Bay Sorting", 5: "Optical Specimen Lens",
+            6: "Oxygen Syntax Pipeline", 7: "Sub-Sonic Radio Tuner", 8: "Periscope Error Radar", 9: "Subject-Verb Hydro-Scale", 10: "Progressive Suffix Decoder",
+            11: "Acoustic Telegraph", 12: "Bio-Sonar Reverb", 13: "Captain's Command Log", 14: "Nucleus Stress Pitch", 15: "Sequence Safety Levers",
+            16: "UV Bioluminescence Lab", 17: "Volcanic Trench Vector", 18: "Hydrostatic Depth Zone", 19: "Viperfish Field Feed", 20: "Reactor Telemetry Board",
+            21: "Cardinal Compass Bearing", 22: "Abyssal Barometer Blank", 23: "Taxon Specimen Label", 24: "Hatch Security Override", 25: "Crew Readiness Seal",
+            26: "Mayday Distress Code", 27: "Life Support Routing", 28: "Airlock Decompression", 29: "Hull Integrity Verification", 30: "Ascent Hatch Protocol"
         };
 
         let customEdited = JSON.parse(localStorage.getItem('bathysphere_cms_custom')) || {};
         let studentLogs = JSON.parse(localStorage.getItem('bathysphere_student_logs')) || [];
         
-        let pilot = { 
-            name: "Explorer", 
-            role: "Subsea Technician", 
-            feeling: "Excited", 
-            score: 0,
-            visited: [],
-            mistakes: [],
-            postFeeling: "",
-            keyTakeaway: ""
-        };
+        let pilot = { name: "Explorer", role: "Subsea Technician", feeling: "Excited", score: 0, visited: [], mistakes: [], postFeeling: "", keyTakeaway: "" };
         let currentGame = 1;
 
         function getActiveStationData(id) {
@@ -764,10 +729,8 @@
             return { ...def, ...cust };
         }
 
-        // DYNAMIC MASTER PASSWORD SYSTEM
         function checkTeacherPassword() {
             let storedPass = localStorage.getItem('bathysphere_master_pass');
-            
             if(!storedPass) {
                 let newPass = prompt("🔐 First-Time Teacher Setup: Please create your Master Password:");
                 if(newPass && newPass.trim() !== "") {
@@ -777,13 +740,9 @@
                 }
                 return;
             }
-
             let pass = prompt("🔒 Authorized Access // Enter Teacher Master Password:");
-            if(pass === storedPass) {
-                toggleTeacherDesk();
-            } else if(pass !== null) {
-                alert("❌ Incorrect password! Access denied.");
-            }
+            if(pass === storedPass) { toggleTeacherDesk(); } 
+            else if(pass !== null) { alert("❌ Incorrect password! Access denied."); }
         }
 
         function changeMasterPassword() {
@@ -794,15 +753,11 @@
                 if(nextPass && nextPass.trim() !== "") {
                     localStorage.setItem('bathysphere_master_pass', nextPass.trim());
                     alert("✓ Master password updated successfully!");
-                } else {
-                    alert("Password cannot be empty.");
-                }
-            } else if(verify !== null) {
-                alert("❌ Incorrect current password!");
-            }
+                } else { alert("Password cannot be empty."); }
+            } else if(verify !== null) { alert("❌ Incorrect current password!"); }
         }
 
-        // 🤖 GEMINI API PROCEDURAL MISSION GENERATION
+        // 🤖 MULTIMODAL GEMINI MISSION GENERATOR (Supports Text & Uploaded Documents/Images)
         async function generateMissionWithGemini() {
             const apiKeyInput = document.getElementById('geminiApiKey').value.trim();
             const storedKey = localStorage.getItem('bathysphere_gemini_key') || "";
@@ -814,9 +769,11 @@
             }
             localStorage.setItem('bathysphere_gemini_key', activeKey);
 
-            const topic = document.getElementById('aiTopicInput').value.trim();
-            if(!topic) {
-                alert("Please enter a target learning topic (e.g. Past Simple, A2 Level)!");
+            const topicText = document.getElementById('aiTopicInput').value.trim();
+            const fileInput = document.getElementById('aiDocFile');
+            
+            if(!topicText && (!fileInput.files || fileInput.files.length === 0)) {
+                alert("Please paste lesson notes/objectives or upload a document/image!");
                 return;
             }
 
@@ -825,10 +782,11 @@
             status.style.display = 'block';
             btn.disabled = true;
 
-            const systemPrompt = `You are an expert English Curriculum Designer and AI game developer.
-Target English Topic: "${topic}".
-Theme: Deep Sea Submarine Exploration (Bathysphere).
-Task: Generate an updated 30-station educational JSON object adapting the theme and topic.
+            try {
+                let contentParts = [];
+                
+                const systemPrompt = `You are an expert English Curriculum Designer and Instructional AI.
+Analyze the provided curriculum notes, vocabulary lists, or uploaded documents/images and adapt them into a 30-station educational JSON object for a Deep Sea Submarine game (Bathysphere).
 Output strictly pure, raw valid JSON matching this exact structure without markdown ticks or backticks:
 {
   "1": { "type": "fener", "prompt": "...", "target": "...", "decoys": ["...", "..."] },
@@ -863,13 +821,24 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
   "30": { "type": "final", "prompt": "...", "title": "...", "desc": "..." }
 }`;
 
-            try {
+                contentParts.push({ text: systemPrompt + "\n\nSource Content/Notes provided by teacher:\n" + topicText });
+
+                if(fileInput.files && fileInput.files[0]) {
+                    const file = fileInput.files[0];
+                    const base64Data = await toBase64(file);
+                    const mimeType = file.type || "image/jpeg";
+                    contentParts.push({
+                        inline_data: {
+                            mime_type: mimeType,
+                            data: base64Data.split(',')[1]
+                        }
+                    });
+                }
+
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: systemPrompt }] }]
-                    })
+                    body: JSON.stringify({ contents: [{ parts: contentParts }] })
                 });
 
                 const data = await response.json();
@@ -883,7 +852,7 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
                 customEdited = parsedAIStations;
                 localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
 
-                alert(`🎉 Success! Gemini AI generated 30 custom stations on "${topic}"!`);
+                alert(`🎉 Success! Gemini analyzed your curriculum data and generated 30 custom stations!`);
                 jumpTo(1);
                 renderTeacherForm();
             } catch(err) {
@@ -892,6 +861,15 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
                 status.style.display = 'none';
                 btn.disabled = false;
             }
+        }
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
         }
 
         function startExpedition() {
@@ -1231,17 +1209,12 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
 
         function saveStudentLog() {
             const today = new Date().toLocaleString('en-US');
-            
             let diagnostic = "";
             const totalIssues = pilot.mistakes.length;
 
-            if(pilot.score === 0) {
-                diagnostic = "⚠️ Critical: Student scored 0 XP and completed mission without answers.";
-            } else if(totalIssues === 0 && pilot.score >= 500) {
-                diagnostic = "🏆 Excellent Performance: Completed all stations without any errors.";
-            } else {
-                diagnostic = `⚠️ Growth Area: Errors recorded in ${totalIssues} stations. Review recommended.`;
-            }
+            if(pilot.score === 0) { diagnostic = "⚠️ Critical: Student scored 0 XP and completed mission without answers."; } 
+            else if(totalIssues === 0 && pilot.score >= 500) { diagnostic = "🏆 Excellent Performance: Completed all stations without any errors."; } 
+            else { diagnostic = `⚠️ Growth Area: Errors recorded in ${totalIssues} stations. Review recommended.`; }
 
             const record = {
                 id: Date.now(),
@@ -1385,7 +1358,6 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
             txt.style.textShadow = "none";
         }
 
-        // TEACHER DESK & ANALYTICS
         function toggleTeacherDesk() {
             const desk = document.getElementById('teacherDesk');
             desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
@@ -1401,16 +1373,12 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
         function renderAnalyticsTable() {
             const table = document.getElementById('analyticsTable');
             table.innerHTML = `<tr><th>Date</th><th>Student Name</th><th>Role</th><th>Score</th><th>Incorrect/Missed Stations</th><th>AI Diagnostic Report</th><th>Action</th></tr>`;
-            
             studentLogs.forEach((log, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${log.date}</td>
-                    <td>${log.name}</td>
-                    <td>${log.role}</td>
+                    <td>${log.date}</td><td>${log.name}</td><td>${log.role}</td>
                     <td style="color:var(--success-neon); font-weight:bold;">${log.score}</td>
-                    <td>${log.mistakes}</td>
-                    <td style="color:var(--gold-glow);">${log.diagnostic}</td>
+                    <td>${log.mistakes}</td><td style="color:var(--gold-glow);">${log.diagnostic}</td>
                     <td><button class="del-log-btn" onclick="deleteSingleLog(${index})">Delete ❌</button></td>
                 `;
                 table.appendChild(row);
@@ -1437,17 +1405,12 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
         function exportStudentLogsCSV() {
             if(studentLogs.length === 0) { alert("No student data recorded yet."); return; }
             let csv = "Date,Student Name,Role,Score,Incorrect Stations,AI Diagnostic Report\n";
-            studentLogs.forEach(l => {
-                csv += `"${l.date}","${l.name}","${l.role}","${l.score}","${l.mistakes}","${l.diagnostic}"\n`;
-            });
+            studentLogs.forEach(l => { csv += `"${l.date}","${l.name}","${l.role}","${l.score}","${l.mistakes}","${l.diagnostic}"\n`; });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url;
-            a.download = "student_analytics_report.csv";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
+            a.href = url; a.download = "student_analytics_report.csv";
+            document.body.appendChild(a); a.click(); a.remove();
         }
 
         function populateStationDropdown() {
@@ -1463,8 +1426,7 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
             sel.value = currentGame;
         }
 
-        let tempImg = "";
-        let tempAudio = "";
+        let tempImg = ""; let tempAudio = "";
 
         function renderTeacherForm() {
             const id = document.getElementById('admStationSelect').value;
@@ -1473,9 +1435,7 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
             const container = document.getElementById('teacherDynamicFields');
             container.innerHTML = "";
 
-            tempImg = cust.customImg || "";
-            tempAudio = cust.customAudio || "";
-
+            tempImg = cust.customImg || ""; tempAudio = cust.customAudio || "";
             addFormField(container, "Mission Prompt / Question:", "text", "adm_prompt", cust.prompt, def.prompt);
 
             if(def.type === "fener") {
@@ -1516,7 +1476,6 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
                 if(def.text !== undefined) addFormField(container, "Display Text:", "textarea", "adm_text", cust.text, def.text);
                 if(def.tableHtml !== undefined) addFormField(container, "Telemetry Table Text:", "text", "adm_tableHtml", cust.tableHtml, def.tableHtml);
                 if(def.trans !== undefined) addFormField(container, "Audio Transcript / Hint:", "text", "adm_trans", cust.trans, def.trans);
-
                 addFormField(container, "Correct Option:", "text", "adm_correct", cust.correct, def.correct);
                 addFormField(container, "Incorrect Options (Comma-separated):", "text", "adm_distractors", cust.distractors ? cust.distractors.join(', ') : "", (def.distractors || []).join(', '));
             }
@@ -1576,19 +1535,16 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
         function clearCurrentFormInputs() {
             const container = document.getElementById('teacherDynamicFields');
             container.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(el => el.value = "");
-            tempImg = "";
-            tempAudio = "";
-            alert("Fields cleared! You can write your custom content now.");
+            tempImg = ""; tempAudio = "";
+            alert("Fields cleared!");
         }
 
         function saveCurrentStation() {
             const id = document.getElementById('admStationSelect').value;
             const def = defaultStations[id];
             const data = {};
-
             const promptVal = document.getElementById('adm_prompt').value.trim();
             if(promptVal) data.prompt = promptVal;
-
             if(tempImg) data.customImg = tempImg;
             if(tempAudio) data.customAudio = tempAudio;
 
@@ -1675,7 +1631,7 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
 
             customEdited[id] = data;
             localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
-            alert(`Station ${id} successfully updated and deployed!`);
+            alert(`Station ${id} successfully updated!`);
             jumpTo(id);
         }
 
@@ -1684,11 +1640,8 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
             for(let i=1; i<=30; i++) fullExport[i] = getActiveStationData(i);
             const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullExport, null, 2));
             const a = document.createElement('a');
-            a.href = str;
-            a.download = "bathysphere_lesson_package.json";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
+            a.href = str; a.download = "bathysphere_lesson_package.json";
+            document.body.appendChild(a); a.click(); a.remove();
         }
 
         function importJSON(e) {
@@ -1699,9 +1652,8 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
                     try {
                         customEdited = JSON.parse(ev.target.result);
                         localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
-                        alert("Lesson package successfully imported!");
-                        jumpTo(currentGame);
-                        renderTeacherForm();
+                        alert("Lesson package imported successfully!");
+                        jumpTo(currentGame); renderTeacherForm();
                     } catch(err) { alert("Invalid JSON file!"); }
                 };
                 r.readAsText(f);
@@ -1709,12 +1661,11 @@ Output strictly pure, raw valid JSON matching this exact structure without markd
         }
 
         function resetToFactoryDefaults() {
-            if(confirm("Are you sure you want to reset all customizations to factory defaults?")) {
+            if(confirm("Reset all stations to factory defaults?")) {
                 localStorage.removeItem('bathysphere_cms_custom');
                 customEdited = {};
-                alert("System reset to factory defaults!");
-                jumpTo(1);
-                renderTeacherForm();
+                alert("Reset complete!");
+                jumpTo(1); renderTeacherForm();
             }
         }
     </script>
