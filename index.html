@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Research Lab // Boş Şablon & Dinamik CMS</title>
+    <title>Deep Sea Research Lab // Batısfer 1.0 (Tam Sürüm)</title>
     <style>
         :root {
             --bg-abyss: #030813;
@@ -89,23 +89,34 @@
             position: relative;
         }
 
+        /* BRİFİNG FORMU & ÖN DEĞERLENDİRME */
         .briefing-form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            max-width: 380px;
+            gap: 14px;
+            max-width: 480px;
             margin: 20px auto;
+            text-align: left;
         }
-        .briefing-input, .briefing-select {
-            padding: 12px;
+        .field-label {
+            font-size: 0.8rem;
+            color: var(--cyan-glow);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .briefing-input, .briefing-select, .briefing-textarea {
+            padding: 10px 14px;
             border-radius: 6px;
             border: 1px solid var(--border-hud);
             background: #060e1d;
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
+            width: 100%;
         }
 
+        /* 30 OYUN KONSOLU */
         .quick-nav-panel {
             background: #060e1d;
             border: 2px solid var(--border-hud);
@@ -236,24 +247,64 @@
             outline: none;
         }
 
-        .debrief-table {
-            width: 100%;
-            max-width: 550px;
+        /* ÇIKIŞ SERTİFİKASI & KARNE */
+        .certificate-frame {
+            background: linear-gradient(135deg, #061124 0%, #030813 100%);
+            border: 4px double var(--gold-glow);
+            border-radius: 12px;
+            padding: 30px;
             margin: 20px auto;
-            border-collapse: collapse;
-            background: #060e1d;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border-hud);
-            text-align: left;
+            max-width: 680px;
+            box-shadow: 0 0 30px rgba(255, 183, 3, 0.2);
+            text-align: center;
+            position: relative;
         }
-        .debrief-table td {
-            padding: 12px 18px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.9rem;
+        .cert-header {
+            font-size: 1.6rem;
+            color: var(--gold-glow);
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .cert-sub {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .cert-name {
+            font-size: 1.8rem;
+            color: #fff;
+            font-weight: bold;
+            border-bottom: 2px solid var(--cyan-glow);
+            display: inline-block;
+            padding: 0 25px 5px 25px;
+            margin-bottom: 15px;
+        }
+        .cert-body {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .cert-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px solid var(--border-hud);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+        .cert-seal {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
         }
 
-        /* ÖĞRETMEN MASASI & PLACEHOLDER STİLLERİ */
+        /* ÖĞRETMEN MASASI */
         .teacher-desk {
             background: #060e1d;
             border: 2px solid var(--gold-glow);
@@ -296,8 +347,6 @@
             color: rgba(148, 163, 184, 0.45);
             font-style: italic;
         }
-        .teacher-group textarea { resize: vertical; min-height: 60px; }
-
         .teacher-actions {
             display: flex;
             gap: 10px;
@@ -305,6 +354,7 @@
             flex-wrap: wrap;
         }
 
+        /* MEKANİKLER */
         .fener-area { position: relative; width: 100%; height: 200px; background: #02050d; border: 2px dashed var(--border-hud); overflow: hidden; cursor: crosshair; }
         .hidden-word { position: absolute; font-size: 1.3rem; font-weight: bold; color: #fff; padding: 10px; cursor: pointer; z-index: 1; }
         .dark-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2; pointer-events: none; }
@@ -324,6 +374,13 @@
         .uv-chamber { position: relative; width: 100%; height: 160px; background: #01040a; border: 2px solid var(--uv-glow); border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 12px; }
         .uv-secret-text { color: rgba(189, 0, 255, 0.08); font-size: 1.05rem; font-weight: bold; text-align: center; max-width: 80%; }
         .uv-torch-overlay { position: absolute; width: 120px; height: 120px; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(189, 0, 255, 0.35) 0%, transparent 75%); border: 1px solid var(--uv-glow); display: none; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printableCert, #printableCert * { visibility: visible; }
+            #printableCert { position: absolute; left: 0; top: 0; width: 100%; border: 3px solid #000; color: #000; background: #fff !important; }
+            .cert-header, .cert-name { color: #000 !important; }
+        }
     </style>
 </head>
 <body>
@@ -338,22 +395,47 @@
 
     <main>
 
+        <!-- 1. GİRİŞ BRİFİNGİ & ÖN REFLEKSİYON -->
         <div class="cockpit-card" id="briefingScreen">
-            <div style="padding:20px 10px;">
-                <h2 style="color:var(--cyan-glow); margin-bottom:12px;">KÂŞİF GİRİŞ BRİFİNGİ & DALIŞ PROTOKOLÜ</h2>
-                <p style="color:#94a3b8; font-size:0.95rem; margin-bottom:15px;">Dalış simülasyonuna başlamak için kâşif kimliğini doğrula.</p>
+            <div style="padding:10px;">
+                <h2 style="color:var(--cyan-glow); margin-bottom:6px;">KÂŞİF GİRİŞ BRİFİNGİ & DALIŞ PROTOKOLÜ</h2>
+                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Dalış simülasyonuna başlamadan önce zihinsel hazırlığını ve hedefini belirle.</p>
+                
                 <div class="briefing-form">
-                    <input type="text" id="inputPilotName" class="briefing-input" placeholder="Kâşif / Öğrenci Adı..." autocomplete="off">
-                    <select id="selectPilotRole" class="briefing-select">
-                        <option value="Sualtı Mühendisi">Rol: Sualtı Mühendisi</option>
-                        <option value="Biyo-Akustik Uzmanı">Rol: Biyo-Akustik Uzmanı</option>
-                        <option value="Seyir & Navigasyon Subayı">Rol: Seyir & Navigasyon Subayı</option>
-                    </select>
-                    <button class="action-btn" style="padding:14px;" onclick="startExpedition()">DALIŞ PROTOKOLÜNÜ BAŞLAT 🌊</button>
+                    <div>
+                        <div class="field-label">1. Kâşif Kimliği</div>
+                        <input type="text" id="inputPilotName" class="briefing-input" placeholder="Adınızı ve Soyadınızı yazınız..." autocomplete="off">
+                    </div>
+
+                    <div>
+                        <div class="field-label">2. Operasyonel Rol</div>
+                        <select id="selectPilotRole" class="briefing-select">
+                            <option value="Sualtı Mühendisi">Sualtı Mühendisi (Donanım & Sistem Odaklı)</option>
+                            <option value="Biyo-Akustik Uzmanı">Biyo-Akustik Uzmanı (Dil & Ses Frekans Odaklı)</option>
+                            <option value="Seyir & Navigasyon Subayı">Seyir & Navigasyon Subayı (Taktik & Metin Odaklı)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <div class="field-label">3. Dalış Öncesi Duygu / Hazır Bulunuşluk</div>
+                        <select id="selectPilotFeeling" class="briefing-select">
+                            <option value="⚡ Odaklanmış & Heyecanlı">⚡ Odaklanmış & Heyecanlı</option>
+                            <option value="🌊 Sakin & Keşfe Meraklı">🌊 Sakin & Keşfe Meraklı</option>
+                            <option value="⚠️ Temkinli & Dikkatli">⚠️ Temkinli & Dikkatli</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <div class="field-label">4. Dalış Misyonu / Kişisel Hedef</div>
+                        <input type="text" id="inputPilotGoal" class="briefing-input" placeholder="Örn: 30 istasyonda hata yapmadan sualtı terimlerini deşifre etmek." value="Derin deniz batığını kurtarmak ve teknik İngilizce terimlerini deşifre etmek.">
+                    </div>
+
+                    <button class="action-btn" style="padding:14px; margin-top:10px;" onclick="startExpedition()">DALIŞ PROTOKOLÜNÜ BAŞLAT 🌊</button>
                 </div>
             </div>
         </div>
 
+        <!-- 2. AKTİF OYUN KONSOLU & SAHNE -->
         <div id="gameContainer" style="display:none;">
 
             <div class="quick-nav-panel">
@@ -421,7 +503,7 @@
                 <div id="game27" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px;" id="g27Desc">-</div><div id="g27Options"></div></div>
                 <div id="game28" style="display:none;"><div style="background:#071326; border:1px solid var(--border-hud); padding:15px; border-radius:8px; margin-bottom:15px;" id="g28Desc">-</div><div id="g28Options"></div></div>
                 <div id="game29" style="display:none;"><div style="background:#050d1a; border:1px solid var(--cyan-glow); padding:15px; border-radius:8px; margin-bottom:15px; font-size:0.9rem;" id="g29Desc">-</div><div id="g29Options"></div></div>
-                <div id="game30" style="display:none;"><div style="background:radial-gradient(circle, #0d274c 0%, #030813 90%); border:2px solid var(--success-neon); padding:20px; border-radius:12px; margin-bottom:15px;"><div style="font-size:1.6rem; color:var(--success-neon); font-weight:bold;" id="g30Title">DALIŞ TAMAMLANDI</div><div style="font-size:0.95rem; color:#cbd5e1; margin-top:8px;" id="g30Desc">Tüm modülleri tamamladın.</div></div><button class="action-btn" onclick="finishExpedition()">GÖREVİ BİTİR VE SEYİR DEFTERİNİ AÇ 📜</button></div>
+                <div id="game30" style="display:none;"><div style="background:radial-gradient(circle, #0d274c 0%, #030813 90%); border:2px solid var(--success-neon); padding:20px; border-radius:12px; margin-bottom:15px;"><div style="font-size:1.6rem; color:var(--success-neon); font-weight:bold;" id="g30Title">DALIŞ TAMAMLANDI</div><div style="font-size:0.95rem; color:#cbd5e1; margin-top:8px;" id="g30Desc">Tüm modülleri tamamladın.</div></div><button class="action-btn" onclick="openReflectionModal()">GÖREV SONU DEĞERLENDİRMESİNE GEÇ 📜</button></div>
 
                 <div class="feedback-banner" id="feedback"></div>
 
@@ -432,27 +514,73 @@
             </div>
         </div>
 
+        <!-- 3. GÖREV SONU REFLEKSİYON & SERTİFİKA EKRANI -->
         <div class="cockpit-card" id="debriefScreen" style="display:none;">
-            <h2 style="color:var(--cyan-glow); margin-bottom:10px;">SEFER SEYİR DEFTERİ // RESMİ KARNE</h2>
-            <p style="color:#94a3b8; font-size:0.9rem;">Dalış simülasyonu başarıyla kaydedildi. Öğrenci performans telemetrisi:</p>
+            
+            <!-- A: Üstbilişsel Değerlendirme Formu -->
+            <div id="reflectionBox">
+                <h2 style="color:var(--cyan-glow); margin-bottom:8px;">SEFER SONU GÖREV DEĞERLENDİRMESİ</h2>
+                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Lisansını onaylamadan önce sefer tecrübeni ve kazanımlarını kaydet.</p>
 
-            <table class="debrief-table">
-                <tr><td>KÂŞİF ADI:</td><td id="repPilot">-</td></tr>
-                <tr><td>OPERASYONEL ROL:</td><td id="repRole">-</td></tr>
-                <tr><td>TOPLAM KAZANILAN SKOR:</td><td id="repScore" style="color:var(--success-neon); font-weight:bold;">-</td></tr>
-                <tr><td>TAMAMLANAN İSTASYONLAR:</td><td>30 / 30 İstasyon Aktif</td></tr>
-                <tr><td>LİSANS STATÜSÜ:</td><td style="color:var(--gold-glow); font-weight:bold;">Yetkili Derin Deniz Araştırmacısı</td></tr>
-            </table>
+                <div class="briefing-form" style="margin-top:10px;">
+                    <div>
+                        <div class="field-label">1. Sefer Sonrası Hissiyatın</div>
+                        <select id="selectPostFeeling" class="briefing-select">
+                            <option value="🏆 Başarmış, Kendine Güvenli & Yetkin">🏆 Başarmış, Kendine Güvenli & Yetkin</option>
+                            <option value="🧠 Zihnim Zorlandı ama Çok Şey Açıldı">🧠 Zihnim Zorlandı ama Çok Şey Açıldı</option>
+                            <option value="🔍 Bazı Noktaları Pekiştirmek İçin Tekrar Dalmalıyım">🔍 Bazı Noktaları Pekiştirmek İçin Tekrar Dalmalıyım</option>
+                        </select>
+                    </div>
 
-            <button class="action-btn" onclick="restartExpedition()">YENİ DALIŞ BAŞLAT 🔄</button>
+                    <div>
+                        <div class="field-label">2. Bu Görevde Kazandığın En Kritik Kelime / Kural</div>
+                        <input type="text" id="inputKeyTakeaway" class="briefing-input" placeholder="Örn: Bioluminescence kavramını veya -ing ekleme mantığını pekiştirdim.">
+                    </div>
+
+                    <button class="action-btn" style="padding:12px; margin-top:10px;" onclick="generateCertificate()">SERFİTİKAYI OLUŞTUR VE YAZDIR 📜</button>
+                </div>
+            </div>
+
+            <!-- B: Yazdırılabilir / İndirilebilir Başarı Sertifikası -->
+            <div id="certificateContainer" style="display:none; margin-top:20px;">
+                <div class="certificate-frame" id="printableCert">
+                    <div class="cert-seal">🎖️</div>
+                    <div class="cert-header">DERİN DENİZ ARAŞTIRMA LİSANSI</div>
+                    <div class="cert-sub">BATHYSPHERE ADVANCED EXPEDITIONARY ACCREDITATION</div>
+                    
+                    <div style="font-size:0.85rem; color:#94a3b8; margin-top:15px;">İşbu belge, derin deniz araştırma protokollerini üstün başarıyla tamamlayan:</div>
+                    <div class="cert-name" id="certPilotName">-</div>
+
+                    <div class="cert-body">
+                        Yukarıda adı geçen kâşif, Batısfer 1.0 derin deniz araştırma istasyonunda 6 modül ve 30 teknik dil simülasyonunu başarıyla tamamlamış; akustik deşifre, sözdizimi inşası, bilimsel çıkarım ve kriz komuta görevlerinde tam yetkinlik göstermiştir.
+                    </div>
+
+                    <div class="cert-meta-grid">
+                        <div><strong>GÖREV ROLÜ:</strong><br><span id="certRole" style="color:var(--gold-glow);">-</span></div>
+                        <div><strong>TOPLAM TELEMETRİ:</strong><br><span id="certScore" style="color:var(--success-neon); font-weight:bold;">-</span></div>
+                        <div><strong>DALIŞ TARİHİ:</strong><br><span id="certDate">-</span></div>
+                    </div>
+
+                    <div style="font-size:0.8rem; color:#94a3b8; border-top:1px dashed rgba(255,255,255,0.1); padding-top:10px; font-style:italic;">
+                        "Kâşif Sefer Özeti: <span id="certReflectNote" style="color:#e0f2fe;">-</span>"
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+                    <button class="action-btn" onclick="window.print()">Sertifikayı Yazdır / PDF İndir 🖨️</button>
+                    <button class="hud-btn" onclick="restartExpedition()">Yeni Sefer Başlat 🔄</button>
+                </div>
+            </div>
+
         </div>
 
+        <!-- 4. ÖĞRETMEN MASASI (DİNAMİK H5P FORM CMS) -->
         <div class="teacher-desk" id="teacherDesk">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 style="color:var(--gold-glow);">ÖĞRETMEN MASASI // H5P TARZI İÇERİK EDİTÖRÜ</h3>
                 <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Kapat</button>
             </div>
-            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Kutular silinmek zorunda kalmamanız için temiz gelir; gri yazılar sadece kılavuzdur. Doğrudan yazmaya başlayabilirsiniz.</p>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Kutular temiz gelir; gri yazılar sadece kılavuzdur. Doğrudan yazmaya başlayabilirsiniz.</p>
 
             <div style="margin-top:15px;">
                 <label style="font-size:0.85rem; color:var(--cyan-glow); font-weight:bold;">DÜZENLENECEK İSTASYON:</label>
@@ -508,7 +636,15 @@
         };
 
         let customEdited = JSON.parse(localStorage.getItem('bathysphere_cms_custom')) || {};
-        let pilot = { name: "Kâşif", role: "Sualtı Mühendisi", score: 0 };
+        let pilot = { 
+            name: "Kâşif", 
+            role: "Sualtı Mühendisi", 
+            feeling: "Odaklanmış", 
+            goal: "Dalışı bitirmek", 
+            score: 0,
+            postFeeling: "",
+            keyTakeaway: ""
+        };
         let currentGame = 1;
 
         function getActiveStationData(id) {
@@ -521,6 +657,8 @@
             const name = document.getElementById('inputPilotName').value.trim();
             pilot.name = name || "Kâşif Dalgıç";
             pilot.role = document.getElementById('selectPilotRole').value;
+            pilot.feeling = document.getElementById('selectPilotFeeling').value;
+            pilot.goal = document.getElementById('inputPilotGoal').value.trim();
             pilot.score = 0;
 
             document.getElementById('hudPilot').innerText = pilot.name;
@@ -777,13 +915,33 @@
             }
         }
 
-        function finishExpedition() {
+        /* --- REFLEKSİYON & SERTİFİKA OLUŞTURMA MOTORU --- */
+        function openReflectionModal() {
             document.getElementById('gameContainer').style.display = 'none';
             document.getElementById('debriefScreen').style.display = 'block';
-            document.getElementById('repPilot').innerText = pilot.name;
-            document.getElementById('repRole').innerText = pilot.role;
-            document.getElementById('repScore').innerText = `${pilot.score} XP`;
+            document.getElementById('reflectionBox').style.display = 'block';
+            document.getElementById('certificateContainer').style.display = 'none';
         }
+
+        function generateCertificate() {
+            pilot.postFeeling = document.getElementById('selectPostFeeling').value;
+            pilot.keyTakeaway = document.getElementById('inputKeyTakeaway').value.trim() || "Tüm derin deniz dil simülasyonunu başarıyla tamamladım.";
+
+            document.getElementById('certPilotName').innerText = pilot.name;
+            document.getElementById('certRole').innerText = pilot.role;
+            document.getElementById('certScore').innerText = `${pilot.score} XP (Mükemmel Seviye)`;
+            
+            // Güncel Otomatik Tarih
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('certDate').innerText = dateStr;
+
+            document.getElementById('certReflectNote').innerText = `${pilot.postFeeling} - "${pilot.keyTakeaway}"`;
+
+            document.getElementById('reflectionBox').style.display = 'none';
+            document.getElementById('certificateContainer').style.display = 'block';
+        }
+
         function restartExpedition() {
             document.getElementById('debriefScreen').style.display = 'none';
             document.getElementById('briefingScreen').style.display = 'block';
@@ -908,9 +1066,7 @@
             txt.style.textShadow = "none";
         }
 
-        // ==========================================
-        // ÖĞRETMEN MASASI (PLACEHOLDER & SIFIRLAMA DESTEKLİ)
-        // ==========================================
+        // ÖĞRETMEN MASASI
         function toggleTeacherDesk() {
             const desk = document.getElementById('teacherDesk');
             desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
@@ -1048,7 +1204,7 @@
             container.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(el => el.value = "");
             tempImg = "";
             tempAudio = "";
-            alert("Kutular temizlendi! Kendi içeriğinizi yazıp 'Bu İstasyonu Kaydet'e basabilirsiniz.");
+            alert("Kutular temizlendi! Kendi içeriğinizi yazıp kaydedebilirsiniz.");
         }
 
         function saveCurrentStation() {
