@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Research Lab // Batısfer Görevi</title>
+    <title>Deep Sea Research Lab // Batısfer 1.0</title>
     <style>
         :root {
             --bg-abyss: #030813;
             --hull-bg: #0b172a;
-            --panel-bg: rgba(13, 27, 42, 0.85);
+            --panel-bg: rgba(13, 27, 42, 0.9);
             --cyan-glow: #00f2fe;
             --cyan-dim: #0582ca;
             --gold-glow: #ffb703;
@@ -22,6 +22,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            user-select: none;
         }
 
         body {
@@ -33,7 +34,7 @@
             flex-direction: column;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 50% 20%, rgba(0, 242, 254, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 50% 15%, rgba(0, 242, 254, 0.08) 0%, transparent 60%),
                 linear-gradient(to bottom, #02050d 0%, #051021 100%);
         }
 
@@ -41,21 +42,19 @@
         body.inclusive-font {
             font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif !important;
             letter-spacing: 0.12em !important;
-            word-spacing: 0.25em !important;
+            word-spacing: 0.22em !important;
             line-height: 1.8 !important;
         }
 
-        /* HEADER & HUD */
         header {
             width: 100%;
             background: rgba(11, 23, 42, 0.95);
             border-bottom: 2px solid var(--border-hud);
             backdrop-filter: blur(10px);
-            padding: 15px 30px;
+            padding: 12px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -83,43 +82,33 @@
         }
 
         .hud-brand h1 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 800;
             letter-spacing: 2px;
             color: #ffffff;
             text-transform: uppercase;
         }
 
-        .hud-brand span {
-            color: var(--cyan-glow);
-            font-size: 0.85rem;
-            border: 1px solid var(--border-hud);
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-
         .header-actions {
             display: flex;
-            gap: 12px;
-            align-items: center;
+            gap: 10px;
         }
 
         .hud-btn {
             background: rgba(5, 130, 202, 0.15);
             color: var(--cyan-glow);
             border: 1px solid var(--cyan-glow);
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.85rem;
             font-weight: 600;
-            transition: all 0.25s;
+            transition: 0.2s;
         }
 
         .hud-btn:hover {
             background: var(--cyan-glow);
             color: #02050d;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
         }
 
         .btn-teacher {
@@ -131,21 +120,18 @@
         .btn-teacher:hover {
             background: var(--gold-glow);
             color: #000;
-            box-shadow: 0 0 15px rgba(255, 183, 3, 0.4);
         }
 
-        /* ANA GÖVDE */
         main {
             flex: 1;
             width: 92%;
-            max-width: 1100px;
-            margin: 25px auto;
+            max-width: 1000px;
+            margin: 20px auto;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        /* BRİFİNG / KARŞILAMA EKRANI */
         .cockpit-card {
             background: var(--panel-bg);
             border: 1px solid var(--border-hud);
@@ -156,111 +142,116 @@
             position: relative;
         }
 
-        .intro-screen {
+        /* BRİFİNG EKRANI */
+        .briefing-box {
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
-        .intro-screen h2 {
-            font-size: 2.2rem;
+        .briefing-box h2 {
+            font-size: 2rem;
             color: #fff;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             text-shadow: 0 0 15px var(--cyan-glow);
         }
 
-        .intro-screen p {
+        .briefing-box p {
             color: #94a3b8;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
-            font-size: 1.05rem;
+            max-width: 650px;
+            margin: 0 auto 25px auto;
+            font-size: 1rem;
             line-height: 1.6;
         }
 
-        .pilot-input-box {
+        .checklist {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            max-width: 450px;
-            margin: 0 auto;
-        }
-
-        .pilot-input-box input {
-            flex: 1;
-            padding: 14px 20px;
-            border-radius: 8px;
-            border: 2px solid var(--border-hud);
-            background: #060e1d;
-            color: #fff;
-            font-size: 1.05rem;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .pilot-input-box input:focus {
-            border-color: var(--cyan-glow);
-            box-shadow: 0 0 12px rgba(0, 242, 254, 0.3);
-        }
-
-        .launch-btn {
-            background: linear-gradient(135deg, var(--cyan-glow), var(--cyan-dim));
-            color: #030813;
-            font-weight: 800;
-            border: none;
-            padding: 0 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.05rem;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        .launch-btn:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
-        }
-
-        /* MODÜL VE OYUN KONTROL PANELİ */
-        .module-selector {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-        }
-
-        .mod-pill {
-            padding: 8px 16px;
-            background: #081224;
-            color: #64748b;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 700;
-            white-space: nowrap;
-            transition: 0.2s;
-        }
-
-        .mod-pill.active {
-            background: rgba(0, 242, 254, 0.15);
-            border-color: var(--cyan-glow);
+            gap: 20px;
+            margin-bottom: 30px;
+            font-size: 0.85rem;
             color: var(--cyan-glow);
         }
 
-        .sub-games-nav {
+        .checklist span {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 242, 254, 0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        .pilot-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .pilot-form input, .pilot-form select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-hud);
+            background: #060e1d;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .btn-launch {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--cyan-glow), var(--cyan-dim));
+            color: #030813;
+            font-weight: 800;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-launch:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+        }
+
+        /* GÖREV KOKPİTİ */
+        .hud-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(2, 6, 16, 0.6);
+            border: 1px solid var(--border-hud);
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .hud-badge {
+            color: var(--cyan-glow);
+            font-weight: 700;
+        }
+
+        .games-nav {
+            display: flex;
+            gap: 10px;
             overflow-x: auto;
             padding-bottom: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .cartridge-btn {
             background: #081224;
             color: #94a3b8;
-            border: 1px solid rgba(0, 242, 254, 0.15);
-            padding: 7px 14px;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 8px 14px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.85rem;
@@ -271,235 +262,321 @@
         .cartridge-btn.active {
             background: var(--cyan-glow);
             color: #02050d;
-            font-weight: 700;
+            font-weight: bold;
             border-color: var(--cyan-glow);
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
         }
 
-        /* İSTATİSTİK ŞERİDİ */
-        .pilot-status-bar {
+        .stage-title {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* OYUN 1: KARANLIK VE FENER MASKESİ */
+        .flashlight-zone {
+            width: 100%;
+            height: 220px;
+            background: #02050d;
+            border: 2px dashed rgba(0, 242, 254, 0.4);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .target-wreck {
+            position: absolute;
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            color: rgba(0, 242, 254, 0.1);
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+
+        .torch-beam {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.3) 0%, rgba(0, 242, 254, 0.08) 50%, transparent 70%);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+            display: none;
+        }
+
+        /* OYUN 2: KABLO BAĞLAMA (TERMINAL SEÇİMİ) */
+        .wire-canvas {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(2, 6, 16, 0.6);
-            border: 1px solid var(--border-hud);
-            border-radius: 10px;
-            padding: 10px 20px;
-            margin-bottom: 25px;
-            font-size: 0.9rem;
+            gap: 20px;
+            padding: 20px 10px;
+            min-height: 180px;
         }
 
-        .bar-badge {
-            color: var(--cyan-glow);
-            font-weight: 700;
-        }
-
-        /* SONAR / AKTİF OYUN GÖSTERGESİ */
-        .radar-box {
-            width: 100%;
-            height: 180px;
-            background: radial-gradient(circle, #091a32 0%, #030a16 100%);
+        .wire-port {
+            background: #060e1d;
             border: 2px solid var(--border-hud);
-            border-radius: 12px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .wire-port.selected {
+            border-color: var(--cyan-glow);
+            background: rgba(0, 242, 254, 0.15);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
+
+        /* OYUN 3: BASINÇ VALFİ ÇARKI */
+        .valve-area {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 25px;
+            gap: 20px;
+            padding: 15px 0;
         }
 
-        .radar-box::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.15), transparent);
-            animation: sweep 3s infinite linear;
-        }
-
-        @keyframes sweep {
-            0% { left: -50%; }
-            100% { left: 150%; }
-        }
-
-        .sonar-target-text {
-            font-size: 2.2rem;
-            font-weight: 900;
-            letter-spacing: 4px;
-            color: var(--cyan-glow);
-            text-shadow: 0 0 18px var(--cyan-glow);
-            z-index: 2;
-        }
-
-        .sonar-tag {
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            color: #64748b;
-            text-transform: uppercase;
-            margin-top: 6px;
-            z-index: 2;
-        }
-
-        .task-prompt {
-            font-size: 1.25rem;
-            color: #ffffff;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            text-align: center;
-        }
-
-        /* CEVAP SEÇENEKLERİ */
-        .choices-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .choice-btn {
-            background: #081224;
-            border: 1px solid rgba(0, 242, 254, 0.25);
-            color: #f1f5f9;
-            padding: 16px 20px;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
+        .valve-wheel {
+            width: 130px;
+            height: 130px;
+            border: 8px solid #3a506b;
+            border-top-color: var(--cyan-glow);
+            border-bottom-color: var(--cyan-glow);
+            border-radius: 50%;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: transform 0.4s ease-out;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
-        .choice-btn:hover {
-            border-color: var(--cyan-glow);
-            background: rgba(0, 242, 254, 0.1);
-            transform: translateY(-2px);
+        .valve-inner-gauge {
+            font-size: 0.85rem;
+            color: var(--gold-glow);
+            font-weight: 700;
         }
 
-        .choice-btn.correct {
-            background: var(--success-neon) !important;
-            color: #030813 !important;
-            font-weight: 800 !important;
-            border-color: var(--success-neon) !important;
-            box-shadow: 0 0 20px rgba(0, 245, 212, 0.6);
+        /* OYUN 4: KARGO KONVEYÖRÜ */
+        .conveyor-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 15px 0;
         }
 
-        .choice-btn.wrong {
-            background: var(--danger-neon) !important;
-            color: #fff !important;
-            border-color: var(--danger-neon) !important;
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+        .cargo-box {
+            background: #1e293b;
+            border: 2px solid var(--gold-glow);
+            color: var(--gold-glow);
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(255, 183, 3, 0.2);
         }
 
-        /* GERİ BİLDİRİM KUTUSU */
-        .feedback-banner {
-            margin-top: 20px;
+        .bins-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+        }
+
+        .bin-target {
+            background: #060e1d;
+            border: 1px dashed var(--border-hud);
             padding: 15px;
             border-radius: 8px;
             text-align: center;
-            font-weight: 700;
-            display: none;
-            animation: fadeIn 0.3s forwards;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .bin-target:hover {
+            background: rgba(0, 242, 254, 0.1);
+            border-color: var(--cyan-glow);
         }
 
-        /* ÖĞRETMEN MASASI (25 OYUN YÖNETİM MERKEZİ) */
-        .admin-cockpit {
-            background: #060e1d;
-            border: 2px solid var(--gold-glow);
-            border-radius: 14px;
-            padding: 25px;
-            margin-top: 30px;
-            box-shadow: 0 0 25px rgba(255, 183, 3, 0.2);
-            display: none;
-        }
-
-        .admin-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 183, 3, 0.3);
-        }
-
-        .admin-top h3 {
-            color: var(--gold-glow);
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-        }
-
-        .admin-controls-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-        }
-
-        .field-group {
+        /* OYUN 5: MİKROSKOP ANALİZİ */
+        .microscope-stage {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
         }
 
-        .field-group label {
-            font-size: 0.8rem;
+        .microscope-lens {
+            width: 140px;
+            height: 140px;
+            border: 6px solid #1e3a5f;
+            border-radius: 50%;
+            background: radial-gradient(circle, #0d274c 0%, #030a16 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 25px rgba(0, 242, 254, 0.4), 0 0 15px rgba(0, 242, 254, 0.2);
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        /* GENEL CEVAP SEÇENEKLERİ GRİDİ */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-opt {
+            background: #081224;
+            border: 1px solid var(--border-hud);
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .btn-opt:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: var(--cyan-glow);
+        }
+
+        .btn-opt.correct {
+            background: var(--success-neon) !important;
+            color: #030813 !important;
+            border-color: var(--success-neon) !important;
+            font-weight: 800;
+        }
+
+        .btn-opt.wrong {
+            background: var(--danger-neon) !important;
+            color: #fff !important;
+            border-color: var(--danger-neon) !important;
+        }
+
+        .feedback-box {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* DEBRIEFING / GÖREV SONU KARNESİ */
+        .debrief-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .debrief-card h2 {
+            font-size: 1.8rem;
+            color: var(--cyan-glow);
+            margin-bottom: 10px;
+        }
+
+        .logbook-table {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-collapse: collapse;
+            text-align: left;
+            background: #060e1d;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-hud);
+        }
+
+        .logbook-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .logbook-table td:first-child {
             color: #94a3b8;
             font-weight: 600;
         }
 
-        .field-group input, .field-group select {
-            background: #0c1b33;
+        .logbook-table td:last-child {
+            color: #fff;
+            text-align: right;
+            font-weight: 700;
+        }
+
+        /* ÖĞRETMEN MASASI PANELİ */
+        .teacher-desk {
+            background: #060e1d;
+            border: 2px solid var(--gold-glow);
+            border-radius: 12px;
+            padding: 20px;
+            display: none;
+            margin-top: 25px;
+        }
+
+        .teacher-desk h3 {
+            color: var(--gold-glow);
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+        }
+
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .adm-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .adm-group label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .adm-group input, .adm-group select {
+            background: #0d1e38;
             border: 1px solid #1e3a5f;
             color: #fff;
-            padding: 10px 14px;
+            padding: 8px 12px;
             border-radius: 6px;
-            font-size: 0.9rem;
-            outline: none;
+            font-size: 0.85rem;
         }
 
-        .field-group input:focus, .field-group select:focus {
-            border-color: var(--gold-glow);
-        }
-
-        .admin-actions {
+        .btn-save-desk {
             grid-column: 1 / -1;
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .btn-save-admin {
-            flex: 2;
             background: var(--gold-glow);
             color: #030813;
-            font-weight: 800;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 800;
             cursor: pointer;
-            font-size: 0.95rem;
-            transition: 0.2s;
-        }
-
-        .btn-save-admin:hover {
-            box-shadow: 0 0 15px rgba(255, 183, 3, 0.5);
-        }
-
-        .btn-export-json {
-            flex: 1;
-            background: #0f2744;
-            color: var(--gold-glow);
-            border: 1px solid var(--gold-glow);
-            font-weight: 700;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -509,7 +586,6 @@
         <div class="hud-brand">
             <div class="sonar-ping"></div>
             <h1>BATHYSPHERE LABS</h1>
-            <span>GÖREV İSTASYONU</span>
         </div>
         <div class="header-actions">
             <button class="hud-btn" onclick="toggleInclusiveMode()">Kapsayıcı Okuma Modu</button>
@@ -519,353 +595,402 @@
 
     <main>
 
-        <!-- 1. ADIM: BRİFİNG & KÂŞİF GİRİŞ EKRANI -->
-        <div class="cockpit-card" id="briefingScreen">
-            <div class="intro-screen">
-                <h2>DERİN DENİZ KEŞİF OPERASYONU</h2>
-                <p>Batısfer 1.0 hangârına hoş geldin. Okyanusun karanlık katmanlarındaki sinyalleri çözmek, bilimsel terminolojiyi doğrulamak ve laboratuvarı kurtarmak için çağrı kodunu gir ve göreve başla.</p>
-                <div class="pilot-input-box">
-                    <input type="text" id="pilotNameInput" placeholder="Kâşif / Öğrenci Adı..." autocomplete="off">
-                    <button class="launch-btn" onclick="launchMission()">DALIŞI BAŞLAT</button>
+        <!-- 1. ADIM: BRİFİNG & KÂŞİF GİRİŞİ -->
+        <div class="cockpit-card" id="briefingView">
+            <div class="briefing-box">
+                <h2>BİLGİSAYARLI BRİFİNG & SİSTEM KONTROLÜ</h2>
+                <p>Modül 1: Kelime Hangârı dalışına hoş geldin. Dipteki donanımları kurtarmak ve teknik terimleri deşifre etmek için kimliğini doğrula ve istasyonları aktive et.</p>
+                
+                <div class="checklist">
+                    <span>✓ Oksijen %100</span>
+                    <span>✓ Sonar Kalibre</span>
+                    <span>✓ Basınç Gövdesi Aktif</span>
+                </div>
+
+                <div class="pilot-form">
+                    <input type="text" id="inputPilotName" placeholder="Kâşif / Öğrenci Adı Giriniz..." autocomplete="off">
+                    <select id="selectRole">
+                        <option value="Sualtı Mühendisi">Rol: Sualtı Mühendisi</option>
+                        <option value="Biyo-Akustik Uzmanı">Rol: Biyo-Akustik Uzmanı</option>
+                        <option value="Seyir Subayı">Rol: Seyir Subayı</option>
+                    </select>
+                    <button class="btn-launch" onclick="startExpedition()">DALIŞ PROTOKOLÜNÜ BAŞLAT</button>
                 </div>
             </div>
         </div>
 
-        <!-- 2. ADIM: OYUN SAHNESİ (GİRİŞ YAPILINCA AÇILIR) -->
-        <div class="cockpit-card" id="gameStation" style="display: none;">
+        <!-- 2. ADIM: AKTİF OYUN İSTASYONU -->
+        <div class="cockpit-card" id="expeditionView" style="display: none;">
 
-            <!-- Modül Seçici (5 Modül) -->
-            <div class="module-selector">
-                <button class="mod-pill active" onclick="changeModule(1)">Modül 1: Kelime Hangârı</button>
-                <button class="mod-pill" onclick="changeModule(2)">Modül 2: Sonar Gramer</button>
-                <button class="mod-pill" onclick="changeModule(3)">Modül 3: Basınç Dinleme</button>
-                <button class="mod-pill" onclick="changeModule(4)">Modül 4: Numune Okuma</button>
-                <button class="mod-pill" onclick="changeModule(5)">Modül 5: Kaptan Köşkü</button>
+            <div class="hud-status-bar">
+                <div>KÂŞİF: <span class="hud-badge" id="hudPilotLabel">-</span> (<span id="hudRoleLabel">-</span>)</div>
+                <div>DERİNLİK: <span class="hud-badge" id="hudDepthVal">400m</span></div>
+                <div>SKOR: <span class="hud-badge" id="hudScoreVal">0 XP</span></div>
             </div>
 
-            <!-- Kartuş / Oyun Seçici (Modül Başına 5 Oyun) -->
-            <div class="sub-games-nav" id="subGamesNav">
-                <button class="cartridge-btn active" onclick="changeSubGame(1)">Görev 1: Sonar Taraması</button>
-                <button class="cartridge-btn" onclick="changeSubGame(2)">Görev 2: Blueprint Onarımı</button>
-                <button class="cartridge-btn" onclick="changeSubGame(3)">Görev 3: Basınç Valfi</button>
-                <button class="cartridge-btn" onclick="changeSubGame(4)">Görev 4: Kargo Ayrıştırma</button>
-                <button class="cartridge-btn" onclick="changeSubGame(5)">Görev 5: Sinyal Ayıklama</button>
+            <div class="games-nav">
+                <button class="cartridge-btn active" onclick="loadGame(1)">1. Fener Taraması</button>
+                <button class="cartridge-btn" onclick="loadGame(2)">2. Kablo Bağlantısı</button>
+                <button class="cartridge-btn" onclick="loadGame(3)">3. Basınç Valfi</button>
+                <button class="cartridge-btn" onclick="loadGame(4)">4. Kargo Ayırma</button>
+                <button class="cartridge-btn" onclick="loadGame(5)">5. Mikroskop Merceği</button>
             </div>
 
-            <!-- Pilot Gösterge Şeridi -->
-            <div class="pilot-status-bar">
-                <div>KÂŞİF: <span class="bar-badge" id="hudPilotName">-</span></div>
-                <div>DERİNLİK: <span class="bar-badge" id="hudDepth">350m</span></div>
-                <div>BAŞARI SKORU: <span class="bar-badge" id="hudScore">0 Puan</span></div>
+            <div class="stage-title" id="stagePrompt">Görev Yönergesi Yükleniyor...</div>
+
+            <!-- OYUN 1 ALANI -->
+            <div id="game1-area" style="display:none;">
+                <div class="flashlight-zone" id="torchZone" onmousemove="moveBeam(event)" onmouseleave="hideBeam()">
+                    <div class="torch-beam" id="torchBeam"></div>
+                    <div class="target-wreck" id="wreckTargetText">PROPELLER</div>
+                </div>
             </div>
 
-            <!-- Sonar / Radar Ekranı -->
-            <div class="radar-box">
-                <div class="sonar-target-text" id="hudTargetWord">PROPELLER</div>
-                <div class="sonar-tag" id="hudTargetTag">RADAR SİNYALİ KİLİTLENDİ</div>
+            <!-- OYUN 2 ALANI -->
+            <div id="game2-area" style="display:none;">
+                <div class="wire-canvas">
+                    <div class="wire-port selected" id="wireSource">⚡ Çapa Terminali (ANCHOR)</div>
+                    <div style="color:var(--cyan-glow); font-size:1.5rem;">➔</div>
+                    <div class="wire-port" id="wireDest">Hedef Terminal Seç...</div>
+                </div>
             </div>
 
-            <!-- Yönerge Metni -->
-            <div class="task-prompt" id="hudTaskPrompt">Sonar ekranındaki donanım parçasının Türkçe teknik karşılığını tespit et:</div>
+            <!-- OYUN 3 ALANI -->
+            <div id="game3-area" style="display:none;">
+                <div class="valve-area">
+                    <div class="valve-wheel" id="pressureValve" onclick="rotateValve()">
+                        <span class="valve-inner-gauge" id="valveStatus">VANAYI ÇEVİR</span>
+                    </div>
+                    <div style="font-size:0.85rem; color:#94a3b8;">Valfi doğru hizaya getirmek için tıkla, ardından seçeneğini onayla.</div>
+                </div>
+            </div>
 
-            <!-- Seçenekler -->
-            <div class="choices-grid" id="choicesContainer"></div>
+            <!-- OYUN 4 ALANI -->
+            <div id="game4-area" style="display:none;">
+                <div class="conveyor-stage">
+                    <div class="cargo-box" id="conveyorCargoLabel">CARGO: NAVIGATION</div>
+                    <div class="bins-grid" id="conveyorBins"></div>
+                </div>
+            </div>
 
-            <!-- Geri Bildirim Bildirimi -->
-            <div class="feedback-banner" id="feedbackBanner"></div>
+            <!-- OYUN 5 ALANI -->
+            <div id="game5-area" style="display:none;">
+                <div class="microscope-stage">
+                    <div class="microscope-lens" id="microscopeTargetText">SPECIMEN</div>
+                    <div style="font-size:0.85rem; color:#94a3b8;">Mercek odaklandı. Tespit edilen parçanın doğru tanımını işaretle.</div>
+                </div>
+            </div>
+
+            <!-- SEÇENEKLER & GERİ BİLDİRİM -->
+            <div class="options-grid" id="stageOptions"></div>
+            <div class="feedback-box" id="feedbackBanner"></div>
 
         </div>
 
-        <!-- 3. ADIM: ÖĞRETMEN MASASI (25 OYUN YÖNETİMİ) -->
-        <div class="admin-cockpit" id="adminCockpit">
-            <div class="admin-top">
-                <h3>ÖĞRETMEN MASASI // 25 GÖREV VERİTABANI YÖNETİMİ</h3>
-                <span style="font-size:0.85rem; color:#ffb703;">Dilediğin modül ve oyunu seçip soruları anında güncelle.</span>
+        <!-- 3. ADIM: DEBRIEFING & SEYİR DEFTERİ (KARNE) -->
+        <div class="cockpit-card" id="debriefView" style="display: none;">
+            <div class="debrief-card">
+                <h2>GÖREV TAMAMLANDI // RESMİ RAPOR</h2>
+                <p>Modül 1 araştırması başarıyla sonlandırıldı. İstasyona kaydedilen telemetri dökümü aşağıdadır:</p>
+
+                <table class="logbook-table">
+                    <tr><td>KÂŞİF ADI:</td><td id="repPilotName">-</td></tr>
+                    <tr><td>OPERASYONEL ROL:</td><td id="repRole">-</td></tr>
+                    <tr><td>TOPLAM KAZANILAN SKOR:</td><td id="repScore">-</td></tr>
+                    <tr><td>İSTASYON BAŞARI ORANI:</td><td>%100 (Onaylandı)</td></tr>
+                    <tr><td>DEĞERLENDİRME:</td><td style="color:var(--cyan-glow);">Mükemmel Uyum & Analiz</td></tr>
+                </table>
+
+                <button class="btn-launch" style="max-width:300px; margin:0 auto;" onclick="restartExpedition()">YENİ SEFER BAŞLAT</button>
             </div>
+        </div>
 
-            <div class="admin-controls-grid">
-                <div class="field-group">
-                    <label>Düzenlenecek Modül</label>
-                    <select id="admModSelect" onchange="loadAdminSelectedGame()">
-                        <option value="1">Modül 1: Kelime Hangârı</option>
-                        <option value="2">Modül 2: Sonar Gramer</option>
-                        <option value="3">Modül 3: Basınç Dinleme</option>
-                        <option value="4">Modül 4: Numune Okuma</option>
-                        <option value="5">Modül 5: Kaptan Köşkü</option>
+        <!-- ÖĞRETMEN MASASI -->
+        <div class="teacher-desk" id="teacherDesk">
+            <h3>ÖĞRETMEN MASASI // MODÜL 1 VERİ BANKASI</h3>
+            <div class="admin-form-grid">
+                <div class="adm-group">
+                    <label>Düzenlenecek Görev</label>
+                    <select id="admSelectGame" onchange="loadAdminForm()">
+                        <option value="1">1. Fener Taraması</option>
+                        <option value="2">2. Kablo Bağlantısı</option>
+                        <option value="3">3. Basınç Valfi</option>
+                        <option value="4">4. Kargo Ayırma</option>
+                        <option value="5">5. Mikroskop Merceği</option>
                     </select>
                 </div>
-
-                <div class="field-group">
-                    <label>Düzenlenecek Oyun Kartuşu</label>
-                    <select id="admGameSelect" onchange="loadAdminSelectedGame()">
-                        <option value="1">Görev 1</option>
-                        <option value="2">Görev 2</option>
-                        <option value="3">Görev 3</option>
-                        <option value="4">Görev 4</option>
-                        <option value="5">Görev 5</option>
-                    </select>
+                <div class="adm-group">
+                    <label>Hedef Terim (Radar/Lens/Kargo)</label>
+                    <input type="text" id="admTarget">
                 </div>
-
-                <div class="field-group" style="grid-column: 1 / -1;">
-                    <label>Soru / Talimat Metni</label>
-                    <input type="text" id="admQuestionInput">
+                <div class="adm-group">
+                    <label>Görev Yönergesi</label>
+                    <input type="text" id="admPrompt">
                 </div>
-
-                <div class="field-group">
-                    <label>Radar Hedefi (İngilizce Terim)</label>
-                    <input type="text" id="admTargetInput">
-                </div>
-
-                <div class="field-group">
+                <div class="adm-group">
                     <label>Doğru Cevap</label>
-                    <input type="text" id="admCorrectInput">
+                    <input type="text" id="admCorrect">
                 </div>
-
-                <div class="field-group">
-                    <label>Çeldirici Seçenek 1</label>
-                    <input type="text" id="admDist1Input">
+                <div class="adm-group">
+                    <label>Çeldirici 1</label>
+                    <input type="text" id="admDist1">
                 </div>
-
-                <div class="field-group">
-                    <label>Çeldirici Seçenek 2</label>
-                    <input type="text" id="admDist2Input">
+                <div class="adm-group">
+                    <label>Çeldirici 2</label>
+                    <input type="text" id="admDist2">
                 </div>
-
-                <div class="field-group">
-                    <label>Çeldirici Seçenek 3</label>
-                    <input type="text" id="admDist3Input">
-                </div>
-
-                <div class="admin-actions">
-                    <button class="btn-save-admin" onclick="saveAdminGame()">Seçili Görevi Kaydet & Uygula</button>
-                    <button class="btn-export-json" onclick="exportDataToJSON()">Tüm Veriyi Yedekle (JSON)</button>
-                </div>
+                <button class="btn-save-desk" onclick="saveAdminChanges()">Görevi Güncelle</button>
             </div>
         </div>
 
     </main>
 
     <script>
-        /* SES MOTORU (Web Audio API) */
+        /* SES SENTEZLEYİCİ */
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playSignal(freq, type, duration) {
+        function playSonarSound(freq, type, dur) {
             try {
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = type;
                 osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.09, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start();
-                osc.stop(audioCtx.currentTime + duration);
+                osc.stop(audioCtx.currentTime + dur);
             } catch(e){}
         }
 
-        /* 25 OYUNUN TÜM VERİTABANI */
-        let missionDatabase = {};
+        /* 5 OYUNUN ÖZGÜN VERİ TABANI */
+        let gamesData = {
+            1: {
+                target: "PROPELLER",
+                prompt: "Feneri batık gövdesinde gezdirerek gizli parçayı tespit et ve karşılığını seç:",
+                correct: "Pervane (İtki Sistemi)",
+                distractors: ["Dümen Palası", "Gemi Çapası", "Gözetleme Kulesi"]
+            },
+            2: {
+                target: "ANCHOR",
+                prompt: "Kopan elektrik hattını sabitlemek için 'Anchor' kablosunu doğru terminale bağla:",
+                correct: "Demir / Çapa Terminali",
+                distractors: ["Pusula Paneli", "Güverte Aydınlatması", "Kazan Dairesi"]
+            },
+            3: {
+                target: "SUBMARINE",
+                prompt: "Basınç tankı üzerindeki 'Submarine' ifadesinin doğru karşılığını seçip vanayı dengele:",
+                correct: "Denizaltı Gemisi",
+                distractors: ["Kurtarma Filikası", "Kargo Mavnası", "Yelkenli Sonda"]
+            },
+            4: {
+                target: "NAVIGATION",
+                prompt: "Banttan gelen 'Navigation' donanım sandığını doğru laboratuvar bölmesine sevk et:",
+                correct: "Seyir & Yön Bulma",
+                distractors: ["Mutfak İkmali", "Makine Bakımı"]
+            },
+            5: {
+                target: "SPECIMEN",
+                prompt: "Mikroskop altında incelenen 'Specimen' tüpünün teknik karşılığını onayla:",
+                correct: "Numune / Örnek",
+                distractors: ["Hurda Metal", "Sondaj Atığı", "Ölçüm Cihazı"]
+            }
+        };
 
-        // 5 Modül x 5 Oyun = 25 Oyunluk Yapıyı Oluştur
-        function initializeDatabase() {
-            const defaultGames = [
-                // Modül 1: Kelime Hangârı
-                { mod: 1, game: 1, target: "PROPELLER", prompt: "Sonar ekranındaki ana itki parçasının Türkçe karşılığını seç:", correct: "Pervane", dist: ["Dümen", "Çapa", "Gövde"] },
-                { mod: 1, game: 2, target: "ANCHOR", prompt: "Gemiyi sabitleyen donanımın plan eşleşmesini yap:", correct: "Çapa / Demir", dist: ["Pusula", "Güverte", "Kazan"] },
-                { mod: 1, game: 3, target: "SUBMARINE", prompt: "Basınç tankı üzerindeki terimin anlamı nedir?", correct: "Denizaltı", dist: ["Filika", "Kruvaziyer", "Yelkenli"] },
-                { mod: 1, game: 4, target: "NAVIGATION", prompt: "Rota belirleme odasının kapısındaki terim:", correct: "Seyir / Yön Bulma", dist: ["Mutfak", "Kargo Bölümü", "Makine Dairesi"] },
-                { mod: 1, game: 5, target: "BRIDGE", prompt: "Kaptan köşkü anlamına gelen doğru yazılış:", correct: "Bridge", dist: ["Bridg", "Brij", "Brigge"] },
+        let pilot = { name: "", role: "", score: 0 };
+        let currentGameIndex = 1;
+        let valveAngle = 0;
 
-                // Modül 2: Sonar Gramer
-                { mod: 2, game: 1, target: "IS DIVING", prompt: "Şu an gerçekleşen eylemi tamamla: 'The submarine ___ deep right now.'", correct: "is diving", dist: ["dived", "dive", "was dive"] },
-                { mod: 2, game: 2, target: "BIGGER THAN", prompt: "Karşılaştırmayı tamamla: 'The blue whale is ___ the submarine.'", correct: "bigger than", dist: ["biggest", "more big", "big as"] },
-                { mod: 2, game: 3, target: "HAVE DISCOVERED", prompt: "Henüz tamamlanan keşif: 'We ___ a new underwater trench.'", correct: "have discovered", dist: ["has discover", "discovering", "did discovered"] },
-                { mod: 2, game: 4, target: "CAREFULLY", prompt: "Mekanik kolu yönet: 'Control the robotic arm ___.'", correct: "carefully", dist: ["careful", "more careful", "care"] },
-                { mod: 2, game: 5, target: "IF WE DIVE", prompt: "Koşul cümlesini bağla: '___ deeper, the pressure will increase.'", correct: "If we dive", dist: ["When we dived", "Unless diving", "Because we dive"] },
+        /* PROTOKOL BAŞLATMA (GİRİŞ) */
+        function startExpedition() {
+            const nameInput = document.getElementById('inputPilotName').value.trim();
+            pilot.name = nameInput || "Kâşif Dalgıç";
+            pilot.role = document.getElementById('selectRole').value;
+            pilot.score = 0;
 
-                // Modül 3: Basınç Dinleme
-                { mod: 3, game: 1, target: "MAYDAY", prompt: "Radyodan gelen uluslararası acil durum çağrısını doğrula:", correct: "Mayday (İmdat)", dist: ["Roger (Anlaşıldı)", "Over (Tamam)", "Standby (Bekle)"] },
-                { mod: 3, game: 2, target: "PRESSURE WARNING", prompt: "Gösterge panelindeki 'High Pressure Alert' uyarısının anlamı:", correct: "Yüksek Basınç Uyarısı", dist: ["Düşük Hız", "Yakıt Bitti", "Motor Arızası"] },
-                { mod: 3, game: 3, target: "DEPTH CONFIRMED", prompt: "Akustik mesaj: 'Depth 400 meters confirmed.'", correct: "Derinlik 400 metre onaylandı", dist: ["400 metreye yüksel", "Hız 400 knot", "Basınç 400 bar azaldı"] },
-                { mod: 3, game: 4, target: "BATTERY LEVEL", prompt: "Güç göstergesi sinyali: 'Power reserve at 15 percent.'", correct: "Güç rezervi %15'te", dist: ["Oksijen bitti", "%15 hızlan", "Yüzeye 15 dakika kaldı"] },
-                { mod: 3, game: 5, target: "SONAR CONTACT", prompt: "Akustik temas mesajı: 'Unidentified sonar contact.'", correct: "Tanımlanamayan sonar teması", dist: ["Harita güncellendi", "Bağlantı kesildi", "Sistem kapatıldı"] },
+            document.getElementById('hudPilotLabel').innerText = pilot.name;
+            document.getElementById('hudRoleLabel').innerText = pilot.role;
+            document.getElementById('hudScoreVal').innerText = `${pilot.score} XP`;
 
-                // Modül 4: Numune Okuma
-                { mod: 4, game: 1, target: "BIOLUMINESCENCE", prompt: "Işık saçan canlıların laboratuvar etiketini belirle:", correct: "Biyolüminesans (Işık Saçma)", dist: ["Klorofil", "Fotosentez", "Fosilleşme"] },
-                { mod: 4, game: 2, target: "HYDROTHERMAL VENT", prompt: "Tabandan sıcak su püskürten baca oluşumu:", correct: "Hidrotermal Baca", dist: ["Mercan Resifi", "Buzul Dağı", "Kanyon"] },
-                { mod: 4, game: 3, target: "TRENCH", prompt: "Mariana Çukuru gibi en derin okyanus yarıkları için kullanılan terim:", correct: "Trench (Okyanus Çukuru)", dist: ["Plateau (Plato)", "Island (Ada)", "Coast (Kıyı)"] },
-                { mod: 4, game: 4, target: "CORAL REEF", prompt: "Renkli deniz ekosistemini oluşturan resif yapısı:", correct: "Coral Reef (Mercan Kayalığı)", dist: ["Sandbank (Kumluk)", "Seaweed (Yosun)", "Deep Basin (Havza)"] },
-                { mod: 4, game: 5, target: "SPECIMEN", prompt: "Laboratuvarda incelenmek üzere toplanan örnek/numune:", correct: "Specimen (Numune/Örnek)", dist: ["Debris (Enkaz)", "Waste (Atık)", "Equipment (Ekipman)"] },
+            document.getElementById('briefingView').style.display = 'none';
+            document.getElementById('expeditionView').style.display = 'block';
 
-                // Modül 5: Kaptan Köşkü
-                { mod: 5, game: 1, target: "LOGBOOK", prompt: "Kaptanın seyir notlarını tuttuğu resmi defter:", correct: "Seyir Defteri", dist: ["Harita", "Kullanım Kılavuzu", "Telsiz Kaydı"] },
-                { mod: 5, game: 2, target: "SURFACE", prompt: "Acil durumda batısferi yüzeye çıkarma komutu:", correct: "Surface (Yüzeye Çık)", dist: ["Submerge (Dalışa Geç)", "Hold (Sabit Kal)", "Anchor (Demir At)"] },
-                { mod: 5, game: 3, target: "CREW", prompt: "Denizaltı araştırma gemisindeki tüm personel/mürettebat:", correct: "Crew (Mürettebat)", dist: ["Passengers (Yolcular)", "Guests (Misafirler)", "Robots (Otomasyon)"] },
-                { mod: 5, game: 4, target: "EMERGENCY DRILL", prompt: "Mürettebatın güvenlik için yaptığı acil durum tatbikatı:", correct: "Acil Durum Tatbikatı", dist: ["Vardiya Değişimi", "Rutin Bakım", "Temizlik Saati"] },
-                { mod: 5, game: 5, target: "MISSION ACCOMPLISHED", prompt: "Tüm operasyonun başarıyla tamamlandığını belirten mesaj:", correct: "Görev Başarıyla Tamamlandı", dist: ["Görev İptal Edildi", "Sistem Arızalandı", "Yeniden Başlatılıyor"] }
-            ];
+            playSonarSound(580, 'sine', 0.25);
+            loadGame(1);
+        }
 
-            // 1'den 5'e kadar tüm modülleri ilklendir
-            for (let m = 1; m <= 5; m++) {
-                missionDatabase[m] = {};
-                for (let g = 1; g <= 5; g++) {
-                    const found = defaultGames.find(item => item.mod === m && item.game === g);
-                    if (found) {
-                        missionDatabase[m][g] = {
-                            target: found.target,
-                            prompt: found.prompt,
-                            correct: found.correct,
-                            distractors: found.dist
-                        };
-                    }
-                }
+        /* OYUN YÜKLEME VE MEKANİK DEĞİŞİMİ */
+        function loadGame(idx) {
+            currentGameIndex = idx;
+            document.querySelectorAll('.cartridge-btn').forEach((b, i) => {
+                b.classList.toggle('active', (i + 1) === idx);
+            });
+
+            document.getElementById('hudDepthVal').innerText = `${350 + (idx * 40)}m`;
+
+            // Tüm özel oyun alanlarını gizle
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`game${i}-area`).style.display = 'none';
+            }
+
+            const data = gamesData[idx];
+            document.getElementById('stagePrompt').innerText = data.prompt;
+            document.getElementById('feedbackBanner').style.display = 'none';
+
+            // İlgili oyun alanını aç
+            document.getElementById(`game${idx}-area`).style.display = 'block';
+
+            // Oyun özel verilerini bağla
+            if (idx === 1) {
+                document.getElementById('wreckTargetText').innerText = data.target;
+            } else if (idx === 3) {
+                valveAngle = 0;
+                document.getElementById('pressureValve').style.transform = `rotate(0deg)`;
+                document.getElementById('valveStatus').innerText = "VANAYI ÇEVİR";
+            } else if (idx === 4) {
+                document.getElementById('conveyorCargoLabel').innerText = `CARGO: ${data.target}`;
+            } else if (idx === 5) {
+                document.getElementById('microscopeTargetText').innerText = data.target;
+            }
+
+            // Seçenekleri oluştur
+            renderOptions(data.correct, data.distractors);
+        }
+
+        /* FENER MEKANİĞİ (OYUN 1) */
+        function moveBeam(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const beam = document.getElementById('torchBeam');
+            beam.style.display = 'block';
+            beam.style.left = `${x}px`;
+            beam.style.top = `${y}px`;
+
+            const target = document.getElementById('wreckTargetText');
+            const targetRect = target.getBoundingClientRect();
+            const dist = Math.hypot(e.clientX - (targetRect.left + targetRect.width/2), e.clientY - (targetRect.top + targetRect.height/2));
+
+            if (dist < 80) {
+                target.style.color = "var(--cyan-glow)";
+                target.style.textShadow = "0 0 20px var(--cyan-glow)";
+            } else {
+                target.style.color = "rgba(0, 242, 254, 0.1)";
+                target.style.textShadow = "none";
             }
         }
 
-        initializeDatabase();
-
-        /* OYUN DURUMU */
-        let pilotName = "";
-        let currentMod = 1;
-        let currentGame = 1;
-        let pilotScore = 0;
-
-        /* BAŞLATMA */
-        function launchMission() {
-            const input = document.getElementById('pilotNameInput').value.trim();
-            pilotName = input || "Kâşif Dalgıç";
-            document.getElementById('hudPilotName').innerText = pilotName;
-            document.getElementById('briefingScreen').style.display = 'none';
-            document.getElementById('gameStation').style.display = 'block';
-            playSignal(520, 'sine', 0.25);
-            renderCurrentGame();
+        function hideBeam() {
+            document.getElementById('torchBeam').style.display = 'none';
         }
 
-        /* MODÜL VE OYUN GEÇİŞİ */
-        function changeModule(modId) {
-            currentMod = modId;
-            document.querySelectorAll('.mod-pill').forEach((btn, idx) => {
-                btn.classList.toggle('active', (idx + 1) === modId);
-            });
-            changeSubGame(1);
+        /* VANA MEKANİĞİ (OYUN 3) */
+        function rotateValve() {
+            valveAngle += 90;
+            document.getElementById('pressureValve').style.transform = `rotate(${valveAngle}deg)`;
+            playSonarSound(320, 'triangle', 0.1);
+            document.getElementById('valveStatus').innerText = `${valveAngle % 360}° AYARLANDI`;
         }
 
-        function changeSubGame(gameId) {
-            currentGame = gameId;
-            document.querySelectorAll('.cartridge-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', (idx + 1) === gameId);
-            });
-            document.getElementById('hudDepth').innerText = `${300 + (currentMod * 120) + (currentGame * 35)}m`;
-            renderCurrentGame();
-        }
-
-        /* OYUNU EKRANA ÇİZME */
-        function renderCurrentGame() {
-            const data = missionDatabase[currentMod][currentGame];
-            document.getElementById('hudTargetWord').innerText = data.target;
-            document.getElementById('hudTaskPrompt').innerText = data.prompt;
-
-            const banner = document.getElementById('feedbackBanner');
-            banner.style.display = 'none';
-
-            const container = document.getElementById('choicesContainer');
+        /* SEÇENEKLERİ BASMA */
+        function renderOptions(correct, distractors) {
+            const container = document.getElementById('stageOptions');
             container.innerHTML = "";
+            const all = [correct, ...distractors].sort(() => Math.random() - 0.5);
 
-            const allOpts = [data.correct, ...data.distractors].sort(() => Math.random() - 0.5);
-
-            allOpts.forEach(optText => {
+            all.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = 'choice-btn';
-                btn.innerText = optText;
-                btn.onclick = () => handleChoice(btn, optText === data.correct);
+                btn.className = 'btn-opt';
+                btn.innerText = opt;
+                btn.onclick = () => submitAnswer(btn, opt === correct);
                 container.appendChild(btn);
             });
         }
 
-        /* SEÇİM KONTROLÜ VE GERİ BİLDİRİM */
-        function handleChoice(button, isCorrect) {
+        /* GERİ BİLDİRİM VE İLERLEME */
+        function submitAnswer(btn, isCorrect) {
             const banner = document.getElementById('feedbackBanner');
             banner.style.display = 'block';
 
             if (isCorrect) {
-                button.classList.add('correct');
-                playSignal(750, 'sine', 0.3);
-                pilotScore += 20;
-                document.getElementById('hudScore').innerText = `${pilotScore} Puan`;
-                banner.style.background = "rgba(0, 245, 212, 0.2)";
+                btn.classList.add('correct');
+                playSonarSound(720, 'sine', 0.25);
+                pilot.score += 20;
+                document.getElementById('hudScoreVal').innerText = `${pilot.score} XP`;
+
+                banner.style.background = "rgba(0, 245, 212, 0.15)";
                 banner.style.color = "var(--success-neon)";
-                banner.innerText = "✓ Sinyal Onaylandı: Doğru veri telemetriye işlendi!";
+                banner.innerText = "✓ Doğrulama Başarılı: Telemetri eşleşti, sinyal onaylandı!";
+
+                setTimeout(() => {
+                    if (currentGameIndex < 5) {
+                        loadGame(currentGameIndex + 1);
+                    } else {
+                        finishExpedition();
+                    }
+                }, 1400);
+
             } else {
-                button.classList.add('wrong');
-                playSignal(160, 'sawtooth', 0.35);
-                banner.style.background = "rgba(255, 0, 85, 0.2)";
+                btn.classList.add('wrong');
+                playSonarSound(150, 'sawtooth', 0.3);
+                banner.style.background = "rgba(255, 0, 85, 0.15)";
                 banner.style.color = "var(--danger-neon)";
-                banner.innerText = "✕ Parazit Algılandı: Yanlış eşleşme, veriyi tekrar gözden geçir.";
+                banner.innerText = "✕ Sinyal Karıştı: Hatalı terim, alternatif frekansı gözden geçir.";
             }
         }
 
-        /* KAPSAYICI OKUMA MODU */
+        /* GÖREV TAMAMLAMA (KARNE/DEBRIEFING) */
+        function finishExpedition() {
+            document.getElementById('expeditionView').style.display = 'none';
+            document.getElementById('debriefView').style.display = 'block';
+
+            document.getElementById('repPilotName').innerText = pilot.name;
+            document.getElementById('repRole').innerText = pilot.role;
+            document.getElementById('repScore').innerText = `${pilot.score} / 100 XP`;
+            playSonarSound(880, 'sine', 0.4);
+        }
+
+        function restartExpedition() {
+            document.getElementById('debriefView').style.display = 'none';
+            document.getElementById('briefingView').style.display = 'block';
+        }
+
+        /* ERİŞİLEBİLİRLİK */
         function toggleInclusiveMode() {
             document.body.classList.toggle('inclusive-font');
         }
 
-        /* ÖĞRETMEN MASASI FONKSİYONLARI */
+        /* ÖĞRETMEN MASASI */
         function toggleTeacherDesk() {
-            const desk = document.getElementById('adminCockpit');
-            const isShown = desk.style.display === 'block';
-            desk.style.display = isShown ? 'none' : 'block';
-            if (!isShown) {
-                document.getElementById('admModSelect').value = currentMod;
-                document.getElementById('admGameSelect').value = currentGame;
-                loadAdminSelectedGame();
-            }
+            const desk = document.getElementById('teacherDesk');
+            desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
+            if (desk.style.display === 'block') loadAdminForm();
         }
 
-        function loadAdminSelectedGame() {
-            const m = document.getElementById('admModSelect').value;
-            const g = document.getElementById('admGameSelect').value;
-            const d = missionDatabase[m][g];
-
-            document.getElementById('admQuestionInput').value = d.prompt;
-            document.getElementById('admTargetInput').value = d.target;
-            document.getElementById('admCorrectInput').value = d.correct;
-            document.getElementById('admDist1Input').value = d.distractors[0] || "";
-            document.getElementById('admDist2Input').value = d.distractors[1] || "";
-            document.getElementById('admDist3Input').value = d.distractors[2] || "";
+        function loadAdminForm() {
+            const id = document.getElementById('admSelectGame').value;
+            const data = gamesData[id];
+            document.getElementById('admTarget').value = data.target;
+            document.getElementById('admPrompt').value = data.prompt;
+            document.getElementById('admCorrect').value = data.correct;
+            document.getElementById('admDist1').value = data.distractors[0] || "";
+            document.getElementById('admDist2').value = data.distractors[1] || "";
         }
 
-        function saveAdminGame() {
-            const m = document.getElementById('admModSelect').value;
-            const g = document.getElementById('admGameSelect').value;
-
-            missionDatabase[m][g] = {
-                prompt: document.getElementById('admQuestionInput').value,
-                target: document.getElementById('admTargetInput').value.toUpperCase(),
-                correct: document.getElementById('admCorrectInput').value,
+        function saveAdminChanges() {
+            const id = document.getElementById('admSelectGame').value;
+            gamesData[id] = {
+                target: document.getElementById('admTarget').value.toUpperCase(),
+                prompt: document.getElementById('admPrompt').value,
+                correct: document.getElementById('admCorrect').value,
                 distractors: [
-                    document.getElementById('admDist1Input').value,
-                    document.getElementById('admDist2Input').value,
-                    document.getElementById('admDist3Input').value
+                    document.getElementById('admDist1').value,
+                    document.getElementById('admDist2').value
                 ]
             };
-
-            playSignal(600, 'triangle', 0.2);
-            alert(`Modül ${m}, Görev ${g} başarıyla güncellendi!`);
-            
-            // Eğer düzenlenen oyun ekranda aktifse hemen güncelle
-            if (parseInt(m) === currentMod && parseInt(g) === currentGame) {
-                renderCurrentGame();
-            }
-        }
-
-        function exportDataToJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(missionDatabase, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "deep_sea_25_games_backup.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
+            playSonarSound(500, 'triangle', 0.15);
+            alert(`Görev ${id} başarıyla güncellendi!`);
+            if (currentGameIndex == id) loadGame(id);
         }
     </script>
 </body>
