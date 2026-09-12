@@ -608,27 +608,47 @@
                 <h3 style="color:var(--gold-glow);">TEACHER DESK</h3>
                 <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Close</button>
             </div>
-            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, generate AI missions with Gemini, and view student analytics.</p>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, generate AI missions without an API key, and view student analytics.</p>
 
             <!-- 🤖 AI MISSION GENERATOR -->
             <div class="ai-generator-panel">
                 <div class="ai-panel-title">🤖 AI MISSION GENERATOR (Syllabus & Document Analyzer)</div>
-                <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:10px;">Paste curriculum objectives, target vocabulary lists, or upload book pages/documents for AI processing.</div>
+                <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:10px;">
+                    Paste curriculum objectives, vocabulary, lesson notes, or upload a PDF / book-page photo. No API key is required.
+                </div>
                 
                 <div style="display:flex; flex-direction:column; gap:10px;">
-                    <input type="password" id="geminiApiKey" placeholder="Paste Gemini API Key..." style="width:100%; padding:8px 12px; background:#071226; color:#fff; border:1px solid var(--cyan-glow); border-radius:6px; font-size:0.85rem;">
-                    
-                    <textarea id="aiTopicInput" rows="3" placeholder="Paste lesson objectives, vocabulary list, or detailed curriculum notes here..." style="width:100%; padding:10px; background:#071226; color:#fff; border:1px solid var(--cyan-glow); border-radius:6px; font-size:0.85rem; font-family:inherit;"></textarea>
+                    <textarea id="aiTopicInput" rows="4" placeholder="Paste lesson objectives, target language, vocabulary list, CEFR level, or detailed curriculum notes here..." style="width:100%; padding:10px; background:#071226; color:#fff; border:1px solid var(--cyan-glow); border-radius:6px; font-size:0.85rem; font-family:inherit;"></textarea>
+
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;">
+                        <div>
+                            <label style="font-size:0.78rem; color:var(--gold-glow); font-weight:bold;">AI OUTPUT MODE</label>
+                            <select id="aiOutputMode" style="width:100%; margin-top:5px; padding:9px 10px; background:#071226; color:#fff; border:1px solid var(--cyan-glow); border-radius:6px;">
+                                <option value="text">📝 Text only — fastest</option>
+                                <option value="visual">🖼️ Text + smart visuals</option>
+                            </select>
+                            <div style="font-size:0.72rem; color:#64748b; margin-top:4px;">
+                                Smart visuals are added only where they genuinely help learning. Maximum: 6.
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="font-size:0.78rem; color:var(--gold-glow); font-weight:bold;">UPLOAD SOURCE</label>
+                            <input type="file" id="aiDocFile" accept="image/*,.pdf,.txt,text/plain" style="width:100%; margin-top:7px; font-size:0.8rem; color:#94a3b8;">
+                            <div style="font-size:0.72rem; color:#64748b; margin-top:4px;">
+                                Images use AI OCR. Digital PDFs are read directly; scanned PDFs use OCR automatically.
+                            </div>
+                        </div>
+                    </div>
 
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <label style="font-size:0.8rem; color:var(--gold-glow); font-weight:bold;">Upload Document / Book Page Photo:</label>
-                            <input type="file" id="aiDocFile" accept="image/*,.pdf" style="font-size:0.8rem; color:#94a3b8;">
+                        <div style="font-size:0.75rem; color:#94a3b8;">
+                            🎧 Audio remains teacher-controlled. You can still upload MP3/WAV to any station afterward.
                         </div>
-                        <button class="action-btn" id="btnGenerateAI" onclick="generateMissionWithGemini()" style="background:linear-gradient(135deg, var(--cyan-glow), #3b82f6); color:#000;">Generate Mission ⚡</button>
+                        <button class="action-btn" id="btnGenerateAI" onclick="generateMissionWithAI()" style="background:linear-gradient(135deg, var(--cyan-glow), #3b82f6); color:#000;">Generate Mission ⚡</button>
                     </div>
                 </div>
-                <div id="aiLoadingStatus" style="font-size:0.8rem; color:var(--cyan-glow); margin-top:8px; display:none;">🤖 Gemini is analyzing your documents and generating 30 deep sea stations... Please wait!</div>
+                <div id="aiLoadingStatus" style="font-size:0.8rem; color:var(--cyan-glow); margin-top:8px; display:none;">🤖 AI is preparing the mission...</div>
             </div>
 
             <div style="margin-top:15px; display: flex; gap: 10px; align-items: center; justify-content: space-between;">
@@ -675,6 +695,25 @@
     </main>
 
     <script>
+        const AI_WORKER_URL = "https://gentle-dream-d716.bluerisma8.workers.dev/";
+
+        async function callMissionAI(action, payload = {}) {
+            const response = await fetch(AI_WORKER_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action, lang: "en", ...payload })
+            });
+
+            let data = {};
+            try { data = await response.json(); }
+            catch { throw new Error(`AI server returned HTTP ${response.status}.`); }
+
+            if (!response.ok || data.success === false) {
+                throw new Error(data.error || `AI request failed with HTTP ${response.status}.`);
+            }
+            return data;
+        }
+
         const defaultStations = {
             1: { type: "fener", prompt: "Hover the spotlight across the wreckage to locate and select the target hardware:", target: "PROPELLER", decoys: ["RUDDER", "ANCHOR"] },
             2: { type: "kablo", prompt: "Connect the severed electrical lead to the corresponding terminal:", source: "⚡ LEAD: ANCHOR", correct: "Anchor Terminal", distractors: ["Compass Panel", "Boiler Room"] },
@@ -757,23 +796,153 @@
             } else if(verify !== null) { alert("❌ Incorrect current password!"); }
         }
 
-        // 🤖 ROBUST MULTIMODAL GEMINI MISSION GENERATOR
-        async function generateMissionWithGemini() {
-            const apiKeyInput = document.getElementById('geminiApiKey').value.trim();
-            const storedKey = localStorage.getItem('bathysphere_gemini_key') || "";
-            const activeKey = apiKeyInput || storedKey;
+        // 🤖 API-KEY-FREE AI MISSION GENERATOR
+        // Text generation: Cloudflare Workers AI
+        // Image/book-page OCR: Cloudflare Vision OCR
+        // Optional station visuals: FLUX image generation
+        // Teacher can edit every generated field afterward in the existing CMS.
 
-            if(!activeKey) {
-                alert("Please paste your Gemini API Key first!");
-                return;
+        function fileToDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function compressGeneratedImage(dataUrl, maxSide = 480, quality = 0.78) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    let w = img.naturalWidth || img.width;
+                    let h = img.naturalHeight || img.height;
+                    const scale = Math.min(1, maxSide / Math.max(w, h));
+                    w = Math.max(1, Math.round(w * scale));
+                    h = Math.max(1, Math.round(h * scale));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d', { alpha: false });
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.drawImage(img, 0, 0, w, h);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = () => resolve(dataUrl);
+                img.src = dataUrl;
+            });
+        }
+
+        let pdfJsLoadingPromise = null;
+
+        async function ensurePdfJs() {
+            if (window.pdfjsLib) return window.pdfjsLib;
+            if (pdfJsLoadingPromise) return pdfJsLoadingPromise;
+
+            pdfJsLoadingPromise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+                script.onload = () => {
+                    if (!window.pdfjsLib) {
+                        reject(new Error('PDF reader could not initialize.'));
+                        return;
+                    }
+                    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+                        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                    resolve(window.pdfjsLib);
+                };
+                script.onerror = () => reject(new Error('PDF reader could not load.'));
+                document.head.appendChild(script);
+            });
+            return pdfJsLoadingPromise;
+        }
+
+        async function ocrImageDataUrl(dataUrl, status, label = 'Reading uploaded image...') {
+            status.innerText = `👁️ ${label}`;
+            const result = await callMissionAI('ocr', { image: dataUrl });
+            const text = String(result.text || '').trim();
+            if (!text) throw new Error('No readable text could be extracted from the uploaded image.');
+            return text;
+        }
+
+        async function extractPdfSource(file, status) {
+            const pdfjsLib = await ensurePdfJs();
+            const buffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise;
+            const MAX_DIGITAL_PAGES = Math.min(pdf.numPages, 20);
+            let extracted = [];
+
+            for (let p = 1; p <= MAX_DIGITAL_PAGES; p++) {
+                status.innerText = `📄 Reading PDF text: page ${p}/${MAX_DIGITAL_PAGES}...`;
+                const page = await pdf.getPage(p);
+                const content = await page.getTextContent();
+                const text = content.items.map(item => item.str).join(' ').replace(/\s+/g, ' ').trim();
+                if (text) extracted.push(text);
             }
-            localStorage.setItem('bathysphere_gemini_key', activeKey);
 
+            let combined = extracted.join('\n\n').trim();
+
+            if (combined.length < 250) {
+                const OCR_PAGES = Math.min(pdf.numPages, 6);
+                const scanned = [];
+                for (let p = 1; p <= OCR_PAGES; p++) {
+                    status.innerText = `👁️ Scanned PDF detected — OCR page ${p}/${OCR_PAGES}...`;
+                    const page = await pdf.getPage(p);
+                    const viewport = page.getViewport({ scale: 1.35 });
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(viewport.width);
+                    canvas.height = Math.round(viewport.height);
+                    const ctx = canvas.getContext('2d', { alpha: false });
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    await page.render({ canvasContext: ctx, viewport }).promise;
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.84);
+                    try {
+                        const pageText = await ocrImageDataUrl(dataUrl, status, `AI OCR is reading scanned page ${p}/${OCR_PAGES}...`);
+                        if (pageText) scanned.push(pageText);
+                    } catch (err) {
+                        console.warn(`PDF OCR page ${p} skipped:`, err);
+                    }
+                }
+                combined = scanned.join('\n\n').trim();
+            }
+
+            if (!combined) throw new Error('No readable text was found in this PDF.');
+            return combined;
+        }
+
+        async function readTeacherSourceFile(file, status) {
+            if (!file) return '';
+            const type = String(file.type || '').toLowerCase();
+            const name = String(file.name || '').toLowerCase();
+            if (type === 'application/pdf' || name.endsWith('.pdf')) return await extractPdfSource(file, status);
+            if (type.startsWith('image/')) {
+                const dataUrl = await fileToDataUrl(file);
+                return await ocrImageDataUrl(dataUrl, status, 'AI is reading the book page / image...');
+            }
+            if (type === 'text/plain' || name.endsWith('.txt')) return await file.text();
+            throw new Error('Supported uploads: PDF, image, or TXT.');
+        }
+
+        function mergeStationPackage(target, incoming) {
+            if (!incoming || typeof incoming !== 'object') return;
+            Object.entries(incoming).forEach(([id, station]) => {
+                const n = Number(id);
+                if (n >= 1 && n <= 30 && station && typeof station === 'object') {
+                    target[String(n)] = station;
+                }
+            });
+        }
+
+        async function generateMissionWithAI() {
             const topicText = document.getElementById('aiTopicInput').value.trim();
             const fileInput = document.getElementById('aiDocFile');
-            
-            if(!topicText && (!fileInput.files || fileInput.files.length === 0)) {
-                alert("Please paste lesson notes/objectives or upload a document/image!");
+            const outputMode = document.getElementById('aiOutputMode').value === 'visual' ? 'visual' : 'text';
+            const file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+
+            if (!topicText && !file) {
+                alert('Please paste lesson notes/objectives or upload a PDF/image/TXT source.');
                 return;
             }
 
@@ -783,97 +952,84 @@
             btn.disabled = true;
 
             try {
-                let contentParts = [];
-                
-                const systemPrompt = `You are an expert English Curriculum Designer and Instructional AI.
-Analyze the provided curriculum notes, vocabulary lists, or uploaded documents/images and adapt them into a 30-station educational JSON object for a Deep Sea Submarine game (Bathysphere).
-Output strictly pure, raw valid JSON matching this exact structure without markdown ticks or backticks:
-{
-  "1": { "type": "fener", "prompt": "...", "target": "...", "decoys": ["...", "..."] },
-  "2": { "type": "kablo", "prompt": "...", "source": "...", "correct": "...", "distractors": ["...", "..."] },
-  "3": { "type": "vana", "prompt": "...", "targetVal": "...", "choices": ["...", "...", "..."] },
-  "4": { "type": "kargo", "prompt": "...", "cargo": "...", "correct": "...", "distractors": ["...", "..."] },
-  "5": { "type": "mikroskop", "prompt": "...", "label": "...", "correct": "...", "distractors": ["...", "..."] },
-  "6": { "type": "boru", "prompt": "...", "sentence": "Word1,Word2,Word3,Word4" },
-  "7": { "type": "radyo", "prompt": "...", "targetFreq": 110 },
-  "8": { "type": "periskop", "prompt": "...", "correctErr": "Grammar flaw sentence", "normals": ["Correct sentence 1", "Correct sentence 2"] },
-  "9": { "type": "terazi", "prompt": "...", "subject": "...", "correct": "...", "distractor": "..." },
-  "10": { "type": "mors", "prompt": "...", "text": "...", "correct": "...", "distractors": ["...", "..."] },
-  "11": { "type": "ses_sik", "prompt": "...", "trans": "...", "correct": "...", "distractors": ["...", "..."] },
-  "12": { "type": "ses_sik", "prompt": "...", "trans": "...", "correct": "...", "distractors": ["...", "..."] },
-  "13": { "type": "ses_sik", "prompt": "...", "trans": "...", "correct": "...", "distractors": ["...", "..."] },
-  "14": { "type": "ses_sik", "prompt": "...", "trans": "...", "correct": "...", "distractors": ["...", "..."] },
-  "15": { "type": "salter", "prompt": "...", "trans": "...", "order": "Vent,Power,Seal" },
-  "16": { "type": "uv", "prompt": "...", "text": "...", "correct": "...", "distractors": ["...", "..."] },
-  "17": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
-  "18": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
-  "19": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
-  "20": { "type": "tablo", "prompt": "...", "tableHtml": "...", "correct": "...", "distractors": ["...", "..."] },
-  "21": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1,ANSWER2" },
-  "22": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1" },
-  "23": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1" },
-  "24": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1" },
-  "25": { "type": "yazma", "prompt": "...", "hint": "...", "display": "...", "answers": "ANSWER1" },
-  "26": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
-  "27": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
-  "28": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
-  "29": { "type": "okuma_sik", "prompt": "...", "log": "...", "correct": "...", "distractors": ["...", "..."] },
-  "30": { "type": "final", "prompt": "...", "title": "...", "desc": "..." }
-}`;
+                let documentText = '';
+                if (file) documentText = await readTeacherSourceFile(file, status);
 
-                contentParts.push({ text: systemPrompt + "\n\nSource Content/Notes provided by teacher:\n" + topicText });
+                const sourceText = [
+                    topicText ? `TEACHER NOTES / INSTRUCTIONS:\n${topicText}` : '',
+                    documentText ? `UPLOADED SOURCE CONTENT:\n${documentText}` : ''
+                ].filter(Boolean).join('\n\n').trim().slice(0, 30000);
 
-                if(fileInput.files && fileInput.files[0]) {
-                    const file = fileInput.files[0];
-                    const base64Data = await toBase64(file);
-                    const mimeType = file.type || "image/jpeg";
-                    contentParts.push({
-                        inline_data: {
-                            mime_type: mimeType,
-                            data: base64Data.split(',')[1]
-                        }
+                if (!sourceText) throw new Error('The source did not contain readable lesson content.');
+
+                const generatedStations = {};
+                const visualPlans = [];
+
+                for (let moduleNo = 1; moduleNo <= 6; moduleNo++) {
+                    status.innerText = `🧠 Building module ${moduleNo}/6 — stations ${(moduleNo - 1) * 5 + 1}-${moduleNo * 5}...`;
+                    const result = await callMissionAI('mission_module', {
+                        sourceText,
+                        module: moduleNo,
+                        visualMode: outputMode === 'visual'
                     });
+                    mergeStationPackage(generatedStations, result.stations || {});
+                    if (Array.isArray(result.visuals)) visualPlans.push(...result.visuals);
                 }
 
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${activeKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: contentParts }] })
-                });
-
-                const data = await response.json();
-                if(data.error) throw new Error(data.error.message);
-
-                if(!data.candidates || !data.candidates[0].content || !data.candidates[0].content.parts) {
-                    throw new Error("API returned an empty or incomplete response structure.");
+                const stationCount = Object.keys(generatedStations).length;
+                if (stationCount !== 30) {
+                    throw new Error(`AI produced ${stationCount}/30 stations. Please try Generate Mission once more.`);
                 }
 
-                let rawText = data.candidates[0].content.parts[0].text.trim();
-                if(rawText.startsWith("```json")) rawText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
-                else if(rawText.startsWith("```")) rawText = rawText.replace(/```/g, "").trim();
+                customEdited = generatedStations;
 
-                const parsedAIStations = JSON.parse(rawText);
-                customEdited = parsedAIStations;
+                if (outputMode === 'visual') {
+                    const eligible = new Set([1,2,3,4,5,16,17,18,19,20,23,26,27,28,29]);
+                    const chosen = visualPlans
+                        .filter(v => v && eligible.has(Number(v.stationId)) && String(v.prompt || '').trim())
+                        .sort((a, b) => Number(b.priority || 0) - Number(a.priority || 0))
+                        .filter((v, i, arr) => arr.findIndex(x => Number(x.stationId) === Number(v.stationId)) === i)
+                        .slice(0, 6);
+
+                    for (let i = 0; i < chosen.length; i++) {
+                        const item = chosen[i];
+                        const stationId = String(Number(item.stationId));
+                        status.innerText = `🎨 Creating helpful visual ${i + 1}/${chosen.length} for station ${stationId}...`;
+                        try {
+                            const imgResult = await callMissionAI('image', {
+                                prompt: String(item.prompt || '').slice(0, 1500)
+                            });
+                            if (imgResult.image && customEdited[stationId]) {
+                                customEdited[stationId].customImg = await compressGeneratedImage(imgResult.image);
+                            }
+                        } catch (imgErr) {
+                            console.warn(`Visual for station ${stationId} skipped:`, imgErr);
+                        }
+                    }
+                }
+
                 localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
+                status.innerText = outputMode === 'visual'
+                    ? '✅ Mission generated with smart visuals!'
+                    : '✅ Text mission generated!';
 
-                alert(`🎉 Success! Gemini analyzed your curriculum data and generated 30 custom stations!`);
+                populateStationDropdown();
                 jumpTo(1);
                 renderTeacherForm();
-            } catch(err) {
-                alert("AI Generation failed: " + err.message);
-            } finally {
+
+                setTimeout(() => { status.style.display = 'none'; }, 1300);
+
+                alert(outputMode === 'visual'
+                    ? '🎉 30 stations generated. Helpful visuals were added only where useful. You can edit everything in Teacher Desk.'
+                    : '🎉 30 stations generated. You can edit every question, answer, image, and audio field in Teacher Desk.');
+
+            } catch (err) {
+                console.error('AI mission generation error:', err);
                 status.style.display = 'none';
+                alert('AI Generation failed: ' + err.message);
+            } finally {
                 btn.disabled = false;
             }
-        }
-
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
         }
 
         function startExpedition() {
