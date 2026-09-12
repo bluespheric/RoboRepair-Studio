@@ -129,22 +129,37 @@ CORE PRINCIPLES:
 
 
     const missionSystemPrompt = `
-You are the curriculum-generation engine for an English-learning game called Deep Sea Lab / Bathysphere.
-Your job is to transform the teacher's supplied lesson content into playable English-learning stations while preserving the fixed interaction mechanic of each station.
+You are the curriculum architect for Deep Sea Lab / Bathysphere, an English-learning game with 30 fixed interaction mechanics.
+
+CRITICAL INTERPRETATION RULE:
+Words such as fener, kablo, vana, kargo, mikroskop, boru, radyo, periskop, terazi, mors, salter and UV are INTERNAL GAME MECHANICS.
+They are not lesson topics.
+Never teach the meaning of "fener", "kablo", "valve", "cable", "spotlight", "submarine hardware", etc. unless the teacher's source explicitly teaches those words.
+Instead, treat each mechanic as a container for the teacher's actual language objective.
+
+Your job is to transform the teacher's source AND the shared lesson blueprint into a coherent sequence of playable English-learning tasks.
+
+WHEN THE TEACHER'S PROMPT IS SPARSE:
+- Infer a sensible classroom micro-curriculum from the explicit topic, CEFR level, age, grammar point, skill, or vocabulary theme.
+- You may create ordinary example sentences and familiar situations that are clearly compatible with the stated target.
+- Do not invent unrelated academic content, obscure facts, or new curriculum goals.
+- If the teacher says only "A1 Past Simple + sports", you should still be able to build a coherent lesson using common A1 sports vocabulary and simple past forms.
+
 QUALITY RULES:
-- Ground every language-learning target in the teacher's source.
-- Do not invent unsupported curriculum objectives.
-- Keep target language, vocabulary, grammar and reading content accurate.
-- Make each station meaningfully different from the others.
-- Avoid repeating the same target word or same question pattern without a reason.
-- A correct answer must be unambiguous.
-- Distractors must be plausible but clearly wrong according to the source.
-- Keep prompts concise enough for a game screen, but not vague.
-- Use natural English appropriate to the level implied by the source.
-- Respect any CEFR level, age group, grammar target or vocabulary set named in the source.
-- Use the deep-sea mission theme as a wrapper; never let the theme replace the learning objective.
-- Do not put pedagogy explanations into student-facing fields.
-- For stations 11-15, create useful transcript/instruction content even if no audio file exists. The teacher may add audio later.
+- Every station must have a clear learning purpose.
+- Sequence difficulty gradually: recognition -> controlled practice -> comprehension -> production -> transfer/application.
+- Make stations meaningfully different from each other.
+- Avoid repeating the same target word, sentence, or question pattern without a deliberate reason.
+- Preserve important details from uploaded source material.
+- Correct answers must be unambiguous.
+- Distractors must be plausible, level-appropriate, and clearly wrong.
+- Student-facing prompts should be concise, natural and playable.
+- Respect any stated CEFR level, learner age, grammar target, vocabulary set, communicative aim, or source facts.
+- The deep-sea theme is only a narrative wrapper.
+- Never let the theme replace the English-learning objective.
+- Do not explain pedagogy to the student.
+- For writing tasks, include multiple accepted answer variants when more than one genuinely valid answer should be accepted.
+- For listening stations, the transcript is the editable source of truth for generated audio.
 - Do not add customImg or customAudio fields. Media is attached separately.
 - Return only data matching the requested JSON schema.
     `.trim();
@@ -180,7 +195,7 @@ QUALITY RULES:
     });
 
     const visualSchema = {
-      type: "array", minItems: 0, maxItems: 2,
+      type: "array", minItems: 0, maxItems: 3,
       items: {
         type: "object",
         properties: {
@@ -617,24 +632,123 @@ QUALITY RULES:
       }
 
       // ==================================================
+      // DEEP SEA LAB — COHERENT LESSON BLUEPRINT
+      // ==================================================
+      if (action === "mission_plan") {
+        const sourceText = cleanMultiLine(body.sourceText, 30000);
+
+        if (!sourceText) {
+          return json(
+            { success: false, error: "Mission source text is required." },
+            400
+          );
+        }
+
+        const planSchema = {
+          type: "object",
+          properties: {
+            lessonTitle: str(180),
+            estimatedLevel: str(80),
+            learnerProfile: str(220),
+            primaryGoal: str(420),
+            grammarTargets: strArr(0, 8, 160),
+            vocabularyTargets: strArr(0, 24, 100),
+            communicativeGoals: strArr(0, 8, 180),
+            sourceFactsToPreserve: strArr(0, 16, 220),
+            progression: {
+              type: "array",
+              minItems: 6,
+              maxItems: 6,
+              items: {
+                type: "object",
+                properties: {
+                  module: { type: "integer", minimum: 1, maximum: 6 },
+                  objective: str(260),
+                  contentFocus: str(320),
+                },
+                required: ["module", "objective", "contentFocus"],
+              },
+            },
+          },
+          required: [
+            "lessonTitle",
+            "estimatedLevel",
+            "learnerProfile",
+            "primaryGoal",
+            "grammarTargets",
+            "vocabularyTargets",
+            "communicativeGoals",
+            "sourceFactsToPreserve",
+            "progression",
+          ],
+        };
+
+        const taskPrompt = `
+Analyze the teacher source and build ONE coherent lesson blueprint BEFORE any game stations are written.
+
+TEACHER SOURCE:
+${sourceText}
+
+INSTRUCTIONS:
+- Identify what the lesson is truly teaching.
+- Separate lesson content from game-theme language.
+- Infer a likely CEFR level only if the teacher did not state one.
+- If the prompt is sparse, responsibly infer ordinary classroom examples compatible with the explicit topic.
+- Choose vocabulary and grammar that belong together.
+- Create a 6-module progression from recognition to production and transfer.
+- Modules 1-5 are practice stages; module 6 should synthesize/apply learning.
+- Preserve concrete facts from uploaded documents when they matter.
+- Do not fill the plan with submarine vocabulary unless the source actually teaches it.
+        `.trim();
+
+        try {
+          const plan = await runMissionStructuredText({
+            taskPrompt,
+            schema: planSchema,
+            maxTokens: 2200,
+          });
+
+          return json({
+            success: true,
+            plan,
+          });
+
+        } catch (aiError) {
+          return json(
+            {
+              success: false,
+              where: "mission_plan",
+              error: safeErrorText(aiError),
+            },
+            500
+          );
+        }
+      }
+
+      // ==================================================
       // DEEP SEA LAB — 5 STATION MODULE GENERATOR
       // ==================================================
       if (action === "mission_module") {
         const sourceText = cleanMultiLine(body.sourceText, 30000);
         const moduleNo = Number(body.module);
         const visualMode = body.visualMode === true;
+        const lessonPlan =
+          body.plan && typeof body.plan === "object"
+            ? body.plan
+            : {};
 
         if (!sourceText) return json({ success:false, error:"Mission source text is required." }, 400);
         if (![1,2,3,4,5,6].includes(moduleNo)) return json({ success:false, error:"Module must be between 1 and 6." }, 400);
 
         const moduleNotes = {
-          1: `MODULE 1 — Vocabulary & Salvage, stations 1-5.
-1 fener: one target keyword + exactly 2 decoy keywords.
-2 kablo: a source label matched to one correct terminal/category + exactly 2 distractors.
-3 vana: exactly 3 choices; IMPORTANT: targetVal MUST equal choices[1], because the game's middle valve position is correct.
-4 kargo: one cargo/category item + one correct destination/category + exactly 2 distractors.
-5 mikroskop: a label/item + one correct definition/classification + exactly 2 distractors.
-Use concrete vocabulary and meaning/classification relationships from the source.`,
+          1: `MODULE 1 — Recognition & Meaning, stations 1-5.
+IMPORTANT: fener/kablo/vana/kargo/mikroskop are interaction mechanics, NOT vocabulary topics.
+1 fener: learner locates the correct TARGET LANGUAGE item among exactly 2 plausible decoys.
+2 kablo: learner matches one lesson item to its meaning, category, collocation, example, or function; exactly 2 distractors.
+3 vana: learner selects one of exactly 3 lesson-relevant choices; targetVal MUST equal choices[1] because the middle valve position is correct.
+4 kargo: learner classifies or routes a lesson item to the correct meaning/category/use; exactly 2 distractors.
+5 mikroskop: learner identifies a meaning, form, category, collocation, or concept from the lesson; exactly 2 distractors.
+Do NOT ask what flashlight/cable/valve/cargo/microscope means unless those words are explicitly in the teacher's syllabus.`,
           2: `MODULE 2 — Syntax & Structure, stations 6-10.
 6 boru: sentence must be stored as comma-separated WORD/CHUNK sequence in correct order, e.g. "She,is,reading,a,book". Do not add commas inside a chunk.
 7 radyo: choose an integer targetFreq from 82-138. The prompt must connect tuning the frequency to a genuine grammar/structure clue from the source.
@@ -651,10 +765,14 @@ No AI audio file is generated. Create strong transcript/instruction material tha
 17-19 okuma_sik: concise passages, one correct answer and exactly 2 distractors. Use different comprehension skills where possible.
 20 tablo: tableHtml is plain readable telemetry/table TEXT, not actual HTML markup. One correct answer + exactly 2 distractors.
 Preserve meaningful details from the source.`,
-          5: `MODULE 5 — Cipher & Writing, stations 21-25.
+          5: `MODULE 5 — Productive Writing, stations 21-25.
 All are yazma stations with prompt, hint, display and answers.
-answers is a comma-separated list of acceptable answers. Use one unless a genuine equivalent/spelling variant should be accepted.
-Vary the productive task and keep typing short enough for a single-line input.`,
+answers is a comma-separated list of accepted answers.
+When the task allows more than one genuinely correct form, include 2-5 reasonable accepted variants.
+For example, if "I played soccer with friends" is correct and "I played soccer" also fully satisfies the question, include BOTH.
+Do not list semantically different answers merely to be lenient.
+Vary the productive task: recall, completion, transformation, correction, short response, or sentence building.
+Keep required typing suitable for a single-line input and the learner's level.`,
           6: `MODULE 6 — Emergency Protocol + Final, stations 26-30.
 26-29 okuma_sik: short decision/comprehension scenarios grounded in the source with one correct answer + exactly 2 distractors each.
 Do not repeat stations 17-20; use synthesis, transfer, contrast or application.
@@ -663,7 +781,7 @@ Do not repeat stations 17-20; use synthesis, transfer, contrast or application.
 
         const visualsInstruction = visualMode
           ? `SMART VISUAL MODE IS ON.
-Return 0-2 visual suggestions for this module.
+Return 0-3 visual suggestions for this module.
 Only suggest an image if it materially improves understanding, memory, classification, reading context or concrete vocabulary.
 Do not suggest an image just because images are allowed.
 Avoid visuals for purely grammatical items unless a concrete scene genuinely supports meaning.
@@ -671,7 +789,7 @@ Each visual prompt must be source-grounded, describe the exact educational scene
 Set priority 1-5.`
           : `TEXT-ONLY MODE IS ON. Return an empty visuals array.`;
 
-        const taskPrompt = `TEACHER SOURCE:\n${sourceText}\n\nCREATE:\n${moduleNotes[moduleNo]}\n\nGENERAL REQUIREMENTS:\n- Produce exactly the five required stations.\n- Preserve fixed station types exactly.\n- Use the source deeply enough that output feels custom, not generic.\n- Do not recycle the same vocabulary/answer without a reason.\n- Keep prompts playable and student-facing.\n- Avoid information absent from the source.\n- Deep-sea language may frame the activity, but the English target must come from the source.\n\n${visualsInstruction}`;
+        const taskPrompt = `TEACHER SOURCE:\n${sourceText}\n\nSHARED LESSON BLUEPRINT:\n${JSON.stringify(lessonPlan)}\n\nCREATE:\n${moduleNotes[moduleNo]}\n\nGENERAL REQUIREMENTS:\n- Produce exactly the five required stations.\n- Use the shared blueprint so all 30 stations feel like ONE lesson, not six unrelated generations.\n- Treat station names/mechanics as interaction shells only.\n- Preserve fixed station types exactly.\n- Use the source deeply enough that output feels custom, not generic.\n- Follow the module objective from the blueprint.\n- Do not recycle the same vocabulary/answer without a reason.\n- Keep prompts playable and student-facing.\n- If the source is sparse, use ordinary examples compatible with its explicit topic/level instead of default submarine vocabulary.\n- Deep-sea language may frame the activity, but the English target must come from the lesson.\n\n${visualsInstruction}`;
 
         const schema = {
           type: "object",
@@ -682,7 +800,7 @@ Set priority 1-5.`
         try {
           const result = await runMissionStructuredText({ taskPrompt, schema, maxTokens: (moduleNo === 4 || moduleNo === 6) ? 3000 : 2500 });
           const stations = result?.stations && typeof result.stations === "object" ? result.stations : {};
-          const visuals = Array.isArray(result?.visuals) ? result.visuals.slice(0,2).map(v => ({
+          const visuals = Array.isArray(result?.visuals) ? result.visuals.slice(0,3).map(v => ({
             stationId: Number(v.stationId),
             prompt: cleanMultiLine(v.prompt, 1000),
             reason: cleanOneLine(v.reason, 260),
@@ -691,6 +809,66 @@ Set priority 1-5.`
           return json({ success:true, module:moduleNo, stations, visuals: visualMode ? visuals : [] });
         } catch (aiError) {
           return json({ success:false, where:"mission_module", module:moduleNo, error:safeErrorText(aiError) }, 500);
+        }
+      }
+
+      // ==================================================
+      // DEEP SEA LAB — TEXT TO SPEECH
+      // Real MP3 audio for listening stations
+      // ==================================================
+      if (action === "tts") {
+        const text = cleanOneLine(body.text, 700);
+
+        if (!text) {
+          return json(
+            { success: false, error: "Text is required for TTS." },
+            400
+          );
+        }
+
+        try {
+          const rawResponse = await env.AI.run(
+            "@cf/deepgram/aura-2-en",
+            {
+              text,
+              speaker: "luna",
+              encoding: "mp3",
+              bit_rate: 32000,
+            },
+            {
+              returnRawResponse: true,
+            }
+          );
+
+          const buffer = await rawResponse.arrayBuffer();
+          const bytes = new Uint8Array(buffer);
+
+          let binary = "";
+          const chunk = 0x8000;
+
+          for (let i = 0; i < bytes.length; i += chunk) {
+            binary += String.fromCharCode(
+              ...bytes.subarray(i, i + chunk)
+            );
+          }
+
+          const base64 = btoa(binary);
+
+          return json({
+            success: true,
+            audio: `data:audio/mpeg;base64,${base64}`,
+            model: "aura-2-en",
+          });
+
+        } catch (aiError) {
+          return json(
+            {
+              success: false,
+              where: "tts",
+              error: safeErrorText(aiError),
+            },
+            500
+          );
         }
       }
 
