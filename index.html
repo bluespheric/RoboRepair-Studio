@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' https://gentle-dream-d716.bluerisma8.workers.dev https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; worker-src 'self' blob: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
     <title>Deep Sea Lab // Bathysphere (AI Mission Generator & CMS)</title>
     <style>
         :root {
@@ -435,12 +437,12 @@
         <div class="cockpit-card" id="briefingScreen">
             <div style="padding:10px;">
                 <h2 style="color:var(--cyan-glow); margin-bottom:6px;">DIVE BRIEFING & START</h2>
-                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Type your name and choose your role before you start the mission.</p>
+                <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">Choose a nickname or initials and your role before you start. Avoid entering your full name.</p>
                 
                 <div class="briefing-form">
                     <div>
-                        <div class="field-label">1. Your Name</div>
-                        <input type="text" id="inputPilotName" class="briefing-input" placeholder="Type your name..." autocomplete="off">
+                        <div class="field-label">1. Nickname / Initials</div>
+                        <input type="text" id="inputPilotName" class="briefing-input" placeholder="e.g. Blue, Y.S., Explorer 7" maxlength="24" autocomplete="off">
                     </div>
 
                     <div>
@@ -609,7 +611,7 @@
                 <h3 style="color:var(--gold-glow);">TEACHER DESK</h3>
                 <button class="hud-btn" style="padding:4px 8px;" onclick="toggleTeacherDesk()">✕ Close</button>
             </div>
-            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, generate AI missions without an API key, and view student analytics.</p>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">Manage station contents, generate AI missions without an API key, and view local student analytics. Use nicknames/initials only; do not store sensitive student information.</p>
 
             <!-- 🤖 AI MISSION GENERATOR -->
             <div class="ai-generator-panel">
@@ -639,7 +641,7 @@
                             <label style="font-size:0.78rem; color:var(--gold-glow); font-weight:bold;">UPLOAD SOURCE</label>
                             <input type="file" id="aiDocFile" accept="image/*,.pdf,.txt,text/plain" multiple style="width:100%; margin-top:7px; font-size:0.8rem; color:#94a3b8;">
                             <div style="font-size:0.72rem; color:#64748b; margin-top:4px;">
-                                You can select multiple images/PDFs/TXT files. Digital PDFs are read directly; photos and scanned PDFs use AI OCR.
+                                You can select multiple images/PDFs/TXT files. Digital PDFs are read directly; photos and scanned PDFs are OCR’d locally in this browser.
                             </div>
                         </div>
                     </div>
@@ -700,10 +702,31 @@
     <script>
         const AI_WORKER_URL = "https://gentle-dream-d716.bluerisma8.workers.dev/";
 
+        function getAnonymousClientId() {
+            const storageKey = 'edu_anon_client_id_v1';
+            const makeId = () => {
+                if (crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+                const bytes = new Uint8Array(16);
+                crypto.getRandomValues(bytes);
+                return Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+            };
+            try {
+                const existing = localStorage.getItem(storageKey);
+                if (existing && /^[A-Za-z0-9_-]{16,80}$/.test(existing)) return existing;
+                const created = makeId();
+                localStorage.setItem(storageKey, created);
+                return created;
+            } catch {
+                return makeId();
+            }
+        }
+        const DEEPSEA_ANON_CLIENT_ID = getAnonymousClientId();
+
+
         async function callMissionAI(action, payload = {}) {
             const response = await fetch(AI_WORKER_URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "X-Client-Id": DEEPSEA_ANON_CLIENT_ID },
                 body: JSON.stringify({ action, lang: "en", ...payload })
             });
 
@@ -759,8 +782,19 @@
             26: "Mayday Distress Code", 27: "Life Support Routing", 28: "Airlock Decompression", 29: "Hull Integrity Verification", 30: "Ascent Hatch Protocol"
         };
 
-        let customEdited = JSON.parse(localStorage.getItem('bathysphere_cms_custom')) || {};
-        let studentLogs = JSON.parse(localStorage.getItem('bathysphere_student_logs')) || [];
+        localStorage.removeItem('bathysphere_gemini_key');
+        let customEdited = (() => {
+            try {
+                const parsed = JSON.parse(localStorage.getItem('bathysphere_cms_custom') || '{}');
+                return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+            } catch { return {}; }
+        })();
+        let studentLogs = (() => {
+            try {
+                const parsed = JSON.parse(localStorage.getItem('bathysphere_student_logs') || '[]');
+                return Array.isArray(parsed) ? parsed.slice(0, 50) : [];
+            } catch { return []; }
+        })();
         
         let pilot = { name: "Explorer", role: "Subsea Technician", feeling: "Excited", score: 0, visited: [], mistakes: [], postFeeling: "", keyTakeaway: "" };
         let currentGame = 1;
@@ -771,37 +805,143 @@
             return { ...def, ...cust };
         }
 
-        function checkTeacherPassword() {
-            let storedPass = localStorage.getItem('bathysphere_master_pass');
-            if(!storedPass) {
-                let newPass = prompt("🔐 First-Time Teacher Setup: Please create your Master Password:");
-                if(newPass && newPass.trim() !== "") {
-                    localStorage.setItem('bathysphere_master_pass', newPass.trim());
-                    alert("✓ Master password created successfully! Opening Teacher Desk...");
-                    toggleTeacherDesk();
-                }
+        const TEACHER_AUTH_KEY = 'bathysphere_master_auth_v2';
+        const TEACHER_FAIL_KEY = 'bathysphere_teacher_fail_v2';
+        let teacherSessionUnlocked = false;
+        let teacherSessionTimer = null;
+
+        function bytesToHex(bytes) {
+            return Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+        }
+        function hexToBytes(hex) {
+            const out = new Uint8Array(hex.length / 2);
+            for (let i = 0; i < out.length; i++) out[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+            return out;
+        }
+        async function deriveTeacherHash(password, saltHex) {
+            const key = await crypto.subtle.importKey(
+                'raw',
+                new TextEncoder().encode(password),
+                'PBKDF2',
+                false,
+                ['deriveBits']
+            );
+            const bits = await crypto.subtle.deriveBits(
+                { name: 'PBKDF2', salt: hexToBytes(saltHex), iterations: 150000, hash: 'SHA-256' },
+                key,
+                256
+            );
+            return bytesToHex(new Uint8Array(bits));
+        }
+        async function storeTeacherPassword(password) {
+            const salt = new Uint8Array(16);
+            crypto.getRandomValues(salt);
+            const saltHex = bytesToHex(salt);
+            const hash = await deriveTeacherHash(password, saltHex);
+            localStorage.setItem(TEACHER_AUTH_KEY, JSON.stringify({ v: 2, salt: saltHex, hash }));
+            localStorage.removeItem('bathysphere_master_pass');
+        }
+        function teacherLockState() {
+            try {
+                const state = JSON.parse(localStorage.getItem(TEACHER_FAIL_KEY) || '{"count":0,"until":0}');
+                return { count: Number(state.count) || 0, until: Number(state.until) || 0 };
+            } catch {
+                return { count: 0, until: 0 };
+            }
+        }
+        function recordTeacherFailure() {
+            const state = teacherLockState();
+            const count = state.count + 1;
+            const until = count >= 5 ? Date.now() + (5 * 60 * 1000) : 0;
+            localStorage.setItem(TEACHER_FAIL_KEY, JSON.stringify({ count: until ? 0 : count, until }));
+        }
+        function clearTeacherFailures() {
+            localStorage.removeItem(TEACHER_FAIL_KEY);
+        }
+        function unlockTeacherSession() {
+            teacherSessionUnlocked = true;
+            if (teacherSessionTimer) clearTimeout(teacherSessionTimer);
+            teacherSessionTimer = setTimeout(() => {
+                teacherSessionUnlocked = false;
+                const desk = document.getElementById('teacherDesk');
+                if (desk) desk.style.display = 'none';
+            }, 15 * 60 * 1000);
+        }
+        async function verifyTeacherPassword(password) {
+            let auth = null;
+            try { auth = JSON.parse(localStorage.getItem(TEACHER_AUTH_KEY) || 'null'); } catch {}
+            if (auth && auth.salt && auth.hash) {
+                const candidate = await deriveTeacherHash(password, auth.salt);
+                return candidate === auth.hash;
+            }
+            const legacy = localStorage.getItem('bathysphere_master_pass');
+            if (legacy !== null && password === legacy) {
+                await storeTeacherPassword(password);
+                return true;
+            }
+            return false;
+        }
+        async function checkTeacherPassword() {
+            const lock = teacherLockState();
+            if (lock.until > Date.now()) {
+                const mins = Math.ceil((lock.until - Date.now()) / 60000);
+                alert(`🔒 Too many failed attempts. Try again in about ${mins} minute(s).`);
                 return;
             }
-            let pass = prompt("🔒 Authorized Access // Enter Teacher Master Password:");
-            if(pass === storedPass) { toggleTeacherDesk(); } 
-            else if(pass !== null) { alert("❌ Incorrect password! Access denied."); }
+
+            const hasNewAuth = !!localStorage.getItem(TEACHER_AUTH_KEY);
+            const hasLegacyAuth = localStorage.getItem('bathysphere_master_pass') !== null;
+
+            if (!hasNewAuth && !hasLegacyAuth) {
+                const newPass = prompt("🔐 First-Time Teacher Setup: Create a password with at least 8 characters:");
+                if (newPass === null) return;
+                if (newPass.trim().length < 8) {
+                    alert("Please use at least 8 characters.");
+                    return;
+                }
+                await storeTeacherPassword(newPass.trim());
+                clearTeacherFailures();
+                unlockTeacherSession();
+                alert("✓ Teacher password created. It is stored only as a salted hash on this device.");
+                toggleTeacherDesk();
+                return;
+            }
+
+            const pass = prompt("🔒 Authorized Access // Enter Teacher Password:");
+            if (pass === null) return;
+            if (await verifyTeacherPassword(pass)) {
+                clearTeacherFailures();
+                unlockTeacherSession();
+                toggleTeacherDesk();
+            } else {
+                recordTeacherFailure();
+                alert("❌ Incorrect password. Access denied.");
+            }
         }
 
-        function changeMasterPassword() {
-            let currentPass = localStorage.getItem('bathysphere_master_pass');
-            let verify = prompt("Enter your CURRENT master password:");
-            if(verify === currentPass) {
-                let nextPass = prompt("Enter your NEW master password:");
-                if(nextPass && nextPass.trim() !== "") {
-                    localStorage.setItem('bathysphere_master_pass', nextPass.trim());
-                    alert("✓ Master password updated successfully!");
-                } else { alert("Password cannot be empty."); }
-            } else if(verify !== null) { alert("❌ Incorrect current password!"); }
+        async function changeMasterPassword() {
+            const verify = prompt("Enter your CURRENT teacher password:");
+            if (verify === null) return;
+            if (!(await verifyTeacherPassword(verify))) {
+                recordTeacherFailure();
+                alert("❌ Incorrect current password.");
+                return;
+            }
+            const nextPass = prompt("Enter your NEW password (at least 8 characters):");
+            if (nextPass === null) return;
+            if (nextPass.trim().length < 8) {
+                alert("Password must be at least 8 characters.");
+                return;
+            }
+            await storeTeacherPassword(nextPass.trim());
+            clearTeacherFailures();
+            unlockTeacherSession();
+            alert("✓ Teacher password updated securely.");
         }
 
         // 🤖 API-KEY-FREE AI MISSION GENERATOR
         // Text generation: Cloudflare Workers AI
-        // Image/book-page OCR: Cloudflare Vision OCR
+        // Image/book-page OCR: browser-only Tesseract OCR (not sent to a vision model)
         // Optional station visuals: FLUX image generation
         // Teacher can edit every generated field afterward in the existing CMS.
 
@@ -1296,7 +1436,7 @@ function safeOcrLoadImage(dataUrl) {
                     await page.render({ canvasContext: ctx, viewport }).promise;
                     const dataUrl = canvas.toDataURL('image/jpeg', 0.84);
                     try {
-                        const pageText = await ocrImageDataUrl(dataUrl, status, `AI OCR is reading scanned page ${p}/${OCR_PAGES}...`);
+                        const pageText = await ocrImageDataUrl(dataUrl, status, `Local OCR is reading scanned page ${p}/${OCR_PAGES}...`);
                         if (pageText) scanned.push(pageText);
                     } catch (err) {
                         console.warn(`PDF OCR page ${p} skipped:`, err);
@@ -1325,7 +1465,7 @@ function safeOcrLoadImage(dataUrl) {
                 return await ocrImageDataUrl(
                     dataUrl,
                     status,
-                    `AI is reading image ${index}/${total}: ${file.name}`
+                    `Local OCR is reading image ${index}/${total}: ${file.name}`
                 );
             }
 
@@ -1607,7 +1747,10 @@ function safeOcrLoadImage(dataUrl) {
         }
 
         function startExpedition() {
-            const name = document.getElementById('inputPilotName').value.trim();
+            const name = document.getElementById('inputPilotName').value
+                .replace(/[\u0000-\u001F\u007F<>]/g, '')
+                .trim()
+                .slice(0, 24);
             pilot.name = name || "Explorer Cadet";
             pilot.role = document.getElementById('selectPilotRole').value;
             pilot.feeling = document.getElementById('selectPilotFeeling').value;
@@ -1642,6 +1785,14 @@ function safeOcrLoadImage(dataUrl) {
             }
         }
 
+
+        function isSafeImageDataUrl(value) {
+            return /^data:image\/(?:png|jpeg|jpg|webp)(?:;charset=[^;,]+)?;base64,/i.test(String(value || ''));
+        }
+        function isSafeAudioDataUrl(value) {
+            return /^data:audio\/(?:mpeg|mp3|wav|x-wav|ogg)(?:;charset=[^;,]+)?;base64,/i.test(String(value || ''));
+        }
+
         function jumpTo(n) {
             currentGame = n;
             if(!pilot.visited.includes(n)) pilot.visited.push(n);
@@ -1660,13 +1811,13 @@ function safeOcrLoadImage(dataUrl) {
             const mediaBox = document.getElementById('mediaBox');
             mediaBox.innerHTML = "";
             let hasMed = false;
-            if(data.customImg) {
+            if(isSafeImageDataUrl(data.customImg)) {
                 const img = document.createElement('img');
                 img.src = data.customImg;
                 mediaBox.appendChild(img);
                 hasMed = true;
             }
-            if(data.customAudio) {
+            if(isSafeAudioDataUrl(data.customAudio)) {
                 const aud = document.createElement('audio');
                 aud.controls = true;
                 aud.src = data.customAudio;
@@ -1791,7 +1942,7 @@ function safeOcrLoadImage(dataUrl) {
             }
             else if(data.type === "ses_sik") {
                 const aud = document.getElementById(`audioG${n}`);
-                if(aud) aud.src = data.customAudio || "";
+                if(aud) aud.src = isSafeAudioDataUrl(data.customAudio) ? data.customAudio : "";
                 document.getElementById(`g${n}Trans`).innerText = `Transcript: ${data.trans || "Listen to audio."}`;
                 const box = document.getElementById(`g${n}Options`);
                 box.innerHTML = "";
@@ -1808,7 +1959,7 @@ function safeOcrLoadImage(dataUrl) {
             }
             else if(data.type === "salter") {
                 const aud = document.getElementById(`audioG15`);
-                if(aud) aud.src = data.customAudio || "";
+                if(aud) aud.src = isSafeAudioDataUrl(data.customAudio) ? data.customAudio : "";
                 document.getElementById('g15Trans').innerText = `Instruction: ${data.trans}`;
                 initSwitches(data.order);
             }
@@ -2037,6 +2188,7 @@ function safeOcrLoadImage(dataUrl) {
             };
 
             studentLogs.unshift(record);
+            studentLogs = studentLogs.slice(0, 50);
             localStorage.setItem('bathysphere_student_logs', JSON.stringify(studentLogs));
         }
 
@@ -2122,20 +2274,39 @@ function safeOcrLoadImage(dataUrl) {
         let targetSwitchOrder = [];
         function initSwitches(orderStr) {
             userSwitches = [];
-            targetSwitchOrder = (orderStr || "Vent,Power,Seal").split(',').map(s => s.trim());
+            targetSwitchOrder = (orderStr || "Vent,Power,Seal")
+                .split(',')
+                .map(s => s.replace(/[\u0000-\u001F\u007F<>]/g, '').trim().slice(0, 40))
+                .filter(Boolean)
+                .slice(0, 6);
             const box = document.getElementById('g15Switches');
             box.innerHTML = "";
             targetSwitchOrder.forEach((name, i) => {
                 const u = document.createElement('div');
                 u.className = 'switch-unit';
-                u.innerHTML = `<div class="switch-lever" id="sw_${name}" onclick="pullSwitch('${name}')"><div class="switch-handle"></div></div><span style="font-size:0.75rem; font-weight:bold;">${i+1}. ${name.toUpperCase()}</span>`;
+
+                const lever = document.createElement('div');
+                lever.className = 'switch-lever';
+                lever.id = `sw_safe_${i}`;
+                lever.addEventListener('click', () => pullSwitch(name, i));
+
+                const handle = document.createElement('div');
+                handle.className = 'switch-handle';
+                lever.appendChild(handle);
+
+                const label = document.createElement('span');
+                label.style.fontSize = '0.75rem';
+                label.style.fontWeight = 'bold';
+                label.textContent = `${i + 1}. ${name.toUpperCase()}`;
+
+                u.append(lever, label);
                 box.appendChild(u);
             });
         }
-        function pullSwitch(name) {
+        function pullSwitch(name, index) {
             if(userSwitches.includes(name)) return;
             userSwitches.push(name);
-            const el = document.getElementById(`sw_${name}`);
+            const el = document.getElementById(`sw_safe_${index}`);
             if(el) el.classList.add('active');
             if(userSwitches.length === targetSwitchOrder.length) {
                 const isMatch = JSON.stringify(userSwitches) === JSON.stringify(targetSwitchOrder);
@@ -2145,10 +2316,7 @@ function safeOcrLoadImage(dataUrl) {
         }
         function resetSwitches() {
             userSwitches = [];
-            targetSwitchOrder.forEach(name => {
-                const el = document.getElementById(`sw_${name}`);
-                if(el) el.classList.remove('active');
-            });
+            document.querySelectorAll('#g15Switches .switch-lever').forEach(el => el.classList.remove('active'));
         }
 
         function moveUV(e) {
@@ -2170,27 +2338,44 @@ function safeOcrLoadImage(dataUrl) {
 
         function toggleTeacherDesk() {
             const desk = document.getElementById('teacherDesk');
-            desk.style.display = desk.style.display === 'block' ? 'none' : 'block';
-            if(desk.style.display === 'block') {
-                const savedKey = localStorage.getItem('bathysphere_gemini_key');
-                if(savedKey) document.getElementById('geminiApiKey').value = savedKey;
-                populateStationDropdown();
-                renderTeacherForm();
-                renderAnalyticsTable();
+            const isOpen = desk.style.display === 'block';
+            if (isOpen) {
+                desk.style.display = 'none';
+                return;
             }
+            if (!teacherSessionUnlocked) {
+                alert('🔒 Teacher Desk is locked. Use the Teacher Desk button and enter the teacher password.');
+                return;
+            }
+            desk.style.display = 'block';
+            populateStationDropdown();
+            renderTeacherForm();
+            renderAnalyticsTable();
         }
 
         function renderAnalyticsTable() {
             const table = document.getElementById('analyticsTable');
-            table.innerHTML = `<tr><th>Date</th><th>Student Name</th><th>Role</th><th>Score</th><th>Incorrect/Missed Stations</th><th>AI Diagnostic Report</th><th>Action</th></tr>`;
+            table.innerHTML = `<tr><th>Date</th><th>Nickname</th><th>Role</th><th>Score</th><th>Incorrect/Missed Stations</th><th>Diagnostic Report</th><th>Action</th></tr>`;
             studentLogs.forEach((log, index) => {
                 const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${log.date}</td><td>${log.name}</td><td>${log.role}</td>
-                    <td style="color:var(--success-neon); font-weight:bold;">${log.score}</td>
-                    <td>${log.mistakes}</td><td style="color:var(--gold-glow);">${log.diagnostic}</td>
-                    <td><button class="del-log-btn" onclick="deleteSingleLog(${index})">Delete ❌</button></td>
-                `;
+                const values = [log.date, log.name, log.role, log.score, log.mistakes, log.diagnostic];
+                values.forEach((value, cellIndex) => {
+                    const td = document.createElement('td');
+                    td.textContent = String(value ?? '');
+                    if (cellIndex === 3) {
+                        td.style.color = 'var(--success-neon)';
+                        td.style.fontWeight = 'bold';
+                    }
+                    if (cellIndex === 5) td.style.color = 'var(--gold-glow)';
+                    row.appendChild(td);
+                });
+                const actionTd = document.createElement('td');
+                const del = document.createElement('button');
+                del.className = 'del-log-btn';
+                del.textContent = 'Delete ❌';
+                del.addEventListener('click', () => deleteSingleLog(index));
+                actionTd.appendChild(del);
+                row.appendChild(actionTd);
                 table.appendChild(row);
             });
         }
@@ -2214,13 +2399,21 @@ function safeOcrLoadImage(dataUrl) {
 
         function exportStudentLogsCSV() {
             if(studentLogs.length === 0) { alert("No student data recorded yet."); return; }
-            let csv = "Date,Student Name,Role,Score,Incorrect Stations,AI Diagnostic Report\n";
-            studentLogs.forEach(l => { csv += `"${l.date}","${l.name}","${l.role}","${l.score}","${l.mistakes}","${l.diagnostic}"\n`; });
+            const csvCell = (value) => {
+                let s = String(value ?? '').replace(/\r?\n/g, ' ');
+                if (/^[=+\-@]/.test(s)) s = "'" + s;
+                return `"${s.replace(/"/g, '""')}"`;
+            };
+            let csv = "Date,Nickname,Role,Score,Incorrect Stations,Diagnostic Report\n";
+            studentLogs.forEach(l => {
+                csv += [l.date, l.name, l.role, l.score, l.mistakes, l.diagnostic].map(csvCell).join(',') + "\n";
+            });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url; a.download = "student_analytics_report.csv";
             document.body.appendChild(a); a.click(); a.remove();
+            URL.revokeObjectURL(url);
         }
 
         function populateStationDropdown() {
@@ -2508,20 +2701,71 @@ function safeOcrLoadImage(dataUrl) {
             document.body.appendChild(a); a.click(); a.remove();
         }
 
+        function sanitizeImportedStation(id, raw) {
+            const def = defaultStations[id];
+            if (!def || !raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+            const allowed = new Set([
+                'prompt','target','decoys','source','correct','distractors','targetVal','choices','cargo','label',
+                'sentence','targetFreq','correctErr','normals','subject','distractor','text','trans','order','log',
+                'tableHtml','hint','display','answers','title','desc','customImg','customAudio'
+            ]);
+            const out = { type: def.type };
+            for (const [key, value] of Object.entries(raw)) {
+                if (!allowed.has(key)) continue;
+                if (key === 'customImg') {
+                    if (typeof value === 'string' && value.length <= 2500000 && isSafeImageDataUrl(value)) out[key] = value;
+                    continue;
+                }
+                if (key === 'customAudio') {
+                    if (typeof value === 'string' && value.length <= 2500000 && isSafeAudioDataUrl(value)) out[key] = value;
+                    continue;
+                }
+                if (key === 'targetFreq') {
+                    const num = Number(value);
+                    if (Number.isFinite(num)) out[key] = Math.max(82, Math.min(138, Math.round(num)));
+                    continue;
+                }
+                if (Array.isArray(value)) {
+                    out[key] = value.slice(0, 10).map(v => String(v ?? '').replace(/[\u0000-\u001F\u007F]/g, '').slice(0, 500));
+                    continue;
+                }
+                if (typeof value === 'string' || typeof value === 'number') {
+                    out[key] = String(value).replace(/[\u0000-\u001F\u007F]/g, '').slice(0, 2000);
+                }
+            }
+            return out;
+        }
+
         function importJSON(e) {
             const f = e.target.files[0];
-            if(f) {
-                const r = new FileReader();
-                r.onload = (ev) => {
-                    try {
-                        customEdited = JSON.parse(ev.target.result);
-                        localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
-                        alert("Lesson package imported successfully!");
-                        jumpTo(currentGame); renderTeacherForm();
-                    } catch(err) { alert("Invalid JSON file!"); }
-                };
-                r.readAsText(f);
+            if(!f) return;
+            if(f.size > 6000000) {
+                alert("Lesson package is too large. Maximum import size is 6 MB.");
+                e.target.value = "";
+                return;
             }
+            const r = new FileReader();
+            r.onload = (ev) => {
+                try {
+                    const parsed = JSON.parse(ev.target.result);
+                    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Invalid package');
+                    const safe = {};
+                    for (let id = 1; id <= 30; id++) {
+                        const station = sanitizeImportedStation(id, parsed[id] ?? parsed[String(id)]);
+                        if (station) safe[id] = station;
+                    }
+                    customEdited = safe;
+                    localStorage.setItem('bathysphere_cms_custom', JSON.stringify(customEdited));
+                    alert("Lesson package imported safely.");
+                    jumpTo(currentGame);
+                    renderTeacherForm();
+                } catch(err) {
+                    alert("Invalid or unsafe JSON file.");
+                } finally {
+                    e.target.value = "";
+                }
+            };
+            r.readAsText(f);
         }
 
         function resetToFactoryDefaults() {
