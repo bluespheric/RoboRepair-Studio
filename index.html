@@ -417,6 +417,7 @@
             .cert-header, .cert-name { color: #000 !important; }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@6/dist/tesseract.min.js"></script>
 </head>
 <body>
 
@@ -804,6 +805,121 @@
         // Optional station visuals: FLUX image generation
         // Teacher can edit every generated field afterward in the existing CMS.
 
+
+function safeOcrClean(text) {
+    return String(text || '')
+        .replace(/\r/g, '')
+        .replace(/[ \t]+\n/g, '\n')
+        .replace(/[ \t]{2,}/g, ' ')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+}
+
+function safeOcrLooksUsable(text) {
+    const clean = safeOcrClean(text);
+    if (clean.length < 18) return false;
+    const letters = (clean.match(/[A-Za-zÇĞİÖŞÜçğıöşü]/g) || []).length;
+    return letters >= Math.max(8, clean.length * 0.30);
+}
+
+function safeOcrLoadImage(dataUrl) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = dataUrl;
+    });
+}
+
+function safeOcrBuildCanvas(img, strong = false) {
+    const MAX_SIDE = 1800;
+    const MAX_PIXELS = 2600000;
+
+    let width = img.naturalWidth || img.width;
+    let height = img.naturalHeight || img.height;
+
+    const scale = Math.min(
+        1,
+        MAX_SIDE / Math.max(width, height),
+        Math.sqrt(MAX_PIXELS / (width * height))
+    );
+
+    width = Math.max(1, Math.round(width * scale));
+    height = Math.max(1, Math.round(height * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext('2d', { alpha: false });
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, width, height);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    ctx.filter = strong
+        ? 'grayscale(1) contrast(1.85) brightness(1.06)'
+        : 'grayscale(1) contrast(1.35) brightness(1.03)';
+
+    ctx.drawImage(img, 0, 0, width, height);
+    ctx.filter = 'none';
+
+    return canvas;
+}
+
+async function safeOcrRecognizeImage(img, language, onProgress) {
+    if (!window.Tesseract) {
+        throw new Error('Tesseract OCR library could not load.');
+    }
+
+    const runPass = async (strong) => {
+        const canvas = safeOcrBuildCanvas(img, strong);
+        const result = await Tesseract.recognize(
+            canvas,
+            language,
+            {
+                logger: (m) => {
+                    if (m.status === 'recognizing text' && onProgress) {
+                        onProgress(Math.round((m.progress || 0) * 100), strong);
+                    }
+                }
+            }
+        );
+
+        return {
+            text: safeOcrClean(result?.data?.text || ''),
+            confidence: Number(result?.data?.confidence || 0)
+        };
+    };
+
+    const first = await runPass(false);
+
+    // Only run a second pass when the first result is doubtful.
+    if (first.confidence >= 78 && safeOcrLooksUsable(first.text)) {
+        return first;
+    }
+
+    // Yield briefly so the UI stays responsive.
+    await new Promise(r => setTimeout(r, 60));
+
+    const second = await runPass(true);
+
+    // Prefer the result with better confidence; on close confidence,
+    // prefer the one that recovered more text.
+    if (
+        second.confidence > first.confidence + 3 ||
+        (
+            Math.abs(second.confidence - first.confidence) <= 3 &&
+            second.text.length > first.text.length
+        )
+    ) {
+        return second;
+    }
+
+    return first;
+}
+
+
         function fileToDataUrl(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -861,11 +977,26 @@
         }
 
         async function ocrImageDataUrl(dataUrl, status, label = 'Reading uploaded image...') {
-            status.innerText = `👁️ ${label}`;
-            const result = await callMissionAI('ocr', { image: dataUrl });
-            const text = String(result.text || '').trim();
-            if (!text) throw new Error('No readable text could be extracted from the uploaded image.');
-            return text;
+            status.innerText = `🔎 ${label}`;
+
+            const img = await safeOcrLoadImage(dataUrl);
+
+            const result = await safeOcrRecognizeImage(
+                img,
+                'eng',
+                (pct, strong) => {
+                    status.innerText =
+                        `🔎 ${label}${strong ? ' (second pass)' : ''} ${pct}%`;
+                }
+            );
+
+            if (!safeOcrLooksUsable(result.text) || result.confidence < 42) {
+                throw new Error(
+                    `The image could not be read reliably (confidence ${Math.round(result.confidence)}%). Try a flatter, brighter, closer photo.`
+                );
+            }
+
+            return result.text;
         }
 
         async function extractPdfSource(file, status) {
