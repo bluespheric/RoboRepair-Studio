@@ -636,9 +636,9 @@
 
                         <div>
                             <label style="font-size:0.78rem; color:var(--gold-glow); font-weight:bold;">UPLOAD SOURCE</label>
-                            <input type="file" id="aiDocFile" accept="image/*,.pdf,.txt,text/plain" style="width:100%; margin-top:7px; font-size:0.8rem; color:#94a3b8;">
+                            <input type="file" id="aiDocFile" accept="image/*,.pdf,.txt,text/plain" multiple style="width:100%; margin-top:7px; font-size:0.8rem; color:#94a3b8;">
                             <div style="font-size:0.72rem; color:#64748b; margin-top:4px;">
-                                Images use AI OCR. Digital PDFs are read directly; scanned PDFs use OCR automatically.
+                                You can select multiple images/PDFs/TXT files. Digital PDFs are read directly; photos and scanned PDFs use AI OCR.
                             </div>
                         </div>
                     </div>
@@ -914,17 +914,58 @@
             return combined;
         }
 
-        async function readTeacherSourceFile(file, status) {
+        async function readTeacherSourceFile(file, status, index = 1, total = 1) {
             if (!file) return '';
+
             const type = String(file.type || '').toLowerCase();
             const name = String(file.name || '').toLowerCase();
-            if (type === 'application/pdf' || name.endsWith('.pdf')) return await extractPdfSource(file, status);
+
+            if (type === 'application/pdf' || name.endsWith('.pdf')) {
+                status.innerText = `📄 Reading PDF ${index}/${total}: ${file.name}`;
+                return await extractPdfSource(file, status);
+            }
+
             if (type.startsWith('image/')) {
                 const dataUrl = await fileToDataUrl(file);
-                return await ocrImageDataUrl(dataUrl, status, 'AI is reading the book page / image...');
+                return await ocrImageDataUrl(
+                    dataUrl,
+                    status,
+                    `AI is reading image ${index}/${total}: ${file.name}`
+                );
             }
-            if (type === 'text/plain' || name.endsWith('.txt')) return await file.text();
-            throw new Error('Supported uploads: PDF, image, or TXT.');
+
+            if (type === 'text/plain' || name.endsWith('.txt')) {
+                status.innerText = `📄 Reading text file ${index}/${total}: ${file.name}`;
+                return await file.text();
+            }
+
+            throw new Error(`Unsupported file: ${file.name}. Use PDF, image, or TXT.`);
+        }
+
+        async function readTeacherSourceFiles(files, status) {
+            const selected = Array.from(files || []).slice(0, 10);
+            const parts = [];
+
+            for (let i = 0; i < selected.length; i++) {
+                const file = selected[i];
+
+                const text = await readTeacherSourceFile(
+                    file,
+                    status,
+                    i + 1,
+                    selected.length
+                );
+
+                if (String(text || '').trim()) {
+                    parts.push(
+                        selected.length > 1
+                            ? `SOURCE FILE: ${file.name}\n${String(text).trim()}`
+                            : String(text).trim()
+                    );
+                }
+            }
+
+            return parts.join('\n\n').trim();
         }
 
         function mergeStationPackage(target, incoming) {
@@ -945,12 +986,10 @@
             const wantsVisuals = outputMode === 'visual' || outputMode === 'full';
             const wantsAudio = outputMode === 'audio' || outputMode === 'full';
 
-            const file = fileInput.files && fileInput.files[0]
-                ? fileInput.files[0]
-                : null;
+            const files = Array.from(fileInput.files || []);
 
-            if (!topicText && !file) {
-                alert('Please paste lesson notes/objectives or upload a PDF/image/TXT source.');
+            if (!topicText && !files.length) {
+                alert('Please paste lesson notes/objectives or upload PDF/image/TXT source files.');
                 return;
             }
 
@@ -961,8 +1000,8 @@
 
             try {
                 let documentText = '';
-                if (file) {
-                    documentText = await readTeacherSourceFile(file, status);
+                if (files.length) {
+                    documentText = await readTeacherSourceFiles(files, status);
                 }
 
                 const sourceText = [
